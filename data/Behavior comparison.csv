@@ -1,0 +1,191 @@
+ID,Genus,Species,Date,Capture time,Plant,Place,Sex,IT (mm),Age.signals,Observer,Correct.cue,First.position,PER.sugar1,PER.water1,Success1,Water.exploring1,PER.sugar2,PER.water2,Success2,Water.exploring2,PER.sugar3,PER.water3,Success3,Water.exploring3,PER.sugar4,PER.water4,Success4,Water.exploring4,PER.sugar5,PER.water5,Success5,Water.exploring5,PER.sugar6,PER.water6,Success6,Water.exploring6,PER.sugar7,PER.water7,Success7,Water.exploring7,PER.sugar.test,PER.water.test,Success.test,Water.exploring.test,Notes,Experimental tube
+D53,Andrena,Andrena angustior,27/03/18,12:00,,Alamillo,Female,,No,CMM,Blue,Left,NA,NA,NA,NA,7,68,Yes,Yes,No,132,No,Yes,56,42,No,Yes,83,108,Yes,Yes,11,30,Yes,No,35,128,Yes,Yes,20,40,Yes,Yes,,2.5
+D40,Andrena,Andrena angustior,27/03/18,12:00,,Alamillo,,,No,Patrick,Blue,Right,10,No,Yes,No,11,14,Yes,Yes,14,42,Yes,Yes,NA,NA,NA,NA,10,20,Yes,Yes,90,109,Yes,Yes,11,45,Yes,Yes,NA,NA,NA,NA,,2.5
+D43,Lasioglossum,Lasioglossum malachurum,27/03/18,12:00,,Alamillo,Female,,No,Patrick,Blue,Right,20,65,No,Yes,28,11,No,Yes,55,19,No,Yes,29,12,Yes,Yes,19,52,Yes,Yes,23,14,No,Yes,50,18,Yes,Yes,12,24,Yes,Yes,,2.5
+D47,Lasioglossum,Lasioglossum malachurum,27/03/18,12:00,,Alamillo,Female,,No,Cristina,Blue,Left,17,37,Yes,Yes,119,18,No,Yes,68,24,No,Yes,57,9,No,Yes,76,41,No,Yes,2,20,Yes,Yes,122,100,No,Yes,3,70,Yes,Yes,,2.5
+D10,Andrena,negra pata blanca,16/03/18,12:45,Colza,Alamillo,Female,,No,Cristina,Yellow,Left,NA,NA,No,No,NA,NA,No,No,15,40,Yes,Yes,82,112,Yes,Yes,15,8,No,Yes,176,223,Yes,Yes,112,126,Yes,Yes,30,20,No,Yes,,2
+D13,Andrena,Andrena pilipes,16/03/18,12:45,Colza,Alamillo,,,No,Cristina,Blue,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,2.5
+D44,Andrena,Andrena pilipes,27/03/18,12:00,,Alamillo,Female,,No,Patrick,Blue,Right,78,No,Yes,No,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,12,No,Yes,No,NA,NA,NA,NA,,2.5
+D45,Andrena,Andrena pilipes,27/03/18,12:00,,Alamillo,Female,,No,Patrick,Blue,Right,NA,NA,NA,NA,87,117,Yes,Yes,11,65,Yes,Yes,23,11,No,Yes,40,20,No,Yes,20,44,Yes,Yes,20,38,Yes,Yes,9,34,Yes,Yes,,3
+D51,Eucera,Eucera rufa,27/03/18,12:00,,Alamillo,Female,,No,Cristina,Blue,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,48,81,Yes,Yes,,3
+D8,Andrena,Andrena sp.,16/03/18,12:45,Colza,Alamillo,Female,,No,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,No,No,NA,NA,No,No,,,,,Refuses to eat,
+D11,Andrena,Andrena sp.,16/03/18,12:45,Colza,Alamillo,Male,,No,Cristina,Blue,Left,82,119,Yes,Yes,15,48,Yes,Yes,40,44,Yes,Yes,56,67,Yes,Yes,103,96,No,Yes,14,22,Yes,Yes,13,29,No,Yes,9,26,Yes,Yes,,
+D14,Andrena,Andrena sp.,16/03/18,12:45,Colza,Alamillo,Female,,No,Cristina,Blue,Left,36,30,No,Yes,NA,NA,NA,NA,26,9,No,Yes,NA,73,No,Yes,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,13,29,Yes,Yes,,
+D15,Andrena,Andrena sp.,16/03/18,12:45,Colza,Alamillo,Male,,No,Cristina,Blue,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,43,No,Yes,60,NA,Yes,No,67,NA,Yes,No,,
+D41,Andrena ,Andrena sp.,27/03/18,12:00,,Alamillo,Male,,Yes,Patrick,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,102,53,No,Yes,NA,NA,NA,NA,NA,NA,NA,NA,,2.5
+D42,Andrena,Andrena sp.,27/03/18,12:00,,Alamillo,Female,,No,Patrick,Blue,Right,37,No,Yes,No,17,11,No,Yes,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,Inactive at the end,2.5
+D48,Andrena,Andrena sp.,27/03/18,12:00,,Alamillo,Female,,,Cristina,Blue,Left,125,No,Yes,No,98,No,Yes,No,117,No,Yes,No,82,102,Yes,Yes,107,37,No,Yes,11,32,Yes,Yes,52,10,No,Yes,13,27,Yes,Yes,,2.5
+D9,Andrena,podría ser A.thoracica o nitida,16/03/18,12:45,Colza,Alamillo,,,No,Cristina,Yellow,Left,NA,NA,No,No,NA,NA,No,No,NA,NA,No,No,NA,NA,No,No,NA,NA,No,No,NA,NA,No,No,NA,NA,No,No,NA,NA,NA,NA,Climb the cues,2
+D49,,,27/03/18,12:00,,Alamillo,,,No,Cristina,Blue,Left,80,No,Yes,No,NA,NA,NA,NA,9,70,Yes,Yes,134,38,No,Yes,168,124,No,Yes,28,69,Yes,Yes,NA,NA,NA,NA,57,No,Yes,No,,2.5
+D50,Xylocopa,Xylocopa cantabrita,27/03/18,12:00,,Alamillo,Female,,Yes,Cristina,Blue,Left,47,64,Yes,Yes,NA,NA,NA,NA,RIP,,,,,,,,,,,,,,,,,,,,,,,,Dead during the test,3
+D75,Bombus,Bombus terrestris,17/04/18,11:00,,Alamillo,Female,,No,Cristina,Yellow,Left,109,133,Yes,Yes,123,7,No,Yes,6,25,Yes,Yes,3,23,Yes,Yes,4,20,Yes,Yes,4,38,Yes,Yes,5,22,Yes,Yes,21,48,Yes,Yes,,3
+D76,Bombus,Bombus terrestris,17/04/18,11:00,,Alamillo,Male,,No,Cristina,Yellow,Left,51,13,No,Yes,145,7,No,Yes,30,80,Yes,Yes,30,11,No,Yes,5,53,Yes,Yes,50,6,No,Yes,15,4,No,Yes,3,16,Yes,Yes,,3
+D77,Bombus,Bombus terrestris,17/04/18,11:00,,Alamillo,Male,,Yes,Cristina,Yellow,Left,99,147,Yes,Yes,56,8,No,Yes,13,27,Yes,Yes,139,30,No,Yes,22,7,No,Yes,14,27,Yes,Yes,22,10,No,Yes,3,15,Yes,Yes,,2.5
+D78,Bombus,Bombus terrestris,17/04/18,11:00,,Alamillo,,,Yes,Cristina,Yellow,Left,76,119,Yes,Yes,71,56,No,Yes,88,62,No,Yes,7,28,Yes,Yes,8,18,Yes,Yes,35,62,Yes,Yes,12,50,Yes,Yes,8,39,Yes,Yes,,2.5
+D79,Bombus,Bombus terrestris,17/04/18,11:00,,Alamillo,,,No,Cristina,Yellow,Left,36,57,Yes,Yes,138,54,No,Yes,22,45,Yes,Yes,38,16,No,Yes,19,81,Yes,Yes,37,19,Yes,Yes,80,16,No,Yes,10,54,Yes,Yes,,2.5
+D80,Andrena,Andrena pilipes,17/04/18,11:00,,Alamillo,Female,,No,Cristina,Blue,Right,11,40,Yes,Yes,5,29,Yes,Yes,55,76,Yes,Yes,4,22,Yes,Yes,55,25,No,Yes,19,8,No,Yes,22,37,Yes,Yes,4,48,Yes,Yes,Experiment done the day after,
+D81,Andrena,Andrena pilipes,17/04/18,11:00,,Alamillo,Female,,No,Cristina,Blue,Right,13,67,Yes,Yes,8,38,Yes,Yes,10,26,Yes,Yes,6,22,Yes,Yes,21,5,No,Yes,5,20,Yes,Yes,9,28,Yes,Yes,18,11,No,Yes,Experiment done the day after,
+D82,Andrena,Andrena pilipes,17/04/18,11:00,,Alamillo,Female,,No,Cristina,Blue,Right,NA,NA,NA,NA,29,16,No,Yes,38,25,No,Yes,13,15,Yes,Yes,17,45,Yes,Yes,20,55,Yes,Yes,65,76,Yes,Yes,105,69,No,Yes,Experiment done the day after,
+D83,Andrena,negra pata blanca,17/04/18,11:00,,Alamillo,Female,,,Cristina,Blue,Right,RIP,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Experiment done the day after,
+D84,Eucera (Synhalonia),Eucera sp.,17/04/18,11:00,,Alamillo,Female,,Yes,Cristina,Blue,Right,141,No,Yes,No,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,RIP,,,,,,,,Experiment done the day after,
+D85,Eucera,Eucera sp.,17/04/18,11:00,,Alamillo,Female,,Yes,Cristina,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,RIP,,,,,,,,Experiment done the day after,
+D86,Andrena,Andrena sp.,17/04/18,11:00,,Alamillo,Male,,,Cristina,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,RIP,,,,,,,,Experiment done the day after,
+D23,Eucera,Eucera elongatula,22/03/18,12:00,Asphodelus fistulosus,Aznalcazar,Male,,,Patrick,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,We can't do the test because didn't licked any cue,2.5
+D24,Eucera,Eucera elongatula,22/03/18,12:00,Asphodelus fistulosus,Aznalcazar,Male,,,Patrick,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,80,No,Yes,No,NA,NA,NA,NA,No,41,No,Yes,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Ignored the test,2.5
+D26,Andrena ,Andrena flavipes,22/03/18,12:00,Asphodelus fistulosus,Aznalcazar,Female,,No,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,30,69,Yes,Yes,82,137,Yes,Yes,No,106,No,Yes,10,18,Yes,Yes,5,13,Yes,Yes,,,,,,3
+D25,Andrena,Andrena labialis,22/03/18,12:00,Asphodelus fistulosus,Aznalcazar,Male,,,Patrick,Blue,Right,NA,NA,NA,NA,No,67,No,Yes,No,37,No,Yes,156,No,Yes,No,107,37,No,Yes,NA,NA,NA,NA,7,39,Yes,Yes,NA,NA,NA,NA,Ignored the test,3
+D19,Eucera,Eucera notata,22/03/18,10:30,Asphodelus fistulosus,Aznalcazar,Male,,Yes,Cristina,Blue,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,,,,,,,,,,,,Dead by heat,2.5
+D28,Anthophora ,Anthopora plumipes,22/03/18,12:00,Asphodelus fistulosus,Aznalcazar,Male,,Yes,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,,,,Dead during the trials,2.5
+D21,Andrena,Andrena sp.,22/03/18,10:30,Asphodelus fistulosus,Aznalcazar,Male,,No,Patrick,Blue,Right,6,No,Yes,No,87,97,Yes,Yes,4,17,Yes,Yes,57,14,No,Yes,13,28,Yes,Yes,7,49,Yes,Yes,20,No,Yes,No,NA,NA,NA,NA,,2.5
+D27,Andrena,Andrena sp.,22/03/18,12:00,Asphodelus fistulosus,Aznalcazar,Male,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,11,6,No,Yes,,2.5
+D16,Xylocopa,Xylocopa cantabrita,22/03/18,10:30,Asphodelus fistulosus,Aznalcazar,Male,,No,Cristina,Blue,Right,NA,NA,NA,NA,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Dead by heat,3
+D17,Xylocopa,Xylocopa cantabrita,22/03/18,10:30,Asphodelus fistulosus,Aznalcazar,Male,,Yes,Cristina,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,,,,,,,,Dead by heat,2.5
+D18,Xylocopa,Xylocopa cantabrita,22/03/18,10:30,Asphodelus fistulosus,Aznalcazar,Male,,No,Cristina,Blue,Right,NA,NA,NA,NA,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Dead by heat,2.5
+D20,Xylocopa,Xylocopa cantabrita,22/03/18,10:30,Asphodelus fistulosus,Aznalcazar,Male,,No,Cristina,Blue,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,,,,,,,,,3
+D22,Xylocopa,Xylocopa cantabrita,22/03/18,10:30,Asphodelus fistulosus,Aznalcazar,Male,,No,Patrick,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,,,,,,,,Discarded,2.5
+D87,Bombus,Bombus terrestris,10/04/18,12:00,,Aznalcazar,Female,,No,Cristina,Blue,Left,30,74,Yes,Yes,86,16,No,Yes,3,14,Yes,Yes,58,14,No,Yes,34,3,No,Yes,5,30,Yes,Yes,22,5,No,Yes,4,24,Yes,Yes,,3
+D88,Bombus,Bombus terrestris,10/04/18,12:00,,Aznalcazar,Female,,Yes,Cristina,Blue,Left,NA,NA,NA,NA,57,11,No,Yes,14,60,Yes,Yes,16,43,Yes,Yes,9,40,Yes,Yes,54,6,No,Yes,27,9,No,Yes,25,35,Yes,Yes,,3
+D89,Bombus,Bombus terrestris,10/04/18,12:00,,Aznalcazar,Male,,Yes,Cristina,Blue,Left,8,68,Yes,Yes,191,13,No,Yes,35,6,No,Yes,32,6,No,Yes,15,5,No,Yes,33,5,No,Yes,15,7,No,Yes,8,22,Yes,Yes,,3
+D90,Bombus,Bombus terrestris,10/04/18,12:00,,Aznalcazar,,,No,Cristina,Blue,Left,12,66,Yes,Yes,16,49,Yes,Yes,33,12,No,Yes,5,17,Yes,Yes,13,8,No,Yes,7,19,Yes,Yes,19,9,No,Yes,3,20,Yes,Yes,,2.5
+D91,Bombus,Bombus terrestris,10/04/18,12:00,,Aznalcazar,Male,,No,Cristina,Blue,Left,18,98,Yes,Yes,23,59,Yes,Yes,26,11,No,Yes,22,6,No,Yes,5,19,Yes,Yes,5,24,Yes,Yes,18,6,No,Yes,9,29,Yes,Yes,,2.5
+D92,Bombus,Bombus terrestris,10/04/18,12:00,,Aznalcazar,Male,,No,Cristina,Blue,Left,28,81,Yes,Yes,5,16,Yes,Yes,13,29,Yes,Yes,6,12,Yes,Yes,7,24,Yes,Yes,10,19,Yes,Yes,11,29,Yes,Yes,3,11,Yes,Yes,,2.5
+D93,Bombus,Bombus terrestris,10/04/18,12:00,,Aznalcazar,Male,,Yes,Cristina,Blue,Left,82,186,Yes,Yes,85,147,Yes,Yes,8,36,Yes,Yes,10,30,Yes,Yes,12,60,Yes,Yes,3,10,Yes,Yes,3,19,Yes,Yes,8,No,Yes,No,,2.5
+D94,Andrena,Andrena flavipes,10/04/18,12:00,,Aznalcazar,Female,,No,Cristina,Blue,Left,18,36,Yes,Yes,34,75,Yes,Yes,38,15,No,Yes,6,20,Yes,Yes,48,90,Yes,Yes,7,24,Yes,Yes,95,10,No,Yes,35,106,Yes,Yes,,2.5
+D95,Andrena,Andrena flavipes,10/04/18,12:00,,Aznalcazar,Female,,No,Cristina,Blue,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,18,8,No,Yes,20,10,No,Yes,12,35,Yes,Yes,78,11,No,Yes,,2.5
+D96,Andrena,Andrena flavipes,10/04/18,12:00,,Aznalcazar,Female,,No,Cristina,Blue,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,17,53,Yes,Yes,19,84,Yes,Yes,16,8,No,Yes,10,32,Yes,Yes,,2.5
+D4,Anthophora,Anthopora dispar,12/03/18,11:00,Lavandula sp.,Carambolo,Female,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,NA,NA,NA,Refuses to eat,
+D6,Bombus,Bombus terrestris,12/03/18,11:00,Lavandula sp.,Carambolo,Male,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,NA,NA,NA,,
+D1,Eucera,Eucera notata,12/03/18,11:00,Lavandula sp.,Carambolo,Male,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,NA,NA,NA,Refuses to eat,
+D2,Eucera,Eucera notata,12/03/18,11:00,Lavandula sp.,Carambolo,Male,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,NA,NA,NA,"Refuses to eat, tries to copulate the cue",
+D3,Eucera,Eucera notata,12/03/18,11:00,Lavandula sp.,Carambolo,Male,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,NA,NA,NA,Refuses to eat,
+D5,Nomada,Nomada agrestis,12/03/18,11:00,Lavandula sp.,Carambolo,Female,,No,MAC,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+D54,Xylocopa,Xylocopa violacea,05/04/18,11:00,,Carambolo,Male,,Yes,Crowna,Yellow,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,,,,,,,,,
+D55,Xylocopa,Xylocopa violacea,05/04/18,11:00,,Carambolo,Male,,Yes,Crowna,Yellow,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,,,,,,,,,
+D56,Andrena,Andrena flavipes,05/04/18,11:00,,Carambolo,Female,,No,Crowna,Yellow,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,107,No,Yes,No,29,47,Yes,Yes,NA,NA,NA,NA,NA,NA,NA,NA,,
+D57,Osmia ,Osmia latreillei,05/04/18,11:00,,Carambolo,Male,,No,Crowna,Yellow,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,
+D58,Osmia ,Osmia caerulescens,05/04/18,11:00,,Carambolo,Female,,No,Crowna,Yellow,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,23,No,Yes,No,176,113,No,Yes,No,30,No,Yes,NA,NA,NA,NA,NA,NA,NA,NA,,
+D59,Osmia ,Osmia caerulescens,05/04/18,11:00,,Carambolo,Male,,No,Crowna,Yellow,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,38,No,Yes,No,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,
+D60,Xylocopa,Xylocopa violacea,05/04/18,11:00,,Carambolo,Female,,Yes,Patrick,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,,,,,,,,Chewing,
+D61,Xylocopa,Xylocopa violacea,05/04/18,11:00,,Carambolo,Female,,Yes,Patrick,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,,,,,,,,Focused on chewing the blue,
+D62,Anthophora,Anthophora retusa,05/04/18,11:00,,Carambolo,Female,,Yes,Patrick,Yellow,Left,NA,NA,NA,NA,RIP,,,,,,,,,,,,,,,,,,,,,,,,,,,,Dead during experiment,
+D63,Anthophora,Anthophora retusa,05/04/18,11:00,,Carambolo,Female,,Yes,Patrick,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,RIP,,,,,,,,,,,,Dead during experiment,
+D64,Andrena,Andrena flavipes,05/04/18,11:00,,Carambolo,Female,,No,Patrick,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,Dead during experiment,
+D65,Andrena ,Andrena angustior,05/04/18,11:00,,Carambolo,Female,,No,Patrick,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,74,66,No,Yes,7,51,Yes,Yes,47,13,No,Yes,53,41,No,Yes,,
+D66,Andrena ,Andrena sp.,05/04/18,11:00,,Carambolo,Male,,No,Patrick,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,13,20,Yes,Yes,98,108,Yes,Yes,51,24,No,Yes,114,83,No,Yes,12,21,Yes,Yes,49,14,No,Yes,,
+D35,Bombus,Bombus terrestris,26/03/18,12:30,Anchusa calcarea,La rocina,Male,,No,Patrick,Yellow,Left,39,18,No,Yes,5,12,Yes,Yes,25,22,No,Yes,9,19,Yes,Yes,38,24,No,Yes,5,18,Yes,Yes,19,15,No,Yes,4,10,Yes,Yes,,2.5
+D36,Bombus,Bombus terrestris,26/03/18,12:30,Anchusa calcarea,La rocina,Male,,,Cristina,Yellow,Left,5,No,Yes,No,6,22,Yes,Yes,15,89,Yes,Yes,10,5,No,Yes,9,31,Yes,Yes,6,15,Yes,Yes,4,14,Yes,Yes,5,11,Yes,Yes,,2.5
+D37,Bombus,Bombus terrestris,26/03/18,12:30,Anchusa calcarea,La rocina,Male,,No,Cristina,Yellow,Left,NA,NA,NA,NA,59,70,Yes,Yes,20,35,Yes,Yes,5,15,Yes,Yes,32,20,No,No,7,17,Yes,Yes,35,16,No,Yes,17,9,No,Yes,,2.5
+D38,Bombus,Bombus terrestris,26/03/18,12:30,Anchusa calcarea,La rocina,Male,,No,Patrick,Yellow,Left,4,21,Yes,Yes,9,38,Yes,Yes,36,6,No,Yes,6,38,Yes,Yes,4,30,Yes,Yes,3,No,Yes,No,26,10,No,Yes,11,7,No,Yes,,2.5
+D39,Bombus,Bombus terrestris,26/03/18,12:30,Anchusa calcarea,La rocina,Male,,Yes,Cristina,Yellow,Left,29,19,No,Yes,9,41,Yes,Yes,19,11,No,Yes,9,18,Yes,Yes,5,9,Yes,Yes,10,50,Yes,Yes,13,23,Yes,Yes,10,15,Yes,Yes,,2.5
+D30,Lasioglossum,Lasioglossum immunitum,26/03/18,11:30,Halimium commutatum,La rocina,Female,,No,Cristina,Yellow,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,12,17,Yes,No,NA,NA,NA,NA,NA,NA,NA,NA,,2.5
+D31,Lasioglossum,Lasioglossum immunitum,26/03/18,11:30,Halimium commutatum,La rocina,Female,,No,Cristina,Yellow,Right,NA,NA,NA,NA,NA,NA,NA,NA,4,26,Yes,Yes,10,27,Yes,Yes,4,14,Yes,Yes,17,7,No,Yes,7,14,Yes,Yes,10,40,Yes,Yes,,2.5
+D32,Lasioglossum,Lasioglossum immunitum,26/03/18,11:30,Halimium commutatum,La rocina,Female,,No,Cristina,Yellow,Right,NA,NA,NA,NA,134,144,Yes,Yes,5,23,Yes,Yes,43,21,No,Yes,19,26,Yes,Yes,5,33,Yes,Yes,9,19,Yes,Yes,17,25,Yes,Yes,,2.5
+D33,Lasioglossum,Lasioglossum immunitum,26/03/18,11:30,Halimium commutatum,La rocina,Female,,No,Patrick,Yellow,Right,NA,NA,NA,NA,40,27,No,Yes,No,9,No,Yes,4,16,Yes,Yes,NA,NA,NA,NA,8,12,Yes,Yes,14,5,No,Yes,6,63,Yes,Yes,,2.5
+D34,Lasioglossum,Lasioglossum immunitum,26/03/18,11:30,Halimium commutatum,La rocina,Female,,No,Cristina,Yellow,Right,NA,NA,NA,NA,NA,NA,NA,NA,9,No,Yes,No,5,17,Yes,Yes,30,No,Yes,No,15,9,No,Yes,12,31,Yes,Yes,26,17,No,Yes,Agressive,2.5
+D67,Lasioglossum,Lasioglossum immunitum,16/04/18,11:30,,La rocina,Female,,No,Cristina,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,75,51,No,Yes,24,41,Yes,Yes,9,22,Yes,Yes,14,8,No,Yes,No,5,No,Yes,,
+D68,Lasioglossum,Lasioglossum immunitum,16/04/18,11:30,,La rocina,Female,,Yes,Cristina,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,88,63,No,Yes,12,33,Yes,Yes,48,13,No,Yes,9,No,Yes,No,NA,NA,NA,NA,,
+D69,Lasioglossum,Lasioglossum immunitum,16/04/18,11:30,,La rocina,Female,,No,Cristina,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,26,49,Yes,Yes,16,No,Yes,No,6,No,Yes,No,63,93,Yes,Yes,77,No,Yes,No,,
+D70,Lasioglossum,Lasioglossum immunitum,16/04/18,11:30,,La rocina,Female,,No,Cristina,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,52,No,Yes,No,32,9,No,Yes,8,22,Yes,Yes,7,No,Yes,No,5,No,Yes,No,,
+D71,Lasioglossum,Lasioglossum immunitum,16/04/18,11:30,,La rocina,Female,,No,Cristina,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,123,No,Yes,No,18,58,Yes,Yes,No,4,No,Yes,No,102,No,Yes,65,95,Yes,Yes,102,112,Yes,Yes,,
+D72,Bombus,Bombus terrestris,16/04/18,12:00,,La rocina,Male,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,13,40,Yes,Yes,63,30,No,Yes,72,123,Yes,Yes,7,36,Yes,Yes,3,14,Yes,Yes,4,150,Yes,Yes,Experiment done the day after,3
+D73,Bombus,Bombus terrestris,16/04/18,12:00,,La rocina,,,Yes,Cristina,Yellow,Left,164,No,Yes,No,7,14,Yes,Yes,34,10,No,Yes,7,25,Yes,Yes,24,18,No,Yes,12,68,Yes,Yes,5,28,Yes,Yes,6,149,Yes,Yes,Experiment done the day after,3
+D74,Bombus,Bombus terrestris,16/04/18,12:00,,La rocina,Female,,No,Cristina,Yellow,Left,88,24,No,Yes,9,29,Yes,Yes,11,27,No,Yes,8,20,Yes,Yes,12,45,Yes,Yes,9,84,Yes,Yes,6,No,Yes,No,3,34,Yes,Yes,Experiment done the day after,2.5
+D7,Bombus,Bombus terrestris,,,,Pinares de Hinojos,,,No,MAC,Yellow,Left,21,108,Yes,Yes,64,56,No,Yes,63,56,No,Yes,30,47,Yes,Yes,88,99,No,Yes,30,44,No,Yes,37,59,Yes,Yes,64,76,Yes,Yes,"One person only, exploration ",
+D97,Andrena ,zorrae,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,70,38,No,Yes,38,25,No,Yes,24,64,Yes,Yes,11,28,Yes,Yes,40,62,Yes,Yes,NA,NA,NA,NA,,,,,,3
+D98,Andrena ,zorrae,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,3
+D99,Andrena ,zorrae,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,43,12,No,Yes,NA,NA,NA,NA,,,,,,,,,,2.5
+D100,Andrena ,zorrae,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,2.5
+D101,Andrena ,Andrena cinerea,26/04/18,13:00,,Alamillo,Female,,no,Cristina,Yellow,Left,NA,NA,NA,NA,65,22,No,Yes,72,12,No,Yes,NA,NA,NA,NA,50,15,No,Yes,NA,NA,NA,NA,,,,,,,,,,2.5
+D102,Andrena ,zorrae,26/04/18,13:00,,Alamillo,Female,,,Cristina,Yellow,Left,NA,NA,NA,NA,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2.5
+D103,Andrena ,zorrae,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,2.5
+D104,Andrena ,zorrae,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,37,87,Yes,Yes,10,50,Yes,Yes,15,10,No,Yes,NA,NA,NA,NA,,,,,,,,,,,,,,2.5
+D105,Bombus,Bombus terrestris,27/04/18,11:30,,Niebla,Female,,Yes,Cristina,Yellow,Left,NA,NA,NA,NA,RIP,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+D106,Bombus,Bombus terrestris,27/04/18,13:00,,Convento de la Luz,Female,,Yes,Cristina,Yellow,Left,10,55,Yes,Yes,48,35,No,Yes,9,20,Yes,Yes,28,5,No,Yes,3,26,Yes,Yes,24,8,No,Yes,26,3,No,Yes,2,18,Yes,Yes,,2.5
+D107,Bombus,Bombus terrestris,27/04/18,13:00,,Convento de la Luz,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,18,7,No,Yes,23,7,No,Yes,3,18,Yes,Yes,23,4,No,Yes,4,14,Yes,Yes,3,17,Yes,Yes,,2.5
+D108,Bombus,Bombus terrestris,27/04/18,13:00,,Convento de la Luz,Male,,,Cristina,Yellow,Left,6,95,No,Yes,27,5,No,Yes,49,6,No,Yes,13,5,No,Yes,49,26,No,Yes,4,20,Yes,Yes,23,4,No,Yes,12,7,No,Yes,,3
+D109,Lasioglossum,Lasioglossum immunitum,27/04/18,11:00,,Niebla,Female,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,18,57,Yes,Yes,53,8,Yes,Yes,30,9,No,Yes,8,26,Yes,Yes,,2.5
+D110,Lasioglossum,Lasioglossum immunitum,27/04/18,11:00,,Niebla,Female,,,Cristina,Yellow,Left,58,38,No,Yes,43,12,No,Yes,34,17,No,Yes,19,55,Yes,Yes,6,23,Yes,Yes,6,73,Yes,Yes,114,36,No,Yes,75,No,Yes,No,,2.5
+D111,Osmia ,Osmia latreillei,27/04/18,11:00,,Niebla,Female,,,Cristina,Blue,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,2.5
+D112,Lasioglossum,Lasioglossum immunitum,27/04/18,11:00,,Niebla,Female,,,Cristina,Blue,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,134,No,Yes,No,20,No,Yes,No,82,8,No,Yes,27,9,No,Yes,,2.5
+D113,Osmia ,Osmia latreillei,27/04/18,11:00,,Niebla,Female,,,Cristina,Blue,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,65,No,Yes,No,40,74,Yes,Yes,11,22,Yes,Yes,Aggresive,2.5
+D114,Osmia ,Osmia latreillei,27/04/18,11:00,,Niebla,Female,,,Cristina,Blue,Left,NA,NA,NA,NA,27,No,Yes,No,12,No,Yes,No,109,No,Yes,No,15,No,Yes,No,20,No,Yes,No,24,8,No,Yes,NA,NA,NA,NA,,2.5
+D115,Rhodanthidium sticticum,Rhodanthidium sticticum,08/05/18,10:00,,Niebla,Male,,Yes,Cristina,Blue,Left,7,34,Yes,Yes,22,10,No,Yes,8,37,No,Yes,6,31,Yes,Yes,14,10,No,Yes,25,7,No,Yes,55,7,No,Yes,17,9,No,Yes,,2.5
+D116,Bombus,Bombus terrestris,08/05/18,10:00,Cardo,UPO,Queen,,,Cristina,Blue,Right,8,11,Yes,Yes,14,37,Yes,Yes,3,22,Yes,Yes,12,6,No,Yes,17,7,No,Yes,7,18,Yes,Yes,4,9,Yes,Yes,3,7,Yes,Yes,,2.5
+D117,Bombus,Bombus terrestris,08/05/18,10:00,Cardo,UPO,Female,,,Cristina,Blue,Right,NA,NA,NA,NA,13,29,Yes,Yes,6,33,Yes,Yes,12,22,Yes,Yes,15,8,No,Yes,8,22,Yes,Yes,15,129,Yes,Yes,11,No,Yes,No,,2.5
+D118,Bombus,Bombus terrestris,08/05/18,10:00,Cardo,UPO,Male,,,Cristina,Blue,Right,NA,NA,NA,NA,26,51,Yes,Yes,73,145,Yes,Yes,21,9,No,Yes,30,8,Yes,Yes,12,6,No,Yes,24,7,Yes,Yes,12,5,No,Yes,,2.5
+D119,Bombus,Bombus terrestris,08/05/18,11:00,Cardo,UPO,Male,,,Cristina,Blue,Right,NA,NA,NA,NA,3,36,Yes,Yes,3,14,Yes,Yes,6,24,Yes,Yes,6,7,No,Yes,3,16,Yes,Yes,3,26,Yes,Yes,7,16,Yes,Yes,,2.5
+D120,Bombus,Bombus terrestris,08/05/18,11:00,Cardo,UPO,Male,,,Cristina,Blue,Right,4,25,Yes,Yes,60,28,No,Yes,30,50,Yes,Yes,10,5,No,Yes,14,26,Yes,Yes,6,4,No,Yes,11,16,Yes,Yes,5,21,Yes,Yes,,2.5
+D121,Bombus,Bombus terrestris,08/05/18,11:00,Cardo,UPO,Male,,,Cristina,Blue,Right,7,57,Yes,Yes,22,14,No,Yes,19,43,Yes,Yes,49,4,No,Yes,31,6,No,Yes,16,6,No,Yes,5,13,Yes,Yes,7,12,Yes,Yes,,2.5
+D122,Bombus,Bombus terrestris,08/05/18,11:00,Cardo,UPO,Male,,,Cristina,Blue,Right,6,48,Yes,Yes,33,19,No,Yes,NA,NA,NA,NA,68,No,Yes,No,6,14,Yes,Yes,9,19,Yes,Yes,6,75,Yes,Yes,5,15,Yes,Yes,,2.5
+D123,Megachile,Megachile willughbiella,07/05/18,14:00,,Parque Maria Luisa,Female,,,Cristina,Blue,Right,NA,NA,NA,NA,No,31,No,Yes,NA,NA,NA,NA,13,33,Yes,Yes,124,150,Yes,Yes,24,10,No,Yes,33,11,No,Yes,24,9,No,Yes,,2.5
+D124,Lasioglossum,Lasioglossum malachurum,08/05/18,11:00,,UPO,Female,,,Cristina,Blue,Right,NA,NA,NA,NA,17,29,Yes,Yes,41,68,Yes,Yes,20,6,No,Yes,47,5,No,Yes,54,18,No,Yes,5,17,Yes,Yes,20,54,Yes,Yes,,2.5
+D125,Rhodanthidium,Rhodanthidium sticticum,11/05/18,12:00,,Carambolo,Male,,,Cristina,Yellow,Left,NA,NA,NA,NA,9,77,Yes,Yes,5,18,Yes,Yes,2,26,Yes,Yes,21,No,Yes,No,9,No,Yes,No,23,No,Yes,No,10,No,Yes,No,,2.5
+D126,Rhodanthidium,Rhodanthidium sticticum,11/05/18,12:00,,Carambolo,Female,,,Cristina,Yellow,Left,25,No,Yes,No,54,42,No,Yes,30,15,No,Yes,10,33,Yes,Yes,25,11,No,Yes,14,25,Yes,Yes,8,32,Yes,Yes,7,48,Yes,Yes,,2.5
+D127,Rhodanthidium,Rhodanthidium sticticum,11/05/18,12:00,,Carambolo,Female,,Yes,Cristina,Yellow,Left,16,134,Yes,Yes,7,No,Yes,No,19,9,No,Yes,2,31,Yes,Yes,7,61,Yes,Yes,13,10,No,Yes,6,31,Yes,Yes,7,123,Yes,Yes,,2.5
+D128,Rhodanthidium,Rhodanthidium sticticum,11/05/18,12:00,,Carambolo,Male,,,Cristina,Yellow,Left,84,No,Yes,No,88,7,No,Yes,7,18,Yes,Yes,2,18,Yes,Yes,11,8,No,Yes,7,20,Yes,Yes,5,22,Yes,Yes,5,No,Yes,No,,2.5
+D129,Rhodanthidium,Rhodanthidium sticticum,11/05/18,12:00,,Carambolo,Female,,Yes,Cristina,Yellow,Left,NA,NA,NA,NA,58,90,Yes,Yes,54,15,No,Yes,15,4,No,Yes,9,60,Yes,Yes,3,24,Yes,Yes,2,22,Yes,Yes,11,37,Yes,Yes,,2.5
+D130,Rhodanthidium,Rhodanthidium sticticum,11/05/18,12:00,,Carambolo,Male,,Yes,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,127,No,Yes,No,33,92,Yes,Yes,85,124,Yes,Yes,12,127,Yes,Yes,7,No,Yes,No,,2.5
+D131,Rhodanthidium,Rhodanthidium sticticum,11/05/18,12:00,,Carambolo,Male,,Yes,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,85,140,Yes,Yes,No,118,No,Yes,NA,NA,NA,NA,,2.5
+D132,Lasioglossum,Lasioglossum malachurum,11/05/18,12:00,,Carambolo,Female,,No,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,5,No,Yes,No,82,87,Yes,Yes,22,11,No,Yes,37,No,Yes,No,NA,NA,NA,NA,,2.5
+D133,Lasioglossum,Lasioglossum malachurum,,,Compuesta amarilla,UPO,Female,,No,Cristina,Blue,Left,46,11,Yes,Yes,30,15,No,Yes,34,6,No,Yes,8,21,Yes,Yes,7,No,Yes,No,99,11,No,Yes,43,6,No,Yes,8,26,Yes,Yes,,2.5
+D134,Lasioglossum,Lasioglossum malachurum,,,Compuesta amarilla,UPO,Female,,No,Cristina,Blue,Left,66,No,Yes,No,12,No,Yes,No,70,8,No,Yes,101,52,No,Yes,9,No,Yes,No,4,24,Yes,No,18,No,Yes,No,31,22,No,Yes,,2.5
+D135,Lasioglossum,Lasioglossum malachurum,,,Compuesta amarilla,UPO,Female,,No,Cristina,Blue,Left,68,No,Yes,No,105,No,Yes,No,5,No,Yes,No,NA,NA,NA,NA,6,No,Yes,No,NA,NA,NA,NA,9,No,Yes,No,No,4,No,Yes,,2.5
+D136,Bombus,Bombus terrestris,,,Compuesta amarilla,UPO,Female,,Yes,Cristina,Blue,Left,No,52,No,Yes,38,No,Yes,No,3,65,Yes,Yes,117,10,No,Yes,6,35,Yes,Yes,3,23,Yes,Yes,4,32,Yes,Yes,13,6,No,Yes,,2.5
+D137,Lasioglossum,Lasioglossum malachurum,,,Compuesta amarilla,UPO,Female,,No,Cristina,Blue,Left,40,27,No,Yes,19,89,Yes,Yes,45,6,No,Yes,44,5,No,Yes,4,15,Yes,Yes,NA,NA,NA,NA,NA,NA,NA,NA,8,No,Yes,No,,2.5
+D138,Lasioglossum,Lasioglossum malachurum,,,Compuesta amarilla,UPO,Female,,No,Raquel,Blue,Left,23,64,Yes,Yes,30,9,No,Yes,33,12,No,Yes,9,28,Yes,Yes,44,No,Yes,No,6,No,Yes,No,105,No,Yes,No,22,No,Yes,No,,2.5
+D139,Lasioglossum,Lasioglossum malachurum,,,Compuesta amarilla,UPO,Female,,No,Raquel,Blue,Left,7,No,Yes,No,12,No,Yes,No,NA,NA,NA,NA,NA,NA,NA,NA,6,No,Yes,No,14,No,Yes,No,NA,NA,NA,NA,NA,NA,NA,NA,,2.5
+D140,Lasioglossum,Lasioglossum malachurum,,,Cardo,UPO,Female,,No,Raquel,Blue,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,2.5
+D141,Lasioglossum,Lasioglossum malachurum,,,Cardo,UPO,,,,Raquel,Blue,Left,NA,NA,NA,NA,22,44,Yes,Yes,59,28,No,Yes,119,9,No,Yes,24,6,No,Yes,8,No,Yes,No,NA,NA,NA,NA,11,No,Yes,No,,2.5
+D142,Bombus,Bombus terrestris,16/05,11:00,Cistus crispus,Bonares,,4.92,No,Cristina,Yellow,Left,70,42,No,Yes,8,61,Yes,Yes,8,19,Yes,Yes,13,43,Yes,Yes,7,No,Yes,No,6,22,Yes,Yes,4,21,Yes,Yes,3,No,Yes,No,Experiment done the day after,2.5
+D143,Rhodanthidium,Rhodanthidium sticticum,16/05,12:00,Cistus crispus,Niebla,Male,3.68,Yes,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,68,No,Yes,No,6,33,Yes,Yes,8,No,Yes,No,39,63,Yes,Yes,7,48,Yes,Yes,5,28,Yes,Yes,Experiment done the day after,2.5
+D144,Rhodanthidium,Rhodanthidium sticticum,16/05,12:00,Cistus crispus,Niebla,Male,3.63,Yes,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,14,52,Yes,Yes,21,11,No,Yes,29,87,Yes,Yes,5,30,Yes,Yes,5,24,Yes,Yes,7,No,Yes,No,Experiment done the day after,2.5
+D145,Rhodanthidium,Rhodanthidium sticticum,16/05,12:00,Cistus crispus,Niebla,Male,3.6,No,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,7,No,Yes,No,Experiment done the day after,2.5
+D146,Rhodanthidium,Rhodanthidium sticticum,16/05,12:00,Cistus crispus,Niebla,Female,3.9,Yes,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,99,130,Yes,Yes,21,73,Yes,Yes,18,55,Yes,Yes,2,61,Yes,Yes,2,No,Yes,No,2,16,Yes,No,Experiment done the day after,2.5
+D147,Rhodanthidium,Rhodanthidium sticticum,16/05,12:00,Cistus crispus,Niebla,Female,3.79,Yes,Cristina,Yellow,Left,76,No,Yes,No,10,27,Yes,Yes,22,64,Yes,Yes,5,12,Yes,Yes,38,41,Yes,Yes,5,33,Yes,Yes,4,17,Yes,Yes,7,No,Yes,No,Experiment done the day after,2.5
+D148,Rhodanthidium,Rhodanthidium sticticum,16/05,12:00,Cistus crispus,Niebla,Female,3.9,Yes,Cristina,Yellow,Left,NA,NA,NA,NA,65,No,Yes,No,22,110,Yes,Yes,18,No,Yes,No,7,44,Yes,Yes,15,9,Yes,Yes,5,86,Yes,Yes,5,No,Yes,No,Experiment done the day after,2.5
+D149,Lasioglossum,Lasioglossum immunitum,16/05,11:00,,Bonares,,,No,Dani,Yellow,Left,No,33,No,Yes,5,No,Yes,No,26,8,No,Yes,9,43,Yes,Yes,15,No,Yes,No,172,52,No,Yes,6,No,Yes,No,NA,NA,NA,NA,Experiment done the day after,2.5
+D150,Lasioglossum,Lasioglossum immunitum,16/05,11:00,,Bonares,Female,,No,Dani,Yellow,Left,93,38,No,Yes,13,99,Yes,Yes,28,57,Yes,Yes,10,No,Yes,No,3,121,Yes,Yes,4,No,Yes,No,87,41,No,Yes,NA,NA,NA,NA,Experiment done the day after,2.5
+D151,Lasioglossum,Lasioglossum immunitum,16/05,11:00,,Bonares,Female,,No,Dani,Yellow,Left,29,93,Yes,Yes,8,No,Yes,No,29,67,Yes,Yes,28,No,Yes,No,7,No,Yes,No,8,No,Yes,No,21,No,Yes,No,NA,NA,NA,NA,Experiment done the day after,2.5
+D152,Rhodanthidium,Rhodanthidium sticticum,22/05/18,14:00,Cistus crispus,Niebla,Female,3.3,,Cristina,Blue,Right,NA,NA,NA,NA,41,No,Yes,No,63,110,Yes,Yes,12,66,Yes,Yes,19,79,Yes,Yes,11,104,Yes,Yes,9,71,Yes,Yes,57,65,Yes,Yes,,2.5
+D153,Rhodanthidium,Rhodanthidium sticticum,22/05/18,14:00,Cistus crispus,Niebla,Male,3.7,,Cristina,Blue,Right,19,No,Yes,No,117,6,No,Yes,18,115,Yes,Yes,20,28,Yes,Yes,39,7,No,Yes,47,3,No,Yes,4,39,Yes,Yes,63,5,No,Yes,,2.5
+D154,Rhodanthidium,Rhodanthidium sticticum,22/05/18,14:00,Cistus crispus,Niebla,Male,3.9,Yes,Cristina,Blue,Right,14,25,Yes,Yes,5,61,Yes,Yes,24,11,No,Yes,28,10,No,Yes,38,10,No,Yes,7,18,Yes,Yes,38,7,No,Yes,7,18,Yes,Yes,,2.5
+D155,Bombus,Bombus terrestris,22/05/18,11:30,Cistus crispus,Urbanizaciones,Male,,No,Cristina,Blue,Right,32,8,No,Yes,10,27,Yes,Yes,2,19,Yes,Yes,21,3,No,Yes,11,29,Yes,Yes,39,No,Yes,No,4,No,Yes,No,29,No,Yes,No,,2.5
+D156,Osmia ,Osmia latreillei,22/05/18,14:00,Cardo,Niebla,Female,,No,Cristina,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,21,No,Yes,No,,,,,,2.5
+D157,Andrena,Andrena hispania,22/05/18,11:30,Cistus crispus,Urbanizaciones,Female,,Yes,Cristina,Yellow,Left,22,No,Yes,No,NA,NA,NA,NA,5,38,Yes,Yes,11,48,Yes,Yes,5,25,Yes,Yes,11,26,Yes,Yes,30,56,Yes,Yes,5,No,Yes,No,Experiment done the day after,2.5
+D158,Andrena,,22/05/18,10:30,Cistus crispus,Convento de la Luz,,,,Cristina,Yellow,Left,NA,NA,NA,NA,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Experiment done the day after,2.5
+D159,Andrena,Andrena cinerea,22/05/18,10:30,Cistus crispus,Convento de la Luz,Female,,,Cristina,Yellow,Left,53,99,Yes,Yes,33,12,No,Yes,58,153,Yes,Yes,43,No,Yes,No,NA,NA,NA,NA,15,61,Yes,Yes,17,8,No,Yes,41,26,No,Yes,Experiment done the day after,2.5
+D160,Panurgus,Panurgus dargius,22/05/18,10:30,Cistus crispus,Convento de la Luz,,,,Cristina,Yellow,Left,No,60,No,Yes,22,No,Yes,No,54,37,No,Yes,No,70,No,Yes,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Experiment done the day after,2.5
+D161,Flavipanurgus,Flavipanurgus venustus,22/05/18,11:30,Cistus crispus,Urbanizaciones,Male,,No,Cristina,Yellow,Left,NA,NA,NA,NA,No,67,No,Yes,No,80,No,Yes,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Experiment done the day after,2.5
+D162,Flavipanurgus,Flavipanurgus venustus,22/05/18,11:30,Cistus crispus,Urbanizaciones,Female,,,Cristina,Yellow,Left,NA,NA,NA,NA,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+D163,Lasioglossum,,22/05/18,10:30,Cistus crispus,Convento de la Luz,,,,Cristina,Yellow,Right,No,138,No,Yes,No,30,No,Yes,71,26,No,Yes,NA,NA,NA,NA,,,,,,,,,,,,,,,,,Experiment done the day after,2.5
+D164,Lasioglossum,,22/05/18,10:30,Cistus crispus,Convento de la Luz,,,,Cristina,Yellow,Left,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Experiment done the day after,2.5
+D165,Lasioglossum,,22/05/18,10:30,Cistus crispus,Convento de la Luz,,,,Cristina,Yellow,Left,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Experiment done the day after,2.5
+D166,Lasioglossum,,22/05/18,10:30,Cistus crispus,Convento de la Luz,Male,,,Cristina,Yellow,Left,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Experiment done the day after,2.5
+D167,Rhodanthidium,Rhodanthidium sticticum,28/05/18,,,UPO,Female,,,Cristina,Blue,Right,NA,NA,NA,NA,103,118,Yes,Yes,3,44,Yes,Yes,70,29,No,Yes,45,4,No,Yes,40,17,No,Yes,26,3,No,Yes,24,54,Yes,Yes,,2.5
+D168,Rhodanthidium,Rhodanthidium sticticum,28/05/18,,,UPO,Male?,,,Cristina,Blue,Right,12,No,Yes,No,NA,NA,NA,NA,13,No,Yes,No,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,,,,,2.5
+D169,Bombus,Bombus terrestris,28/05/18,12:00,Colza,UPO,Female,,,Cristina,Yellow,Right,15,133,Yes,Yes,5,47,Yes,Yes,6,48,Yes,Yes,4,8,Yes,Yes,4,7,Yes,Yes,14,10,No,Yes,5,16,Yes,Yes,3,No,Yes,No,,2.5
+D170,Bombus,Bombus terrestris,28/05/18,12:00,Cardo,UPO,Female,,,Cristina,Yellow,Right,No,102,No,No,38,88,Yes,Yes,24,9,No,Yes,5,103,Yes,Yes,4,No,Yes,No,8,124,Yes,Yes,6,No,Yes,No,8,No,Yes,No,,2.5
+D171,Bombus,Bombus terrestris,28/05/18,12:00,Cardo,UPO,Male,,No,Cristina,Yellow,Right,33,14,No,Yes,18,16,No,Yes,12,5,No,Yes,5,33,Yes,Yes,7,107,Yes,Yes,3,105,Yes,Yes,4,No,Yes,No,5,28,Yes,Yes,,2.5
+D172,Bombus,Bombus terrestris,28/05/18,12:00,Amapola,UPO,Female,,Yes,Alex,Yellow,Right,5,83,Yes,Yes,3,37,Yes,Yes,17,6,No,Yes,26,5,No,Yes,3,20,Yes,Yes,3,73,Yes,Yes,4,55,Yes,Yes,2,No,Yes,No,,2.5
+D173,Bombus,Bombus terrestris,28/05/18,12:00,Centaurea,UPO,Male,,,Alex,Yellow,Right,NA,NA,NA,NA,11,65,Yes,Yes,142,128,No,Yes,9,131,Yes,Yes,8,37,Yes,Yes,3,No,Yes,No,7,No,Yes,No,4,No,Yes,No,,2.5
+D174,Bombus,Bombus terrestris,28/05/18,12:00,Cardo,UPO,Female,,No,Alex,Yellow,Right,5,50,Yes,Yes,5,40,Yes,Yes,3,23,Yes,Yes,4,24,Yes,Yes,4,69,Yes,Yes,3,37,Yes,No,3,35,Yes,No,7,42,Yes,Yes,,2.5
+D175,Bombus,Bombus terrestris,28/05/18,12:00,Cardo,UPO,Female,,Yes,Alex,Yellow,Right,NA,NA,NA,NA,13,No,Yes,No,NA,NA,NA,NA,26,20,No,Yes,4,9,Yes,Yes,5,No,Yes,No,NA,NA,NA,NA,NA,NA,NA,NA,,2.5
+D176,Lasioglossum,Lasioglossum immunitum,4/6/18,12:00,,UPO,,,,Cristina,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,2.5
+D177,Megachile??,,4/6/18,12:00,Centaurea,UPO,,,,Cristina,Blue,Right,NA,NA,NA,NA,No,137,No,Yes,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,2.5
+D178,Lasioglossum,Lasioglossum immunitum,4/6/18,12:00,,UPO,Female,,,Cristina,Blue,Right,NA,NA,NA,NA,No,9,No,Yes,12,34,Yes,Yes,NA,NA,NA,NA,37,15,No,Yes,93,50,No,Yes,48,15,No,Yes,33,9,No,Yes,,2.5
+D179,Rhodanthidium,Rhodanthidium sticticum,4/6/18,12:00,,UPO,,,,Cristina,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,48,No,Yes,No,11,110,Yes,Yes,4,45,Yes,Yes,21,6,No,Yes,7,5,No,Yes,,2.5
+D180,Rhodanthidium,Rhodanthidium sticticum,4/6/18,12:00,,UPO,,,,Cristina,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,55,10,No,Yes,112,5,No,Yes,7,47,Yes,Yes,55,11,No,Yes,No,7,No,Yes,No,5,No,Yes,,2.5
+D181,Rhodanthidium,Rhodanthidium sticticum,4/6/18,12:00,,UPO,,,Yes,Cristina,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,2.5
+D182,Rhodanthidium,Rhodanthidium sticticum,5/6/18,11:30,,Carambolo,Male,,Yes,Cristina,Yellow,Left,NA,NA,NA,NA,24,15,No,Yes,10,No,Yes,No,8,No,Yes,No,NA,NA,NA,NA,130,No,Yes,No,55,122,Yes,Yes,No,15,No,Yes,,2.5
+D183,Rhodanthidium,Rhodanthidium sticticum,5/6/18,11:30,,Carambolo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,75,No,Yes,No,No,19,No,Yes,,2.5
+D184,Rhodanthidium,Rhodanthidium sticticum,5/6/18,11:30,,Carambolo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,9,121,Yes,Yes,91,11,No,Yes,12,3,No,Yes,,2.5
+D185,Rhodanthidium,Rhodanthidium sticticum,5/6/18,11:30,,Carambolo,,,,Cristina,Yellow,Left,36,No,Yes,No,NA,NA,NA,NA,23,38,Yes,Yes,4,65,Yes,Yes,5,55,Yes,Yes,5,22,Yes,Yes,3,38,Yes,Yes,6,20,Yes,Yes,,2.5
+D186,,,5/6/18,11:30,,Carambolo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,81,131,Yes,Yes,4,31,Yes,Yes,6,No,Yes,No,,2.5
+D187,,,5/6/18,11:30,,Carambolo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,40,22,No,Yes,24,9,No,Yes,29,11,No,Yes,3,5,Yes,Yes,7,54,Yes,Yes,5,16,Yes,Yes,,2.5
+D188,Apis,Apis mellifera,7/6/18,11:00,,Carambolo,Female,,,Cristina,Yellow,Left,8,35,Yes,Yes,6,63,Yes,Yes,2,14,Yes,Yes,3,25,Yes,Yes,7,5,No,Yes,1,13,Yes,Yes,8,1,No,Yes,1,5,Yes,Yes,,2.5
+D189,Apis,Apis mellifera,7/6/18,11:00,,Carambolo,Female,,,Cristina,Yellow,Left,No,28,No,Yes,8,25,Yes,Yes,13,4,No,Yes,3,16,Yes,Yes,16,9,No,Yes,2,12,Yes,Yes,1,11,Yes,Yes,2,7,Yes,Yes,,2.5
+D190,Apis,Apis mellifera,7/6/18,11:00,,Carambolo,Female,,,Cristina,Yellow,Left,5,20,Yes,Yes,38,5,No,Yes,3,17,Yes,Yes,16,5,No,Yes,46,5,No,Yes,3,18,Yes,Yes,2,13,Yes,Yes,120,No,Yes,Yes,,2.5
+D191,Apis,Apis mellifera,7/6/18,11:00,,Carambolo,Female,,,Cristina,Yellow,Left,28,52,Yes,Yes,2,12,Yes,Yes,3,9,Yes,Yes,5,17,Yes,Yes,10,4,No,Yes,1,8,Yes,Yes,1,14,Yes,Yes,2,16,Yes,Yes,,2.5
+D192,Apis,Apis mellifera,7/6/18,11:00,,Carambolo,Female,,,Cristina,Blue,Right,23,52,Yes,Yes,No,8,No,Yes,40,6,No,Yes,48,4,No,Yes,4,26,Yes,Yes,1,18,Yes,Yes,10,1,No,Yes,2,No,Yes,No,,2.5
+D193,Apis,Apis mellifera,7/6/18,11:00,,Carambolo,Female,,,Cristina,Blue,Right,No,4,No,Yes,NA,NA,NA,NA,5,33,Yes,Yes,8,21,Yes,Yes,2,19,Yes,Yes,1,12,Yes,Yes,1,16,Yes,Yes,1,8,Yes,Yes,,2.5
+D194,Apis,Apis mellifera,7/6/18,11:00,,Carambolo,Female,,,Cristina,Blue,Right,51,71,Yes,Yes,2,27,Yes,Yes,3,61,Yes,Yes,5,78,Yes,Yes,5,28,Yes,Yes,1,15,Yes,Yes,13,2,No,Yes,17,No,Yes,No,,2.5
