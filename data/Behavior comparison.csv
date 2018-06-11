@@ -91,14 +91,14 @@ D72,Bombus,Bombus terrestris,16/04/18,12:00,,La rocina,Male,,,Cristina,Yellow,Le
 D73,Bombus,Bombus terrestris,16/04/18,12:00,,La rocina,,,Yes,Cristina,Yellow,Left,164,No,Yes,No,7,14,Yes,Yes,34,10,No,Yes,7,25,Yes,Yes,24,18,No,Yes,12,68,Yes,Yes,5,28,Yes,Yes,6,149,Yes,Yes,Experiment done the day after,3
 D74,Bombus,Bombus terrestris,16/04/18,12:00,,La rocina,Female,,No,Cristina,Yellow,Left,88,24,No,Yes,9,29,Yes,Yes,11,27,No,Yes,8,20,Yes,Yes,12,45,Yes,Yes,9,84,Yes,Yes,6,No,Yes,No,3,34,Yes,Yes,Experiment done the day after,2.5
 D7,Bombus,Bombus terrestris,,,,Pinares de Hinojos,,,No,MAC,Yellow,Left,21,108,Yes,Yes,64,56,No,Yes,63,56,No,Yes,30,47,Yes,Yes,88,99,No,Yes,30,44,No,Yes,37,59,Yes,Yes,64,76,Yes,Yes,"One person only, exploration ",
-D97,Andrena ,zorrae,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,70,38,No,Yes,38,25,No,Yes,24,64,Yes,Yes,11,28,Yes,Yes,40,62,Yes,Yes,NA,NA,NA,NA,,,,,,3
-D98,Andrena ,zorrae,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,3
-D99,Andrena ,zorrae,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,43,12,No,Yes,NA,NA,NA,NA,,,,,,,,,,2.5
-D100,Andrena ,zorrae,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,2.5
+D97,Andrena ,Andrena rhyssonota,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,70,38,No,Yes,38,25,No,Yes,24,64,Yes,Yes,11,28,Yes,Yes,40,62,Yes,Yes,NA,NA,NA,NA,,,,,,3
+D98,Andrena ,Andrena rhyssonota,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,3
+D99,Andrena ,Andrena rhyssonota,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,43,12,No,Yes,NA,NA,NA,NA,,,,,,,,,,2.5
+D100,Andrena ,Andrena rhyssonota,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,2.5
 D101,Andrena ,Andrena cinerea,26/04/18,13:00,,Alamillo,Female,,no,Cristina,Yellow,Left,NA,NA,NA,NA,65,22,No,Yes,72,12,No,Yes,NA,NA,NA,NA,50,15,No,Yes,NA,NA,NA,NA,,,,,,,,,,2.5
-D102,Andrena ,zorrae,26/04/18,13:00,,Alamillo,Female,,,Cristina,Yellow,Left,NA,NA,NA,NA,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2.5
-D103,Andrena ,zorrae,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,2.5
-D104,Andrena ,zorrae,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,37,87,Yes,Yes,10,50,Yes,Yes,15,10,No,Yes,NA,NA,NA,NA,,,,,,,,,,,,,,2.5
+D102,Andrena ,Andrena rhyssonota,26/04/18,13:00,,Alamillo,Female,,,Cristina,Yellow,Left,NA,NA,NA,NA,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2.5
+D103,Andrena ,Andrena rhyssonota,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,2.5
+D104,Andrena ,Andrena rhyssonota,26/04/18,13:00,,Alamillo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,37,87,Yes,Yes,10,50,Yes,Yes,15,10,No,Yes,NA,NA,NA,NA,,,,,,,,,,,,,,2.5
 D105,Bombus,Bombus terrestris,27/04/18,11:30,,Niebla,Female,,Yes,Cristina,Yellow,Left,NA,NA,NA,NA,RIP,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 D106,Bombus,Bombus terrestris,27/04/18,13:00,,Convento de la Luz,Female,,Yes,Cristina,Yellow,Left,10,55,Yes,Yes,48,35,No,Yes,9,20,Yes,Yes,28,5,No,Yes,3,26,Yes,Yes,24,8,No,Yes,26,3,No,Yes,2,18,Yes,Yes,,2.5
 D107,Bombus,Bombus terrestris,27/04/18,13:00,,Convento de la Luz,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,18,7,No,Yes,23,7,No,Yes,3,18,Yes,Yes,23,4,No,Yes,4,14,Yes,Yes,3,17,Yes,Yes,,2.5
@@ -180,8 +180,8 @@ D182,Rhodanthidium,Rhodanthidium sticticum,5/6/18,11:30,,Carambolo,Male,,Yes,Cri
 D183,Rhodanthidium,Rhodanthidium sticticum,5/6/18,11:30,,Carambolo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,75,No,Yes,No,No,19,No,Yes,,2.5
 D184,Rhodanthidium,Rhodanthidium sticticum,5/6/18,11:30,,Carambolo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,9,121,Yes,Yes,91,11,No,Yes,12,3,No,Yes,,2.5
 D185,Rhodanthidium,Rhodanthidium sticticum,5/6/18,11:30,,Carambolo,,,,Cristina,Yellow,Left,36,No,Yes,No,NA,NA,NA,NA,23,38,Yes,Yes,4,65,Yes,Yes,5,55,Yes,Yes,5,22,Yes,Yes,3,38,Yes,Yes,6,20,Yes,Yes,,2.5
-D186,,,5/6/18,11:30,,Carambolo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,81,131,Yes,Yes,4,31,Yes,Yes,6,No,Yes,No,,2.5
-D187,,,5/6/18,11:30,,Carambolo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,40,22,No,Yes,24,9,No,Yes,29,11,No,Yes,3,5,Yes,Yes,7,54,Yes,Yes,5,16,Yes,Yes,,2.5
+D186,Andrena ,Andrena pilipes,5/6/18,11:30,,Carambolo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,81,131,Yes,Yes,4,31,Yes,Yes,6,No,Yes,No,,2.5
+D187,Panurgus,,5/6/18,11:30,,Carambolo,,,,Cristina,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,40,22,No,Yes,24,9,No,Yes,29,11,No,Yes,3,5,Yes,Yes,7,54,Yes,Yes,5,16,Yes,Yes,,2.5
 D188,Apis,Apis mellifera,7/6/18,11:00,,Carambolo,Female,,,Cristina,Yellow,Left,8,35,Yes,Yes,6,63,Yes,Yes,2,14,Yes,Yes,3,25,Yes,Yes,7,5,No,Yes,1,13,Yes,Yes,8,1,No,Yes,1,5,Yes,Yes,,2.5
 D189,Apis,Apis mellifera,7/6/18,11:00,,Carambolo,Female,,,Cristina,Yellow,Left,No,28,No,Yes,8,25,Yes,Yes,13,4,No,Yes,3,16,Yes,Yes,16,9,No,Yes,2,12,Yes,Yes,1,11,Yes,Yes,2,7,Yes,Yes,,2.5
 D190,Apis,Apis mellifera,7/6/18,11:00,,Carambolo,Female,,,Cristina,Yellow,Left,5,20,Yes,Yes,38,5,No,Yes,3,17,Yes,Yes,16,5,No,Yes,46,5,No,Yes,3,18,Yes,Yes,2,13,Yes,Yes,120,No,Yes,Yes,,2.5
