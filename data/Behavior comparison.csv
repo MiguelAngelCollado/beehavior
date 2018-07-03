@@ -1,5 +1,5 @@
 ID,Genus,Species,Date,Capture time,Plant,Place,Sex,IT (mm),Age.signals,Observer,Correct.cue,First.position,PER.sugar1,PER.water1,Success1,Water.exploring1,PER.sugar2,PER.water2,Success2,Water.exploring2,PER.sugar3,PER.water3,Success3,Water.exploring3,PER.sugar4,PER.water4,Success4,Water.exploring4,PER.sugar5,PER.water5,Success5,Water.exploring5,PER.sugar6,PER.water6,Success6,Water.exploring6,PER.sugar7,PER.water7,Success7,Water.exploring7,PER.sugar.test,PER.water.test,Success.test,Water.exploring.test,Notes,Experimental tube
-D53,Andrena,Andrena angustior,27/03/18,12:00,,Alamillo,Female,,No,CMM,Blue,Left,NA,NA,NA,NA,7,68,Yes,Yes,No,132,No,Yes,56,42,No,Yes,83,108,Yes,Yes,11,30,Yes,No,35,128,Yes,Yes,20,40,Yes,Yes,,2.5
+D53,Andrena,Andrena angustior,27/03/18,12:00,,Alamillo,Female,,No,Cristina,Blue,Left,NA,NA,NA,NA,7,68,Yes,Yes,No,132,No,Yes,56,42,No,Yes,83,108,Yes,Yes,11,30,Yes,No,35,128,Yes,Yes,20,40,Yes,Yes,,2.5
 D40,Andrena,Andrena angustior,27/03/18,12:00,,Alamillo,Female,,No,Patrick,Blue,Right,10,No,Yes,No,11,14,Yes,Yes,14,42,Yes,Yes,NA,NA,NA,NA,10,20,Yes,Yes,90,109,Yes,Yes,11,45,Yes,Yes,NA,NA,NA,NA,,2.5
 D43,Lasioglossum,Lasioglossum malachurum,27/03/18,12:00,,Alamillo,Female,,No,Patrick,Blue,Right,20,65,No,Yes,28,11,No,Yes,55,19,No,Yes,29,12,Yes,Yes,19,52,Yes,Yes,23,14,No,Yes,50,18,Yes,Yes,12,24,Yes,Yes,,2.5
 D47,Lasioglossum,Lasioglossum malachurum,27/03/18,12:00,,Alamillo,Female,,No,Cristina,Blue,Left,17,37,Yes,Yes,119,18,No,Yes,68,24,No,Yes,57,9,No,Yes,76,41,No,Yes,2,20,Yes,Yes,122,100,No,Yes,3,70,Yes,Yes,,2.5
@@ -53,11 +53,11 @@ D93,Bombus,Bombus terrestris,10/04/18,12:00,,Aznalcazar,Male,,Yes,Cristina,Blue,
 D94,Andrena,Andrena flavipes,10/04/18,12:00,,Aznalcazar,Female,,No,Cristina,Blue,Left,18,36,Yes,Yes,34,75,Yes,Yes,38,15,No,Yes,6,20,Yes,Yes,48,90,Yes,Yes,7,24,Yes,Yes,95,10,No,Yes,35,106,Yes,Yes,,2.5
 D95,Andrena,Andrena flavipes,10/04/18,12:00,,Aznalcazar,Female,,No,Cristina,Blue,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,18,8,No,Yes,20,10,No,Yes,12,35,Yes,Yes,78,11,No,Yes,,2.5
 D96,Andrena,Andrena flavipes,10/04/18,12:00,,Aznalcazar,Female,,No,Cristina,Blue,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,17,53,Yes,Yes,19,84,Yes,Yes,16,8,No,Yes,10,32,Yes,Yes,,2.5
-D4,Anthophora,Anthopora dispar,12/03/18,11:00,Lavandula sp.,Carambolo,Female,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,NA,NA,NA,Refuses to eat,
-D6,Bombus,Bombus terrestris,12/03/18,11:00,Lavandula sp.,Carambolo,Male,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,NA,NA,NA,,
-D1,Eucera,Eucera notata,12/03/18,11:00,Lavandula sp.,Carambolo,Male,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,NA,NA,NA,Refuses to eat,
-D2,Eucera,Eucera notata,12/03/18,11:00,Lavandula sp.,Carambolo,Male,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,NA,NA,NA,"Refuses to eat, tries to copulate the cue",
-D3,Eucera,Eucera notata,12/03/18,11:00,Lavandula sp.,Carambolo,Male,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,NA,NA,NA,Refuses to eat,
+D4,Anthophora,Anthopora dispar,12/03/18,11:00,Lavandula sp.,Carambolo,Female,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Refuses to eat,
+D6,Bombus,Bombus terrestris,12/03/18,11:00,Lavandula sp.,Carambolo,Male,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,
+D1,Eucera,Eucera notata,12/03/18,11:00,Lavandula sp.,Carambolo,Male,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Refuses to eat,
+D2,Eucera,Eucera notata,12/03/18,11:00,Lavandula sp.,Carambolo,Male,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"Refuses to eat, tries to copulate the cue",
+D3,Eucera,Eucera notata,12/03/18,11:00,Lavandula sp.,Carambolo,Male,,No,MAC,Yellow,Left,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Refuses to eat,
 D5,Nomada,Nomada agrestis,12/03/18,11:00,Lavandula sp.,Carambolo,Female,,No,MAC,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 D54,Xylocopa,Xylocopa violacea,05/04/18,11:00,,Carambolo,Male,,Yes,Crowna,Yellow,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,,,,,,,,,
 D55,Xylocopa,Xylocopa violacea,05/04/18,11:00,,Carambolo,Male,,Yes,Crowna,Yellow,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,,,,,,,,,
@@ -192,3 +192,14 @@ D194,Apis,Apis mellifera,7/6/18,11:00,,Carambolo,Female,,,Cristina,Blue,Right,51
 D195,Flavipanurgus,Flavipanurgus venustus,12/6/18,12:00,,Urbanizaciones,Female,,No,MAC,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,146,95,Yes,Yes,NA,NA,NA,NA,169,98,No,Yes,89,54,No,Yes,90,25,No,Yes,,2.5
 D196,Flavipanurgus,Flavipanurgus venustus,12/6/18,12:00,,Urbanizaciones,Female,,No,MAC,Blue,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,,,,,,,,,,,,,,,,,,2.5
 D197,Flavipanurgus,Flavipanurgus venustus,12/6/18,12:00,,Urbanizaciones,Male,,No,MAC,Blue,Right,172,31,Yes,Yes,NA,NA,NA,NA,NA,NA,NA,NA,27,NA,Yes,No,17,No,Yes,No,93,No,Yes,No,16,No,Yes,No,NA,NA,NA,NA,,2.5
+D198,Bombus,Bombus pascuorum?,26/6/18,10:30,Hypericum perforatum,"La font roja, la zafranera",Female,,,MAC,Yellow,Right,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,17,41,Yes,Yes,22,No,Yes,No,16,10,No,Yes,33,55,Yes,Yes,8,39,Yes,Yes,,2.5
+D199,Bombus,Bombus pascuorum?,26/6/18,10:30,Hypericum perforatum,"La font roja, la zafranera",Female,,,MAC,Yellow,Right,10,22,Yes,Yes,16,6,No,Yes,10,22,Yes,Yes,67,18,No,Yes,37,10,No,Yes,26,10,No,Yes,19,6,No,Yes,17,8,No,Yes,,2.5
+D200,Bombus,Bombus pascuorum?,26/6/18,10:30,Hypericum perforatum,"La font roja, la zafranera",Female,,,MAC,Yellow,Right,7,24,Yes,Yes,31,47,Yes,Yes,29,16,No,Yes,8,32,Yes,Yes,11,30,Yes,Yes,8,26,Yes,Yes,13,No,Yes,No,6,8,Yes,Yes,,2.5
+D201,Bombus,Bombus pascuorum?,26/6/18,10:30,Hypericum perforatum,"La font roja, la zafranera",Female,,,MAC,Yellow,Right,11,31,Yes,Yes,33,11,No,Yes,21,7,No,Yes,3,18,Yes,Yes,26,9,No,Yes,7,33,Yes,Yes,5,30,Yes,Yes,2,17,Yes,Yes,,2.5
+D203,Bombus,Bombus pascuorum?,26/6/18,10:30,Hypericum perforatum,"La font roja, la zafranera",,,,MAC,Yellow,Right,53,64,No,Yes,16,54,Yes,Yes,13,41,Yes,Yes,12,33,Yes,Yes,20,No,Yes,No,8,30,Yes,Yes,12,33,Yes,Yes,10,83,Yes,Yes,,2.5
+D204,Bombus,Bombus pascuorum?,26/6/18,10:30,Hypericum perforatum,"La font roja, la zafranera",,,,MAC,Yellow,Right,11,31,Yes,Yes,9,31,Yes,Yes,21,7,No,Yes,33,9,No,Yes,16,7,No,Yes,8,19,Yes,Yes,6,18,Yes,Yes,11,19,Yes,Yes,,2.5
+D205,Bombus,Bombus pratorum?,27/6/18,11:00,,Cazorla,,,,MAC,Blue,Left,6,69,Yes,Yes,4,30,Yes,Yes,5,24,Yes,Yes,,,,,,,,,,,,,,,,,,,,,Dead during experiment,
+D206,Bombus,Bombus pratorum?,27/6/18,11:00,,Cazorla,Female,,,MAC,Blue,Left,3,36,Yes,Yes,6,35,Yes,Yes,6,18,Yes,Yes,7,36,Yes,Yes,13,29,Yes,Yes,14,6,No,Yes,14,37,Yes,Yes,33,27,No,Yes,,2.5
+D207,Bombus,Bombus pratorum?,27/6/18,11:00,,Cazorla,Male,,,MAC,Blue,Left,108,122,Yes,Yes,8,38,Yes,Yes,4,40,Yes,Yes,21,9,No,Yes,13,6,No,Yes,28,11,No,Yes,39,9,No,Yes,5,29,Yes,Yes,,2.5
+D208,Bombus,Bombus pratorum?,27/6/18,11:00,,Cazorla,Female,,,MAC,Blue,Left,NA,NA,NA,NA,13,31,Yes,Yes,5,40,Yes,Yes,4,15,Yes,Yes,4,37,Yes,No,4,No,Yes,No,8,96,Yes,Yes,75,76,Yes,Yes,,2.5
+D209,Bombus,Bombus pratorum?,27/6/18,11:00,,Cazorla,Male,,,MAC,Blue,Left,27,4,No,Yes,8,19,Yes,Yes,14,29,Yes,Yes,13,No,Yes,No,19,7,No,Yes,23,6,No,Yes,4,23,Yes,Yes,17,7,No,Yes,,2.5
