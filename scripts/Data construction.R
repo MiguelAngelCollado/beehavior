@@ -141,9 +141,6 @@ lines(t(Beeh.PER.sugar[16,(3:10)]))
 
 is.na(Beeh.PER.sugar)
 par(mfrow = c(3,3))
-n=1
-
-
 colnames(Beeh.PER.sugar)
 par(mfrow = c(3,4))
 for (n in 1:(nrow(Beeh.PER.sugar))) {
