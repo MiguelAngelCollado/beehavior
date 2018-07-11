@@ -68,6 +68,17 @@ Beeh.PER.sugar<-rename(Beeh.PER.sugar,
        PER.sugar7 = Beeh.data.PER.sugar7,
        PER.sugar.test = Beeh.data.PER.sugar.test)
 
+#Let's transform data.frames to proper data form to extract slopes and do models
+Beeh.PER.sugar
+melt.Beeh.PER.sugar<-melt(Beeh.PER.sugar)
+colnames(melt.Beeh.PER.sugar)<-c("ID","Species","Trial","Time")
+
+melt.Beeh.PER.sugar<-melt.Beeh.PER.sugar[order(melt.Beeh.PER.sugar$ID),]
+
+temp.melt.sugar<-replace(melt.Beeh.PER.sugar, c("PER.sugar1","PER.sugar2","PER.sugar3","PER.sugar4","PER.sugar5","PER.sugar6","PER.sugar.test"), c(1,2,3,4,5,6,7,8))
+melt.Beeh.PER.sugar$Trial<-temp.melt.sugar$PER.sugar1
+
+melt.Beeh.PER.sugar
 
 #Number of individuals that reacted to the test#
 
