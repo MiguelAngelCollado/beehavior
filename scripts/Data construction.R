@@ -1,5 +1,7 @@
+getwd()
 library(dplyr)
 Beeh.data<-read.csv("~/Desktop/Tesis/R/beehavior/data/Behavior comparison.csv")
+Beeh.data<-read.csv("data/Behavior comparison.csv")
 
 #How many individuals do we have?----
 nrow(Beeh.data)
