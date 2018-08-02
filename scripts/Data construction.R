@@ -2,10 +2,45 @@ getwd()
 library(dplyr)
 Beeh.data<-read.csv("data/Behavior comparison.csv")
 
-#How many individuals do we have?----
-nrow(Beeh.data)
+#Explore and correct data----
+str(Beeh.data)
+Beeh.data$PER.sugar1<-as.numeric(as.character(Beeh.data$PER.sugar1))
+Beeh.data$PER.sugar2<-as.numeric(as.character(Beeh.data$PER.sugar2))
+Beeh.data$PER.sugar3<-as.numeric(as.character(Beeh.data$PER.sugar3))
+Beeh.data$PER.sugar4<-as.numeric(as.character(Beeh.data$PER.sugar4))
+Beeh.data$PER.sugar5<-as.numeric(as.character(Beeh.data$PER.sugar5))
+Beeh.data$PER.sugar6<-as.numeric(as.character(Beeh.data$PER.sugar6))
+Beeh.data$PER.sugar7<-as.numeric(as.character(Beeh.data$PER.sugar7))
+Beeh.data$PER.sugar.test<-as.numeric(as.character(Beeh.data$PER.sugar.test))
+Beeh.data$PER.water1<-as.numeric(as.character(Beeh.data$PER.water1))
+Beeh.data$PER.water2<-as.numeric(as.character(Beeh.data$PER.water2))
+Beeh.data$PER.water3<-as.numeric(as.character(Beeh.data$PER.water3))
+Beeh.data$PER.water4<-as.numeric(as.character(Beeh.data$PER.water4))
+Beeh.data$PER.water5<-as.numeric(as.character(Beeh.data$PER.water5))
+Beeh.data$PER.water6<-as.numeric(as.character(Beeh.data$PER.water6))
+Beeh.data$PER.water7<-as.numeric(as.character(Beeh.data$PER.water7))
+Beeh.data$PER.water.test<-as.numeric(as.character(Beeh.data$PER.water.test))
+Beeh.data$Brain.weight<-as.numeric(as.character(Beeh.data$Brain.weight))
+Beeh.data$Experimental.tube<-as.factor(Beeh.data$Experimental.tube)
+str(Beeh.data)
+View(Beeh.data)
+summary(Beeh.data$Place)
 summary(Beeh.data$Genus)
 summary(Beeh.data$Species)
+summary(Beeh.data$Sex)
+summary(Beeh.data$Age.signals)
+
+#If we don't have the correct cue, we can't use that bee
+Beeh.data<-Beeh.data[-which(Beeh.data$Correct.cue == ""),]
+#If we don't have the genus, we can't use that bee
+Beeh.data<-Beeh.data[-which(is.na(Beeh.data$Genus)),]
+
+which(Beeh.data$Correct.cue == "")
+which(is.na(Beeh.data$Genus))
+
+
+#How many individuals do we have?----
+nrow(Beeh.data)
 n.of.species<-as.data.frame(summary(Beeh.data$Species))
 colnames(n.of.species)<-"individuals captured"
 #We export the list for the article
@@ -24,25 +59,58 @@ which(summary(Beeh.data$Species)==1)
 length(which(summary(Beeh.data$Species)<3))
 
 #Data treatment and construction-----
-#PER variables must be numerical (pasalos a as.character primero)
-str(Beeh.data)
-Beeh.data$PER.sugar1<-as.numeric(as.character(Beeh.data$PER.sugar1))
-Beeh.data$PER.sugar2<-as.numeric(as.character(Beeh.data$PER.sugar2))
-Beeh.data$PER.sugar3<-as.numeric(as.character(Beeh.data$PER.sugar3))
-Beeh.data$PER.sugar4<-as.numeric(as.character(Beeh.data$PER.sugar4))
-Beeh.data$PER.sugar5<-as.numeric(as.character(Beeh.data$PER.sugar5))
-Beeh.data$PER.sugar6<-as.numeric(as.character(Beeh.data$PER.sugar6))
-Beeh.data$PER.sugar7<-as.numeric(as.character(Beeh.data$PER.sugar7))
-Beeh.data$PER.sugar.test<-as.numeric(as.character(Beeh.data$PER.sugar.test))
-Beeh.data$PER.water1<-as.numeric(as.character(Beeh.data$PER.water1))
-Beeh.data$PER.water2<-as.numeric(as.character(Beeh.data$PER.water2))
-Beeh.data$PER.water3<-as.numeric(as.character(Beeh.data$PER.water3))
-Beeh.data$PER.water4<-as.numeric(as.character(Beeh.data$PER.water4))
-Beeh.data$PER.water5<-as.numeric(as.character(Beeh.data$PER.water5))
-Beeh.data$PER.water6<-as.numeric(as.character(Beeh.data$PER.water6))
-Beeh.data$PER.water7<-as.numeric(as.character(Beeh.data$PER.water7))
-Beeh.data$PER.water.test<-as.numeric(as.character(Beeh.data$PER.water.test))
-str(Beeh.data)
+#PER variables must be numerical
+
+
+#Check brain weight
+colnames(Beeh.data)
+
+par(cex.axis=0.4)
+boxplot(Beeh.data$Brain.weight~Beeh.data$Species, las = 2)
+boxplot(Beeh.data$Brain.weight~Beeh.data$Genus, las = 2)
+par(cex.axis=1)
+
+
+View(subset(Beeh.data, subset = (Beeh.data$Species == "Andrena sp.")))
+View(subset(Beeh.data, subset = (Beeh.data$Genus == "Andrena")))
+
+#D41 Is within the boxplot at genus level, but not at indefined sp. level
+
+  
+View(subset(Beeh.data, subset = (Beeh.data$Species == "Bombus terrestris")))
+Bombus.terrestris<-subset(Beeh.data, subset = (Beeh.data$Species == "Bombus terrestris"))
+Bombus.terrestris.woqueen<-Bombus.terrestris[-which(Bombus.terrestris$Sex == "Queen"),]
+Bombus.terrestris.woqueen$Sex
+
+#Queen brain
+which(Bombus.terrestris$Sex == "Queen")
+Queen.bombus<-Bombus.terrestris[which(Bombus.terrestris$Sex == "Queen"),]
+Queen.bombus$Brain.weight
+which(is.na(Bombus.terrestris$Brain.weight))
+mean.bombus.brain<-mean(Bombus.terrestris.woqueen[-which(is.na(Bombus.terrestris.woqueen$Brain.weight)),]$Brain.weight)
+Bombus.terrestris.woqueen$IT..mm.
+mean.bombus.IT<-mean(Bombus.terrestris.woqueen$IT..mm.)
+#IT comparison
+mean.bombus.IT
+Queen.bombus$IT..mm.
+#Brain weight comparison 
+mean.bombus.brain
+Queen.bombus$Brain.weight
+#Here we have an interesting comparison between workers and males and queens,
+#Write this in the results!
+par(mfrow=c(1,2))
+boxplot(Bombus.terrestris.woqueen[-which(is.na(Bombus.terrestris.woqueen$Brain.weight)),]$Brain.weight,Queen.bombus$Brain.weight, names=c("Males and Workers", "Queen"), ylab="Brain weight", main = "Brain weight comparison \nBombus terrestris")
+boxplot(Bombus.terrestris.woqueen$IT..mm.,Queen.bombus$IT..mm., ylab="Intertegular distance", names=c("Males and Workers", "Queen"), main = "Intertegular distance comparison \nBombus terrestris")
+
+  
+#Check IT's
+View(subset(Beeh.data, subset = (Beeh.data$Species == "Xylocopa cantabrita")))
+boxplot(subset(Beeh.data, subset = (Beeh.data$Species == "Xylocopa cantabrita"))$IT..mm.~
+          subset(Beeh.data, subset = (Beeh.data$Species == "Xylocopa cantabrita"))$Species, las = 2)
+
+
+#Remove D57?
+View(subset(Beeh.data, subset = (Beeh.data$Species == "Osmia latreillei")))
 
 
 #PER.sugar data.frame
