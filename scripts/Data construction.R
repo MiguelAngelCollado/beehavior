@@ -2,6 +2,17 @@ getwd()
 library(dplyr)
 Beeh.data<-read.csv("data/Behavior comparison.csv")
 
+nrow(Beeh.data)
+#If we don't have the correct cue, we can't use that bee
+Beeh.data<-Beeh.data[-which(Beeh.data$Correct.cue == ""),]
+#If we don't have the genus, we can't use that bee
+Beeh.data<-Beeh.data[-which(is.na(Beeh.data$Genus)),]
+
+which(Beeh.data$Correct.cue == "")
+which(is.na(Beeh.data$Genus))
+
+
+
 #Explore and correct data----
 str(Beeh.data)
 Beeh.data$PER.sugar1<-as.numeric(as.character(Beeh.data$PER.sugar1))
@@ -23,20 +34,14 @@ Beeh.data$PER.water.test<-as.numeric(as.character(Beeh.data$PER.water.test))
 Beeh.data$Brain.weight<-as.numeric(as.character(Beeh.data$Brain.weight))
 Beeh.data$Experimental.tube<-as.factor(Beeh.data$Experimental.tube)
 str(Beeh.data)
-View(Beeh.data)
+nrow(Beeh.data)
 summary(Beeh.data$Place)
 summary(Beeh.data$Genus)
 summary(Beeh.data$Species)
 summary(Beeh.data$Sex)
 summary(Beeh.data$Age.signals)
 
-#If we don't have the correct cue, we can't use that bee
-Beeh.data<-Beeh.data[-which(Beeh.data$Correct.cue == ""),]
-#If we don't have the genus, we can't use that bee
-Beeh.data<-Beeh.data[-which(is.na(Beeh.data$Genus)),]
 
-which(Beeh.data$Correct.cue == "")
-which(is.na(Beeh.data$Genus))
 
 
 #How many individuals do we have?----
@@ -46,11 +51,13 @@ colnames(n.of.species)<-"individuals captured"
 #We export the list for the article
 getwd()
 setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior/figures")
-write.csv(n.of.species, "list of species.csv")
+# write.csv(n.of.species, "list of species.csv")
 setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior")
 
 nrow(Beeh.data)
 length(summary(Beeh.data$Species))
+Beeh.data$Species<-droplevels(Beeh.data$Species)
+
 
 which(summary(Beeh.data$Species)>2)
 which(summary(Beeh.data$Species)==2)
@@ -63,6 +70,8 @@ length(which(summary(Beeh.data$Species)<3))
 
 
 #Check brain weight
+
+#por aquí, explore outliers motherfucker----
 colnames(Beeh.data)
 
 par(cex.axis=0.4)
