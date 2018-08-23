@@ -71,7 +71,7 @@ length(which(summary(Beeh.data$Species)<3))
 
 #Check brain weight
 
-#por aquí, explore outliers motherfucker----
+
 colnames(Beeh.data)
 
 par(cex.axis=0.4)
@@ -83,7 +83,25 @@ par(cex.axis=1)
 View(subset(Beeh.data, subset = (Beeh.data$Species == "Andrena sp.")))
 View(subset(Beeh.data, subset = (Beeh.data$Genus == "Andrena")))
 
+View(subset(Beeh.data, subset = (Beeh.data$Genus == "Rhodanthidium")))
+
+
+
 #D41 Is within the boxplot at genus level, but not at indefined sp. level
+
+
+#Check IT's, por aqui----
+par(cex.axis=0.4)
+boxplot(Beeh.data$IT..mm.~Beeh.data$Species, las = 2)
+boxplot(Beeh.data$IT..mm.~Beeh.data$Genus, las = 2)
+par(cex.axis=1)
+
+
+
+
+View(subset(Beeh.data, subset = (Beeh.data$Species == "Xylocopa cantabrita")))
+boxplot(subset(Beeh.data, subset = (Beeh.data$Species == "Xylocopa cantabrita"))$IT..mm.~
+          subset(Beeh.data, subset = (Beeh.data$Species == "Xylocopa cantabrita"))$Species, las = 2)
 
   
 View(subset(Beeh.data, subset = (Beeh.data$Species == "Bombus terrestris")))
@@ -112,14 +130,8 @@ boxplot(Bombus.terrestris.woqueen[-which(is.na(Bombus.terrestris.woqueen$Brain.w
 boxplot(Bombus.terrestris.woqueen$IT..mm.,Queen.bombus$IT..mm., ylab="Intertegular distance", names=c("Males and Workers", "Queen"), main = "Intertegular distance comparison \nBombus terrestris")
 
   
-#Check IT's
-View(subset(Beeh.data, subset = (Beeh.data$Species == "Xylocopa cantabrita")))
-boxplot(subset(Beeh.data, subset = (Beeh.data$Species == "Xylocopa cantabrita"))$IT..mm.~
-          subset(Beeh.data, subset = (Beeh.data$Species == "Xylocopa cantabrita"))$Species, las = 2)
 
 
-#Remove D57?
-View(subset(Beeh.data, subset = (Beeh.data$Species == "Osmia latreillei")))
 
 
 #PER.sugar data.frame
