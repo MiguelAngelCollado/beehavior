@@ -1,13 +1,13 @@
 getwd()
 library(dplyr)
 Beeh.data<-read.csv("data/Behavior comparison.csv")
-
+Beeh.data$PER.sugar.test
 nrow(Beeh.data)
 #If we don't have the correct cue, we can't use that bee
 Beeh.data<-Beeh.data[-which(Beeh.data$Correct.cue == ""),]
 #If we don't have the genus, we can't use that bee
 Beeh.data<-Beeh.data[-which(is.na(Beeh.data$Genus)),]
-
+#Check
 which(Beeh.data$Correct.cue == "")
 which(is.na(Beeh.data$Genus))
 
@@ -42,8 +42,6 @@ summary(Beeh.data$Sex)
 summary(Beeh.data$Age.signals)
 
 
-
-
 #How many individuals do we have?----
 nrow(Beeh.data)
 n.of.species<-as.data.frame(summary(Beeh.data$Species))
@@ -54,9 +52,9 @@ setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior/figures")
 # write.csv(n.of.species, "list of species.csv")
 setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior")
 
-nrow(Beeh.data)
 length(summary(Beeh.data$Species))
 Beeh.data$Species<-droplevels(Beeh.data$Species)
+length(summary(Beeh.data$Species))
 
 
 which(summary(Beeh.data$Species)>2)
@@ -71,19 +69,16 @@ length(which(summary(Beeh.data$Species)<3))
 
 #Check brain weight
 
-
-colnames(Beeh.data)
-
 par(cex.axis=0.4)
 boxplot(Beeh.data$Brain.weight~Beeh.data$Species, las = 2)
 boxplot(Beeh.data$Brain.weight~Beeh.data$Genus, las = 2)
 par(cex.axis=1)
 
 
-View(subset(Beeh.data, subset = (Beeh.data$Species == "Andrena sp.")))
-View(subset(Beeh.data, subset = (Beeh.data$Genus == "Andrena")))
+subset(Beeh.data, subset = (Beeh.data$Species == "Andrena sp."))
+subset(Beeh.data, subset = (Beeh.data$Genus == "Andrena"))
 
-View(subset(Beeh.data, subset = (Beeh.data$Genus == "Rhodanthidium")))
+subset(Beeh.data, subset = (Beeh.data$Genus == "Rhodanthidium"))
 
 
 
@@ -109,7 +104,7 @@ Bombus.terrestris<-subset(Beeh.data, subset = (Beeh.data$Species == "Bombus terr
 Bombus.terrestris.woqueen<-Bombus.terrestris[-which(Bombus.terrestris$Sex == "Queen"),]
 Bombus.terrestris.woqueen$Sex
 
-#Queen brain
+#Queen brain----
 which(Bombus.terrestris$Sex == "Queen")
 Queen.bombus<-Bombus.terrestris[which(Bombus.terrestris$Sex == "Queen"),]
 Queen.bombus$Brain.weight
@@ -124,17 +119,15 @@ Queen.bombus$IT..mm.
 mean.bombus.brain
 Queen.bombus$Brain.weight
 #Here we have an interesting comparison between workers and males and queens,
-#Write this in the results!
 par(mfrow=c(1,2))
 boxplot(Bombus.terrestris.woqueen[-which(is.na(Bombus.terrestris.woqueen$Brain.weight)),]$Brain.weight,Queen.bombus$Brain.weight, names=c("Males and Workers", "Queen"), ylab="Brain weight", main = "Brain weight comparison \nBombus terrestris")
 boxplot(Bombus.terrestris.woqueen$IT..mm.,Queen.bombus$IT..mm., ylab="Intertegular distance", names=c("Males and Workers", "Queen"), main = "Intertegular distance comparison \nBombus terrestris")
+par(mfrow=c(1,1))
 
   
 
 
-
-
-#PER.sugar data.frame
+#Constructing data frames----
 Beeh.PER.sugar<-data.frame(Beeh.data$ID,
                            Beeh.data$Species,
                            Beeh.data$PER.sugar1,
@@ -147,16 +140,65 @@ Beeh.PER.sugar<-data.frame(Beeh.data$ID,
                            Beeh.data$PER.sugar.test)
 
 Beeh.PER.sugar<-rename(Beeh.PER.sugar, 
+                       ID = Beeh.data.ID, 
+                       Species = Beeh.data.Species,
+                       PER.sugar1 = Beeh.data.PER.sugar1,
+                       PER.sugar2 = Beeh.data.PER.sugar2,
+                       PER.sugar3 = Beeh.data.PER.sugar3,
+                       PER.sugar4 = Beeh.data.PER.sugar4,
+                       PER.sugar5 = Beeh.data.PER.sugar5,
+                       PER.sugar6 = Beeh.data.PER.sugar6,
+                       PER.sugar7 = Beeh.data.PER.sugar7,
+                       PER.sugar.test = Beeh.data.PER.sugar.test)
+
+
+Beeh.PER.water<-data.frame(Beeh.data$ID,
+                           Beeh.data$Species,
+                           Beeh.data$PER.water1,
+                           Beeh.data$PER.water2,
+                           Beeh.data$PER.water3,
+                           Beeh.data$PER.water4,
+                           Beeh.data$PER.water5,
+                           Beeh.data$PER.water6,
+                           Beeh.data$PER.water7,
+                           Beeh.data$PER.water.test)
+
+Beeh.PER.water<-rename(Beeh.PER.water, 
        ID = Beeh.data.ID, 
        Species = Beeh.data.Species,
-       PER.sugar1 = Beeh.data.PER.sugar1,
-       PER.sugar2 = Beeh.data.PER.sugar2,
-       PER.sugar3 = Beeh.data.PER.sugar3,
-       PER.sugar4 = Beeh.data.PER.sugar4,
-       PER.sugar5 = Beeh.data.PER.sugar5,
-       PER.sugar6 = Beeh.data.PER.sugar6,
-       PER.sugar7 = Beeh.data.PER.sugar7,
-       PER.sugar.test = Beeh.data.PER.sugar.test)
+       PER.water1 = Beeh.data.PER.water1,
+       PER.water2 = Beeh.data.PER.water2,
+       PER.water3 = Beeh.data.PER.water3,
+       PER.water4 = Beeh.data.PER.water4,
+       PER.water5 = Beeh.data.PER.water5,
+       PER.water6 = Beeh.data.PER.water6,
+       PER.water7 = Beeh.data.PER.water7,
+       PER.water.test = Beeh.data.PER.water.test)
+
+Beeh.success<-data.frame(Beeh.data$ID,
+                           Beeh.data$Species,
+                           Beeh.data$Success1,
+                           Beeh.data$Success2,
+                           Beeh.data$Success3,
+                           Beeh.data$Success4,
+                           Beeh.data$Success5,
+                           Beeh.data$Success6,
+                           Beeh.data$Success7,
+                           Beeh.data$Success.test)
+
+Beeh.PER.sugar<-rename(Beeh.PER.sugar, 
+                       ID = Beeh.data.ID, 
+                       Species = Beeh.data.Species,
+                       PER.sugar1 = Beeh.data.PER.sugar1,
+                       PER.sugar2 = Beeh.data.PER.sugar2,
+                       PER.sugar3 = Beeh.data.PER.sugar3,
+                       PER.sugar4 = Beeh.data.PER.sugar4,
+                       PER.sugar5 = Beeh.data.PER.sugar5,
+                       PER.sugar6 = Beeh.data.PER.sugar6,
+                       PER.sugar7 = Beeh.data.PER.sugar7,
+                       PER.sugar.test = Beeh.data.PER.sugar.test)
+
+
 
 #Let's transform data.frames to proper data form to extract slopes and do models
 Beeh.PER.sugar
@@ -184,11 +226,15 @@ useless<-which(is.na(Beeh.PER.sugar$PER.sugar1) &
                  is.na(Beeh.PER.sugar$PER.sugar.test))
 useless.bees<-Beeh.data[useless,]
 functional.bees<-Beeh.data[-useless,]
+sequedaronporelcamino<-which(functional.bees$Success.test == "")
+last.test.done.bees<-functional.bees[-sequedaronporelcamino,]
 
 #Data frame of bees that worked
 functional.bees
 #Data frame of bees that did not work
 useless.bees
+#Data frame of bees that did the last test
+last.test.done.bees
 
 #Let's identify which species did not work at all
 useless.bees
@@ -235,6 +281,7 @@ setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior")
 
 
 summary(Beeh.data$Species)
+
 #Graphs of every individual for PER sugar
 #Plot test
 plot(t(Beeh.PER.sugar[16,(3:10)]), xlab="Trial number", ylab = "Time")
@@ -293,3 +340,20 @@ par(mfrow=c(1,2))
 
 boxplot(Beeh.data$PER.sugar1,Beeh.data$PER.sugar2,Beeh.data$PER.sugar3,Beeh.data$PER.sugar4,Beeh.data$PER.sugar5,Beeh.data$PER.sugar6,Beeh.data$PER.sugar7,Beeh.data$PER.sugar.test, main= "PER sugar dispersion along trials", names = c("Trial 1","Trial 2","Trial 3","Trial 4","Trial 5","Trial 6","Trial 7","Test"), ylab="Time", ylim=c(0,max.xlim))
 boxplot(Beeh.data$PER.water1 ,Beeh.data$PER.water2,Beeh.data$PER.water3,Beeh.data$PER.water4,Beeh.data$PER.water5,Beeh.data$PER.water6,Beeh.data$PER.water7,Beeh.data$PER.water.test, main= "PER water dispersion along trials", names = c("Trial 1","Trial 2","Trial 3","Trial 4","Trial 5","Trial 6","Trial 7","Test"), ylab="Time", ylim=c(0,max.xlim))
+
+
+#Number of success of each individual
+corrected.data1<-last.test.done.bees
+
+#QUESTION: we count NA's as NO
+is.na(corrected.data1$Success.test)<-"No"
+corrected.data1$Success.test[is.na(corrected.data1$Success.test)] <- "No"
+corrected.data1$Success.test[is.na(corrected.data1$Success1)] <- "No"
+corrected.data1$Success.test[is.na(corrected.data1$Success2)] <- "No"
+corrected.data1$Success.test[is.na(corrected.data1$Success3)] <- "No"
+corrected.data1$Success.test[is.na(corrected.data1$Success4)] <- "No"
+corrected.data1$Success.test[is.na(corrected.data1$Success5)] <- "No"
+corrected.data1$Success.test[is.na(corrected.data1$Success6)] <- "No"
+corrected.data1$Success.test[is.na(corrected.data1$Success7)] <- "No"
+which(corrected.data1[,46]=="")
+View(corrected.data1)
