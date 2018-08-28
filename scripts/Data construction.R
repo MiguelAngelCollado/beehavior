@@ -9,6 +9,7 @@ Beeh.data<-Beeh.data[-which(is.na(Beeh.data$Genus)),]
 #Check
 which(Beeh.data$Correct.cue == "")
 which(is.na(Beeh.data$Genus))
+#The number of individuals identified is
 nrow(Beeh.data)
 
 
@@ -43,24 +44,22 @@ summary(Beeh.data$Age.signals)
 
 #How many individuals do we have?----
 nrow(Beeh.data)
-n.of.species<-as.data.frame(summary(Beeh.data$Species))
+Beeh.data$Species<-droplevels(Beeh.data$Species)
+n.of.species<-data.frame(summary(Beeh.data$Species))
 colnames(n.of.species)<-"individuals captured"
 #We export the list for the article
 getwd()
 setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior/figures")
-# write.csv(n.of.species, "list of species.csv")
+#write.csv(n.of.species, "list of species.csv")
 setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior")
 
-length(summary(Beeh.data$Species))
-Beeh.data$Species<-droplevels(Beeh.data$Species)
+summary(Beeh.data$Species)
 length(summary(Beeh.data$Species))
 
 
 which(summary(Beeh.data$Species)>2)
 which(summary(Beeh.data$Species)==2)
 which(summary(Beeh.data$Species)==1)
-#How many species have less than 3 individuals?
-length(which(summary(Beeh.data$Species)<3))
 
 #Data treatment and construction-----
 #PER variables must be numerical
@@ -72,14 +71,6 @@ par(cex.axis=0.4)
 boxplot(Beeh.data$Brain.weight~Beeh.data$Species, las = 2)
 boxplot(Beeh.data$Brain.weight~Beeh.data$Genus, las = 2)
 par(cex.axis=1)
-
-
-subset(Beeh.data, subset = (Beeh.data$Species == "Andrena sp."))
-subset(Beeh.data, subset = (Beeh.data$Genus == "Andrena"))
-
-subset(Beeh.data, subset = (Beeh.data$Genus == "Rhodanthidium"))
-
-
 
 #D41 Is within the boxplot at genus level, but not at indefined sp. level
 
@@ -226,7 +217,7 @@ useless.species
 summary(useless.species$Species)
 getwd()
 setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior/figures")
-write.csv(summary(useless.species$Species), "list of useless species.csv")
+#write.csv(summary(useless.species$Species), "list of useless species.csv")
 setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior")
 
 
@@ -264,38 +255,7 @@ plot(t(Beeh.PER.sugar[1,(3:10)]), xlab="Trial number", ylab = "Time", main=(Beeh
 lines(t(Beeh.PER.sugar[1,(3:10)]))
 
 
-#Some bees, spent too much time between tasting one cue and the other, let's explore
-#that
 
-max.xlim<-max(na.omit(c(Beeh.data$PER.sugar1,Beeh.data$PER.sugar2,Beeh.data$PER.sugar3,Beeh.data$PER.sugar4,Beeh.data$PER.sugar5,Beeh.data$PER.sugar6,Beeh.data$PER.sugar7,Beeh.data$PER.sugar.test,Beeh.data$PER.water1,Beeh.data$PER.water2,Beeh.data$PER.water3,Beeh.data$PER.water4,Beeh.data$PER.water5,Beeh.data$PER.water6,Beeh.data$PER.water7,Beeh.data$PER.water.test)))
-par(mfrow=c(2,2))
-plot(abs(Beeh.data$PER.sugar1 - Beeh.data$PER.water1), row.names(Beeh.data), xlab="Time difference between sugar PER and water PER", ylab="Individual", main = "Trial 1", ylim = c(0,nrow(Beeh.data)), xlim = c(0,max.xlim))
-abline(v = 120)
-plot(abs(Beeh.data$PER.sugar2 - Beeh.data$PER.water2), row.names(Beeh.data), xlab="Time difference between sugar PER and water PER", ylab="Individual", main = "Trial 2", ylim = c(0,nrow(Beeh.data)), xlim = c(0,max.xlim))
-abline(v = 120)
-plot(abs(Beeh.data$PER.sugar3 - Beeh.data$PER.water3), row.names(Beeh.data), xlab="Time difference between sugar PER and water PER", ylab="Individual", main = "Trial 3", ylim = c(0,nrow(Beeh.data)), xlim = c(0,max.xlim))
-abline(v = 120)
-plot(abs(Beeh.data$PER.sugar4 - Beeh.data$PER.water4), row.names(Beeh.data), xlab="Time difference between sugar PER and water PER", ylab="Individual", main = "Trial 4", ylim = c(0,nrow(Beeh.data)), xlim = c(0,max.xlim))
-abline(v = 120)
-plot(abs(Beeh.data$PER.sugar5 - Beeh.data$PER.water5), row.names(Beeh.data), xlab="Time difference between sugar PER and water PER", ylab="Individual", main = "Trial 5", ylim = c(0,nrow(Beeh.data)), xlim = c(0,max.xlim))
-abline(v = 120)
-plot(abs(Beeh.data$PER.sugar6 - Beeh.data$PER.water6), row.names(Beeh.data), xlab="Time difference between sugar PER and water PER", ylab="Individual", main = "Trial 6", ylim = c(0,nrow(Beeh.data)), xlim = c(0,max.xlim))
-abline(v = 120)
-plot(abs(Beeh.data$PER.sugar7 - Beeh.data$PER.water7), row.names(Beeh.data), xlab="Time difference between sugar PER and water PER", ylab="Individual", main = "Trial 7", ylim = c(0,nrow(Beeh.data)), xlim = c(0,max.xlim))
-abline(v = 120)
-plot(abs(Beeh.data$PER.sugar.test - Beeh.data$PER.water.test), row.names(Beeh.data), ylab="Individual", xlab="Time difference between sugar PER and water PER", main = "Test", ylim = c(0,nrow(Beeh.data)), xlim = c(0,max.xlim))
-abline(v = 120)
-par(mfrow=c(1,1))
-
-par(mfrow=c(1,2))
-
-boxplot(Beeh.data$PER.sugar1,Beeh.data$PER.sugar2,Beeh.data$PER.sugar3,Beeh.data$PER.sugar4,Beeh.data$PER.sugar5,Beeh.data$PER.sugar6,Beeh.data$PER.sugar7,Beeh.data$PER.sugar.test, main= "PER sugar dispersion along trials", names = c("Trial 1","Trial 2","Trial 3","Trial 4","Trial 5","Trial 6","Trial 7","Test"), ylab="Time", ylim=c(0,max.xlim))
-abline(h = 120)
-
-boxplot(Beeh.data$PER.water1 ,Beeh.data$PER.water2,Beeh.data$PER.water3,Beeh.data$PER.water4,Beeh.data$PER.water5,Beeh.data$PER.water6,Beeh.data$PER.water7,Beeh.data$PER.water.test, main= "PER water dispersion along trials", names = c("Trial 1","Trial 2","Trial 3","Trial 4","Trial 5","Trial 6","Trial 7","Test"), ylab="Time", ylim=c(0,max.xlim))
-abline(h = 120)
-
-par(mfrow=c(1,1))
 
 
 plot(c(mean(na.omit(Beeh.PER.sugar$PER.sugar1)),
@@ -397,6 +357,45 @@ Success8trials<-cbind(Success8trials,n.of.success)
 
 Success8trials
 
+
+############Let's add mean time of each trial
+
+PERsugar8trials<-data.frame(last.test.done.bees$ID,
+                           last.test.done.bees$Species,
+                           last.test.done.bees$PER.sugar1,
+                           last.test.done.bees$PER.sugar2,
+                           last.test.done.bees$PER.sugar3,
+                           last.test.done.bees$PER.sugar4,
+                           last.test.done.bees$PER.sugar5,
+                           last.test.done.bees$PER.sugar6,
+                           last.test.done.bees$PER.sugar7,
+                           last.test.done.bees$PER.sugar.test)
+
+PERsugar8trials<-rename(PERsugar8trials, 
+                       ID = last.test.done.bees.ID, 
+                       Species = last.test.done.bees.Species,
+                       PER.sugar1 = last.test.done.bees.PER.sugar1,
+                       PER.sugar2 = last.test.done.bees.PER.sugar2,
+                       PER.sugar3 = last.test.done.bees.PER.sugar3,
+                       PER.sugar4 = last.test.done.bees.PER.sugar4,
+                       PER.sugar5 = last.test.done.bees.PER.sugar5,
+                       PER.sugar6 = last.test.done.bees.PER.sugar6,
+                       PER.sugar7 = last.test.done.bees.PER.sugar7,
+                       PER.sugar.test = last.test.done.bees.PER.sugar.test)
+
+
+PERsugar8trials
+
+aggregate(PER.sugar1 ~ Species, FUN = mean, data = PERsugar8trials)
+aggregate(PER.sugar2 ~ Species, FUN = mean, data = PERsugar8trials)
+aggregate(PER.sugar3 ~ Species, FUN = mean, data = PERsugar8trials)
+aggregate(PER.sugar4 ~ Species, FUN = mean, data = PERsugar8trials)
+aggregate(PER.sugar5 ~ Species, FUN = mean, data = PERsugar8trials)
+aggregate(PER.sugar6 ~ Species, FUN = mean, data = PERsugar8trials)
+aggregate(PER.sugar7 ~ Species, FUN = mean, data = PERsugar8trials)
+aggregate(PER.sugar.test ~ Species, FUN = mean, data = PERsugar8trials)
+
+
 success.mean<-as.data.frame(aggregate(n.of.success ~ Species, FUN = mean, data = Success8trials))
 n<-as.data.frame(summary(Success8trials$Species))
 Species<-row.names(n)
@@ -404,6 +403,49 @@ n<-cbind(Species,n)
 success.mean<-merge(success.mean,n)
 colnames(success.mean)<-c("Species","mean.of.success","n.of.individuals")
 subset(success.mean, subset = (n.of.individuals > 2))
+
+
+PER.sugar1.mean<-as.data.frame(aggregate(PER.sugar1 ~ Species, FUN = mean, data = PERsugar8trials))
+PER.sugar2.mean<-as.data.frame(aggregate(PER.sugar2 ~ Species, FUN = mean, data = PERsugar8trials))
+PER.sugar3.mean<-as.data.frame(aggregate(PER.sugar3 ~ Species, FUN = mean, data = PERsugar8trials))
+PER.sugar4.mean<-as.data.frame(aggregate(PER.sugar4 ~ Species, FUN = mean, data = PERsugar8trials))
+PER.sugar5.mean<-as.data.frame(aggregate(PER.sugar5 ~ Species, FUN = mean, data = PERsugar8trials))
+PER.sugar6.mean<-as.data.frame(aggregate(PER.sugar6 ~ Species, FUN = mean, data = PERsugar8trials))
+PER.sugar7.mean<-as.data.frame(aggregate(PER.sugar7 ~ Species, FUN = mean, data = PERsugar8trials))
+PER.sugar.test.mean<-as.data.frame(aggregate(PER.sugar.test ~ Species, FUN = mean, data = PERsugar8trials))
+
+PERsugar.success.mean<-merge(merge(merge(merge(merge(merge(merge(merge(success.mean, PER.sugar1.mean, all.x = TRUE), PER.sugar2.mean, all.x = TRUE), PER.sugar3.mean, all.x = TRUE), PER.sugar4.mean, all.x = TRUE), PER.sugar5.mean, all.x = TRUE), PER.sugar6.mean, all.x = TRUE), PER.sugar7.mean, all.x = TRUE), PER.sugar.test.mean, all.x = TRUE)
+View(PERsugar.success.mean)
+
+#Boxplots PERsugar per species for every trial
+par(cex.axis=0.4)
+
+boxplot(PERsugar8trials$PER.sugar1 ~ PERsugar8trials$Species, las = 2, main= "PER sugar trial 1", ylab= "Time", ylim = c(0,170))
+boxplot(PERsugar8trials$PER.sugar2 ~ PERsugar8trials$Species, las = 2, main= "PER sugar trial 2", ylab= "Time", ylim = c(0,170))
+boxplot(PERsugar8trials$PER.sugar3 ~ PERsugar8trials$Species, las = 2, main= "PER sugar trial 3", ylab= "Time", ylim = c(0,170))
+boxplot(PERsugar8trials$PER.sugar4 ~ PERsugar8trials$Species, las = 2, main= "PER sugar trial 4", ylab= "Time", ylim = c(0,170))
+boxplot(PERsugar8trials$PER.sugar5 ~ PERsugar8trials$Species, las = 2, main= "PER sugar trial 5", ylab= "Time", ylim = c(0,170))
+boxplot(PERsugar8trials$PER.sugar6 ~ PERsugar8trials$Species, las = 2, main= "PER sugar trial 6", ylab= "Time", ylim = c(0,170))
+boxplot(PERsugar8trials$PER.sugar7 ~ PERsugar8trials$Species, las = 2, main= "PER sugar trial 7", ylab= "Time", ylim = c(0,170))
+boxplot(PERsugar8trials$PER.sugar.test ~ PERsugar8trials$Species, las = 2, main= "PER sugar test", ylab= "Time", ylim = c(0,170))
+
+par(cex.axis=1)
+
+
+#Dotchart for the means of the time until PER sugar for each species
+par(mfrow = c(3,4))
+
+for (n in 1:nrow(PERsugar.success.mean)) {
+plot(t(PERsugar.success.mean[n,(4:11)]), xlab="Trial number", ylab = "Time", main = (PERsugar.success.mean$Species[n]))
+lines(t(PERsugar.success.mean[n,(4:11)]))
+}
+
+par(mfrow = c(1,1))
+
+
+##################
+
+
 
 ##Time PER sugar - Time PER water----
 
