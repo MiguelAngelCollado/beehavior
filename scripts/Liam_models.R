@@ -1,9 +1,18 @@
 ##BEE_PHYLO STRUCTURE
+install.packages("MCMCglmm")
 library(MCMCglmm)
+install.packages("brms")
 library(brms)
-
+install.packages("data.tree")
+library(data.tree)
 ##LOAD IN YOUR TREE
-...
+############
+getwd()
+apoidea<-read.tree(file = "data/phylogeny_species_level.txt")
+
+cat(readLines("data/phylogeny_species_level.txt"), sep = "\n")
+
+############
 
 ##THIS USES A PHYLO OBJECT AS INPUT
 inv.phylo <- MCMCglmm::inverseA(bee.tree, nodes = "TIPS", scale = TRUE)

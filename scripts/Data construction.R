@@ -15,6 +15,7 @@ nrow(Beeh.data)
 
 
 #Explore and correct data----
+#We transform data as numeric
 str(Beeh.data)
 Beeh.data$PER.sugar1<-as.numeric(as.character(Beeh.data$PER.sugar1))
 Beeh.data$PER.sugar2<-as.numeric(as.character(Beeh.data$PER.sugar2))
@@ -210,7 +211,7 @@ for (n in 1:length(useless.species.list)) {
 temp<-subset(Beeh.data, subset = (Beeh.data$Species == (useless.species.list[n])))
 useless.species<-rbind(useless.species,temp)
   }
-
+useless.species
 #Here we have it
 useless.species<-droplevels.data.frame(useless.species)
 useless.species
