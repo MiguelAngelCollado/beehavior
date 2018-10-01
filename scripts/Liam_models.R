@@ -1,17 +1,28 @@
 ##BEE_PHYLO STRUCTURE
-install.packages("MCMCglmm")
 library(MCMCglmm)
-install.packages("brms")
 library(brms)
-install.packages("data.tree")
 library(data.tree)
+library('ctv') 
+install.views('Phylogenetics')
+update.views('Phylogenetics')
+
+#Librería para leer y modificar árboles filogenéticos
+library(ape)
+
 ##LOAD IN YOUR TREE
 ############
 getwd()
-apoidea<-read.tree(file = "data/phylogeny_species_level.txt")
+apoidea<-read.tree(file = "data/phylogeny_genus_level.txt")
+
+str(apoidea)
+apoidea[[1]]
+tree1<-apoidea[[1]]
+str(tree1)
+plot(apoidea)
 
 cat(readLines("data/phylogeny_species_level.txt"), sep = "\n")
 
+read.
 ############
 
 ##THIS USES A PHYLO OBJECT AS INPUT
