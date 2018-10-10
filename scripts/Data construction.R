@@ -2,6 +2,8 @@ getwd()
 library(dplyr)
 library(visreg)
 library(phytools)
+library(DHARMa)
+
 Beeh.data<-read.csv("data/Behavior comparison.csv")
 nrow(Beeh.data)
 #If we don't have the correct cue, we can't use that bee
@@ -383,13 +385,28 @@ Success8trials<-merge(Success8trials, brainandIT)
 
 #Success8 ~ brain/IT----
 
-plot(Success.test ~ brain.IT, data = Success8trials, main="Success related to brain size")
+#We filter NA in brain/IT
+Success8trials
+Success8trials.ITf
+str(Success8trials.ITf)
+Success8trials.ITf<-Success8trials[-which(is.na(Success8trials$brain.IT)),]
+View(Success8trials.ITf)
 
-lm.succ.brain.it<-lm(Success.test ~ brain.IT, data = Success8trials)
+plot(Success.test ~ brain.IT, data = Success8trials.ITf, main="Success related to brain size")
+
+lm.succ.brain.it<-lm(Success.test ~ brain.IT, data = Success8trials.ITf)
 summary(lm.succ.brain.it)
-succ.brain.it<-glm(Success.test ~ brain.IT, data = Success8trials, family = binomial)
+succ.brain.it<-glm(Success.test ~ brain.IT, data = Success8trials.ITf, family = binomial)
 summary(succ.brain.it)
 visreg(succ.brain.it)
+
+#Add residuals?------
+succ.brain.it$residuals
+succ.brain.it.res<-glm(Success8trials.ITf$Success.test ~ Success8trials.ITf$brain.IT + succ.brain.it$residuals, family = binomial)
+summary(succ.brain.it.res)
+
+#Residuals
+
 
 ############Let's add mean time of each trial
 
