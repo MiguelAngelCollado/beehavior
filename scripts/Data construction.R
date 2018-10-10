@@ -1,5 +1,7 @@
 getwd()
 library(dplyr)
+library(visreg)
+library(phytools)
 Beeh.data<-read.csv("data/Behavior comparison.csv")
 nrow(Beeh.data)
 #If we don't have the correct cue, we can't use that bee
@@ -152,9 +154,10 @@ Beeh.water.exploring<-data.frame(Beeh.data$ID,
                                  Beeh.data$Water.exploring7,
                                  Beeh.data$Water.exploring.test)
 
-
-
-
+Beeh.PER.sugar
+Beeh.PER.water
+Beeh.success
+Beeh.water.exploring
 #Number of individuals that reacted to the test#
 
 #Useless bees and useful bees----
@@ -273,7 +276,7 @@ plot(c(mean(na.omit(Beeh.PER.sugar$PER.sugar1)),
 nrow(last.test.done.bees)
 corrected.data1<-last.test.done.bees
 
-#QUESTION: we count NA's as NO
+#QUESTION: we count NA's as NO-----
 #Create a data.frame just to count successess
 Success8trials<-data.frame(last.test.done.bees$ID,
                            last.test.done.bees$Species,
@@ -355,9 +358,38 @@ n.of.success<-rowSums(Success8trials[3:10])
 
 
 Success8trials<-cbind(Success8trials,n.of.success)
+Success8trials$Species<-droplevels(Success8trials$Species)
+Success8trials<-as.factor(Success8trials)
+#por aqui-----
+str(Success8trials)
+Success8trials$Success.test<-as.factor(Success8trials$Success.test)
+Success8trials$Success1<-as.factor(Success8trials$Success1)
+Success8trials$Success2<-as.factor(Success8trials$Success2)
+Success8trials$Success3<-as.factor(Success8trials$Success3)
+Success8trials$Success4<-as.factor(Success8trials$Success4)
+Success8trials$Success5<-as.factor(Success8trials$Success5)
+Success8trials$Success6<-as.factor(Success8trials$Success6)
+Success8trials$Success7<-as.factor(Success8trials$Success7)
+str(Success8trials)
 
-Success8trials
+brainandIT<-data.frame(Beeh.data$ID,
+Beeh.data$Brain.weight,
+Beeh.data$IT..mm.)
+colnames(brainandIT)<-c("ID","Brain.weight","IT..mm.")
+brainandIT$brain.IT<-(brainandIT$Brain.weight/brainandIT$IT..mm.)
 
+
+Success8trials<-merge(Success8trials, brainandIT)
+
+#Success8 ~ brain/IT----
+
+plot(Success.test ~ brain.IT, data = Success8trials, main="Success related to brain size")
+
+lm.succ.brain.it<-lm(Success.test ~ brain.IT, data = Success8trials)
+summary(lm.succ.brain.it)
+succ.brain.it<-glm(Success.test ~ brain.IT, data = Success8trials, family = binomial)
+summary(succ.brain.it)
+visreg(succ.brain.it)
 
 ############Let's add mean time of each trial
 
@@ -448,7 +480,7 @@ par(mfrow = c(1,1))
 
 
 
-##Time PER sugar - Time PER water----
+##QUESTION: Time PER sugar - Time PER water----
 
 View(Beeh.data)
 
@@ -541,7 +573,7 @@ t1$tip.label
 
 
 # We drop tips except "Andrena", "Anthophora", "Apis", "Bombus", "Lasioglossum","Megachile", "Eucera", "Osmia", "Panurgus", "Rhodanthidium", "Xylocopa"
-# We don't have Flavipanurgus, Psithyrus
+# We don't have Flavipanurgus and Psithyrus
 tree1<-drop.tip(t1, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa", "Chilimelissa",    
                             "Hylaeus", "Amphylaeus", "Meroglossa", "Palaeorhiza",     
                             "Hyleoides", "Scrapter", "Euhesma", "Euryglossina",    
@@ -1558,6 +1590,29 @@ plot(tree8, main = "Tree 8")
 plot(tree9, main = "Tree 9")
 plot(tree10, main = "Tree 10")
 
+#We use tree2
+plot(tree2)
+treep<-tree2
+
+plot(treep, label.offset = 0.1, type = "cladogram")
+nodelabels()
+tiplabels()
+
+summary(Success8trials$Species)
+treep<-bind.tip(tree = treep, tip.label = "", where = , position = )
+treep<-bind.tip(tree = treep, tip.label = "Andrena", where = 11, position = 11)
+treep<-bind.tip(tree = treep, tip.label = "Andrena", where = 23)
+treep<-bind.tip(tree = treep, tip.label = "Andrena", where = 24)
+treep<-bind.tip(tree = treep, tip.label = "Andrena", where = 25)
+treep<-bind.tip(tree = treep, tip.label = "Andrena", where = 26)
+treep<-bind.tip(tree = treep, tip.label = "Andrena", where = 27)
+treep<-bind.tip(tree = treep, tip.label = "Bombus", where = 4)
+treep<-bind.tip(tree = treep, tip.label = "Bombus", where = 25)
+treep<-bind.tip(tree = treep, tip.label = "Lasioglossum", where = 29)
+treep<-bind.tip(tree = treep, tip.label = "Osmia", where = 2, position = 1)
+treep<-bind.tip(tree = treep, tip.label = "Panurgus", where = 33)
+
+plot(treep)
 
 
 
