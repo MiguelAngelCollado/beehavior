@@ -3,6 +3,9 @@ library(dplyr)
 library(visreg)
 library(phytools)
 library(DHARMa)
+library(effects)
+library(lme4)
+library(ggplot2)
 
 Beeh.data<-read.csv("data/Behavior comparison.csv")
 nrow(Beeh.data)
@@ -362,7 +365,7 @@ n.of.success<-rowSums(Success8trials[3:10])
 Success8trials<-cbind(Success8trials,n.of.success)
 Success8trials$Species<-droplevels(Success8trials$Species)
 Success8trials<-as.factor(Success8trials)
-#por aqui-----
+
 str(Success8trials)
 Success8trials$Success.test<-as.factor(Success8trials$Success.test)
 Success8trials$Success1<-as.factor(Success8trials$Success1)
@@ -387,25 +390,65 @@ Success8trials<-merge(Success8trials, brainandIT)
 
 #We filter NA in brain/IT
 Success8trials
-Success8trials.ITf
-str(Success8trials.ITf)
 Success8trials.ITf<-Success8trials[-which(is.na(Success8trials$brain.IT)),]
-View(Success8trials.ITf)
 
 plot(Success.test ~ brain.IT, data = Success8trials.ITf, main="Success related to brain size")
 
-lm.succ.brain.it<-lm(Success.test ~ brain.IT, data = Success8trials.ITf)
+lm.succ.brain.it<-lm(as.numeric(Success.test) ~ brain.IT, data = Success8trials.ITf)
 summary(lm.succ.brain.it)
+visreg(lm.succ.brain.it)
+
 succ.brain.it<-glm(Success.test ~ brain.IT, data = Success8trials.ITf, family = binomial)
 summary(succ.brain.it)
 visreg(succ.brain.it)
 
-#Add residuals?------
-succ.brain.it$residuals
-succ.brain.it.res<-glm(Success8trials.ITf$Success.test ~ Success8trials.ITf$brain.IT + succ.brain.it$residuals, family = binomial)
-summary(succ.brain.it.res)
+#Add random factor Species, still significant
+succ.brain.itr<-glmer(Success.test ~ brain.IT + (1|Species), data = Success8trials.ITf, family = binomial)
+summary(succ.brain.itr)
 
-#Residuals
+
+
+
+
+#Try it with Residuals
+
+#First we extract residuals from Brain ~ IT models
+plot(Brain.weight ~ IT..mm.,data = Success8trials.ITf)
+plot(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf)
+
+summary(lm(Brain.weight ~ IT..mm.,data = Success8trials.ITf))
+
+#The best model is the log-transformed
+BIT<-(lm(log(Brain.weight) ~ log(IT..mm.), data = Success8trials.ITf))
+summary(BIT)
+BIT$residuals
+
+#We do the model with the residuals, it is not correlated
+plot(Success8trials.ITf$Success.test ~ BIT$residuals)
+succ8.res<-glm(Success8trials.ITf$Success.test ~ BIT$residuals, family = binomial)
+summary(succ8.res)
+
+
+
+
+#Let's try to see two tendency lines for success and no success
+plot(Brain.weight ~ IT..mm. + Success.test, data = Success8trials.ITf, notch = TRUE)
+
+colnames(Success8trials.ITf)
+
+ggplot(Success8trials.ITf, aes(x=IT..mm., y=Brain.weight, color=Success.test)) +
+  geom_point() 
+
+ggplot(Success8trials.ITf, aes(x=IT..mm., y=Brain.weight, color=Success.test)) +
+  geom_point() +
+  geom_smooth(method=lm, aes(fill=Success.test))
+
+ggplot(Success8trials.ITf, aes(x=IT..mm., y=Brain.weight, color=Success.test)) +
+  geom_point() +
+  geom_smooth(method=lm, aes(fill=Success.test), se = FALSE)
+
+
+
 
 
 ############Let's add mean time of each trial
