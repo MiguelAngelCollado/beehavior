@@ -406,9 +406,7 @@ visreg(succ.brain.it)
 succ.brain.itr<-glmer(Success.test ~ brain.IT + (1|Species), data = Success8trials.ITf, family = binomial)
 summary(succ.brain.itr)
 
-
-
-
+#Anidar género dentro de especie (Genus|Species)
 
 #Try it with Residuals
 
@@ -425,9 +423,18 @@ BIT$residuals
 
 #We do the model with the residuals, it is not correlated
 plot(Success8trials.ITf$Success.test ~ BIT$residuals)
-succ8.res<-glm(Success8trials.ITf$Success.test ~ BIT$residuals, family = binomial)
+
+plot(as.numeric(Success8trials.ITf$Success.test) ~ BIT$residuals)
+
+#Controlar por especie
+Success8trials.ITf$residuals<-BIT$residuals
+
+
+succ8.res<-glm(Success.test ~ residuals, data = Success8trials.ITf, family = binomial)
 summary(succ8.res)
 
+
+visreg(succ8.res)
 
 
 
@@ -441,11 +448,12 @@ ggplot(Success8trials.ITf, aes(x=IT..mm., y=Brain.weight, color=Success.test)) +
 
 ggplot(Success8trials.ITf, aes(x=IT..mm., y=Brain.weight, color=Success.test)) +
   geom_point() +
-  geom_smooth(method=lm, aes(fill=Success.test))
+  geom_smooth(method=lm, aes(fill=Success.test), se = FALSE)
 
 ggplot(Success8trials.ITf, aes(x=IT..mm., y=Brain.weight, color=Success.test)) +
   geom_point() +
-  geom_smooth(method=lm, aes(fill=Success.test), se = FALSE)
+  geom_smooth(method=lm, aes(fill=Success.test))
+
 
 
 
