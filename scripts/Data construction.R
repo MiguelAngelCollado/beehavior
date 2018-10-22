@@ -580,6 +580,7 @@ par(cex.axis=1)
 
 
 #Dotchart for the means of the time until PER sugar for each species
+#We extract slopes of the lm as well and add it to the data.frame
 par(mfrow = c(3,4))
 slope<-NULL
 for (n in 1:nrow(PERsugar.success.mean)) {
@@ -592,23 +593,9 @@ slope[n]<-(lm(t(PERsugar.success.mean[n,(4:11)]) ~ test.numbers)$coefficients)[2
 par(mfrow = c(1,1))
 slope
 PERsugar.success.mean$slope<-slope
+
 #aqui----
 ###############Slopes####
-plot(t(PERsugar.success.mean[1,(4:11)]), xlab="Trial number", ylab = "Time", main = (PERsugar.success.mean$Species[n]))
-lines(t(PERsugar.success.mean[1,(4:11)]))
-
-PERsugar.success.mean[1,(4:11)]
-
-plot(t(PERsugar.success.mean[1,(4:11)]))
-test.numbers<-(1:8)
-
-lm(t(PERsugar.success.mean[1,(4:11)]) ~ test.numbers)$coefficients
-
-plot(t(PERsugar.success.mean[1,(4:11)]), main = PERsugar.success.mean[1,1])
-lines(t(PERsugar.success.mean[1,(4:11)]))
-abline(lm(t(PERsugar.success.mean[1,(4:11)]) ~ test.numbers), col="purple")
-
-dev.off()
 
 
 
