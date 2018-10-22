@@ -386,6 +386,20 @@ brainandIT$brain.IT<-(brainandIT$Brain.weight/brainandIT$IT..mm.)
 
 Success8trials<-merge(Success8trials, brainandIT)
 
+#There some species that did not showed interest for more than 3 times, we filter
+#Osmia caerulescens, Panurgus dargius, Eucera elongatula, Andrena labialis
+
+Success8trials<-Success8trials[-c(as.numeric(rownames(subset(Success8trials, subset = (Success8trials$Species == "Osmia caerulescens")))),
+                     as.numeric(rownames(subset(Success8trials, subset = (Success8trials$Species == "Panurgus dargius")))),
+                     as.numeric(rownames(subset(Success8trials, subset = (Success8trials$Species == "Eucera elongatula")))),
+                     as.numeric(rownames(subset(Success8trials, subset = (Success8trials$Species == "Andrena labialis"))))
+),]
+
+#E-----
+Genus<-data.frame(Beeh.data$ID,
+Beeh.data$Genus)
+colnames(Genus)<-(c("ID","Genus"))
+Success8trials<-merge(Success8trials,Genus)
 #Success8 ~ brain/IT----
 
 #We filter NA in brain/IT
@@ -393,6 +407,12 @@ Success8trials
 Success8trials.ITf<-Success8trials[-which(is.na(Success8trials$brain.IT)),]
 
 plot(Success.test ~ brain.IT, data = Success8trials.ITf, main="Success related to brain size")
+plot(as.numeric(Success.test) ~ brain.IT, data = Success8trials.ITf, main="Success related to brain size")
+fit <- glm(as.numeric(Success.test) ~ brain.IT, data = Success8trials.ITf)
+co <- coef(fit)
+abline(fit, col="blue", lwd=2)
+
+
 
 lm.succ.brain.it<-lm(as.numeric(Success.test) ~ brain.IT, data = Success8trials.ITf)
 summary(lm.succ.brain.it)
@@ -406,9 +426,16 @@ visreg(succ.brain.it)
 succ.brain.itr<-glmer(Success.test ~ brain.IT + (1|Species), data = Success8trials.ITf, family = binomial)
 summary(succ.brain.itr)
 
-#Anidar género dentro de especie (Genus|Species)
+#Add nested random factor Genus/Species, still significant
+succ.brain.itrg<-glmer(Success.test ~ brain.IT + (1|Genus) + (1|Species), data = Success8trials.ITf, family = binomial)
+summary(succ.brain.itrg)
 
-#Try it with Residuals
+succ.brain.itrg<-glmer(Success.test ~ brain.IT + (1|Genus/Species), data = Success8trials.ITf, family = binomial)
+summary(succ.brain.itrg)
+
+
+
+#Residuals
 
 #First we extract residuals from Brain ~ IT models
 plot(Brain.weight ~ IT..mm.,data = Success8trials.ITf)
@@ -421,10 +448,18 @@ BIT<-(lm(log(Brain.weight) ~ log(IT..mm.), data = Success8trials.ITf))
 summary(BIT)
 BIT$residuals
 
+
+
 #We do the model with the residuals, it is not correlated
 plot(Success8trials.ITf$Success.test ~ BIT$residuals)
 
 plot(as.numeric(Success8trials.ITf$Success.test) ~ BIT$residuals)
+
+fit <- glm(as.numeric(Success8trials.ITf$Success.test) ~ BIT$residuals)
+co <- coef(fit)
+abline(fit, col="blue", lwd=2)
+
+
 
 #Controlar por especie
 Success8trials.ITf$residuals<-BIT$residuals
@@ -432,16 +467,19 @@ Success8trials.ITf$residuals<-BIT$residuals
 
 succ8.res<-glm(Success.test ~ residuals, data = Success8trials.ITf, family = binomial)
 summary(succ8.res)
-
-
 visreg(succ8.res)
 
+succ8.ress<-glmer(Success.test ~ residuals + (1|Species), data = Success8trials.ITf, family = binomial)
+summary(succ8.ress)
+
+succ8.ressg<-glmer(Success.test ~ residuals + (1|Genus/Species), data = Success8trials.ITf, family = binomial)
+summary(succ8.ressg)
 
 
-#Let's try to see two tendency lines for success and no success
+
+#Let's see tendency lines for success and no success
 plot(Brain.weight ~ IT..mm. + Success.test, data = Success8trials.ITf, notch = TRUE)
 
-colnames(Success8trials.ITf)
 
 ggplot(Success8trials.ITf, aes(x=IT..mm., y=Brain.weight, color=Success.test)) +
   geom_point() 
@@ -453,9 +491,6 @@ ggplot(Success8trials.ITf, aes(x=IT..mm., y=Brain.weight, color=Success.test)) +
 ggplot(Success8trials.ITf, aes(x=IT..mm., y=Brain.weight, color=Success.test)) +
   geom_point() +
   geom_smooth(method=lm, aes(fill=Success.test))
-
-
-
 
 
 
