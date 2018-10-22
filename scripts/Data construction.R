@@ -395,7 +395,6 @@ Success8trials<-Success8trials[-c(as.numeric(rownames(subset(Success8trials, sub
                      as.numeric(rownames(subset(Success8trials, subset = (Success8trials$Species == "Andrena labialis"))))
 ),]
 
-#E-----
 Genus<-data.frame(Beeh.data$ID,
 Beeh.data$Genus)
 colnames(Genus)<-(c("ID","Genus"))
@@ -427,8 +426,6 @@ succ.brain.itr<-glmer(Success.test ~ brain.IT + (1|Species), data = Success8tria
 summary(succ.brain.itr)
 
 #Add nested random factor Genus/Species, still significant
-succ.brain.itrg<-glmer(Success.test ~ brain.IT + (1|Genus) + (1|Species), data = Success8trials.ITf, family = binomial)
-summary(succ.brain.itrg)
 
 succ.brain.itrg<-glmer(Success.test ~ brain.IT + (1|Genus/Species), data = Success8trials.ITf, family = binomial)
 summary(succ.brain.itrg)
@@ -494,6 +491,21 @@ ggplot(Success8trials.ITf, aes(x=IT..mm., y=Brain.weight, color=Success.test)) +
 
 
 
+brain.IT.succ<-lm(Brain.weight ~ IT..mm. * Success.test, data = Success8trials.ITf)
+summary(brain.IT.succ)
+
+#Slopes
+succ81<-subset(Success8trials.ITf, subset = (Success8trials.ITf$Success.test == "1"))
+succ80<-subset(Success8trials.ITf, subset = (Success8trials.ITf$Success.test == "0"))
+
+succ81.lm<-lm(Brain.weight ~ IT..mm., data = succ81)
+succ80.lm<-lm(Brain.weight ~ IT..mm., data = succ80)
+
+#Slope for the model with 
+succ81.lm$coefficients[2]
+succ80.lm$coefficients[2]
+
+
 ############Let's add mean time of each trial
 
 PERsugar8trials<-data.frame(last.test.done.bees$ID,
@@ -551,7 +563,6 @@ PER.sugar7.mean<-as.data.frame(aggregate(PER.sugar7 ~ Species, FUN = mean, data 
 PER.sugar.test.mean<-as.data.frame(aggregate(PER.sugar.test ~ Species, FUN = mean, data = PERsugar8trials))
 
 PERsugar.success.mean<-merge(merge(merge(merge(merge(merge(merge(merge(success.mean, PER.sugar1.mean, all.x = TRUE), PER.sugar2.mean, all.x = TRUE), PER.sugar3.mean, all.x = TRUE), PER.sugar4.mean, all.x = TRUE), PER.sugar5.mean, all.x = TRUE), PER.sugar6.mean, all.x = TRUE), PER.sugar7.mean, all.x = TRUE), PER.sugar.test.mean, all.x = TRUE)
-View(PERsugar.success.mean)
 
 #Boxplots PERsugar per species for every trial
 par(cex.axis=0.4)
@@ -570,16 +581,51 @@ par(cex.axis=1)
 
 #Dotchart for the means of the time until PER sugar for each species
 par(mfrow = c(3,4))
-
+slope<-NULL
 for (n in 1:nrow(PERsugar.success.mean)) {
 plot(t(PERsugar.success.mean[n,(4:11)]), xlab="Trial number", ylab = "Time", main = (PERsugar.success.mean$Species[n]))
 lines(t(PERsugar.success.mean[n,(4:11)]))
+abline(lm(t(PERsugar.success.mean[n,(4:11)]) ~ test.numbers), col="purple")
+slope[n]<-(lm(t(PERsugar.success.mean[n,(4:11)]) ~ test.numbers)$coefficients)[2]
+
 }
-
 par(mfrow = c(1,1))
+slope
+PERsugar.success.mean$slope<-slope
+#aqui----
+###############Slopes####
+plot(t(PERsugar.success.mean[1,(4:11)]), xlab="Trial number", ylab = "Time", main = (PERsugar.success.mean$Species[n]))
+lines(t(PERsugar.success.mean[1,(4:11)]))
+
+PERsugar.success.mean[1,(4:11)]
+
+plot(t(PERsugar.success.mean[1,(4:11)]))
+test.numbers<-(1:8)
+
+lm(t(PERsugar.success.mean[1,(4:11)]) ~ test.numbers)$coefficients
+
+plot(t(PERsugar.success.mean[1,(4:11)]), main = PERsugar.success.mean[1,1])
+lines(t(PERsugar.success.mean[1,(4:11)]))
+abline(lm(t(PERsugar.success.mean[1,(4:11)]) ~ test.numbers), col="purple")
+
+dev.off()
 
 
-##################
+
+par(mgp=c(2,1,0), mar=c(3,3,1,1))
+# Fit regression line
+require(stats)
+reg<-lm(dist ~ speed, data = cars)
+coeff=coefficients(reg)
+# equation of the line : 
+eq = paste0("y = ", round(coeff[2],1), "*x ", round(coeff[1],1))
+# plot
+plot(cars, main=eq)
+abline(reg, col="blue")
+
+
+
+
 
 
 
