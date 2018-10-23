@@ -399,6 +399,7 @@ Genus<-data.frame(Beeh.data$ID,
 Beeh.data$Genus)
 colnames(Genus)<-(c("ID","Genus"))
 Success8trials<-merge(Success8trials,Genus)
+#INDIVIDUAL LEVEL-----
 #Success8 ~ brain/IT----
 
 #We filter NA in brain/IT
@@ -432,7 +433,7 @@ summary(succ.brain.itrg)
 
 
 
-#Residuals
+#Success8 ~ brain/IT residuals----
 
 #First we extract residuals from Brain ~ IT models
 plot(Brain.weight ~ IT..mm.,data = Success8trials.ITf)
@@ -456,8 +457,6 @@ fit <- glm(as.numeric(Success8trials.ITf$Success.test) ~ BIT$residuals)
 co <- coef(fit)
 abline(fit, col="blue", lwd=2)
 
-
-
 #Controlar por especie
 Success8trials.ITf$residuals<-BIT$residuals
 
@@ -473,7 +472,7 @@ succ8.ressg<-glmer(Success.test ~ residuals + (1|Genus/Species), data = Success8
 summary(succ8.ressg)
 
 
-
+#Slope differences for success/no success----
 #Let's see tendency lines for success and no success
 plot(Brain.weight ~ IT..mm. + Success.test, data = Success8trials.ITf, notch = TRUE)
 
@@ -502,11 +501,16 @@ succ81.lm<-lm(Brain.weight ~ IT..mm., data = succ81)
 succ80.lm<-lm(Brain.weight ~ IT..mm., data = succ80)
 
 #Slope for the model with 
+#Slope for success
 succ81.lm$coefficients[2]
+#Slope for no success
 succ80.lm$coefficients[2]
 
 
-############Let's add mean time of each trial
+#SPECIES LEVEL-----
+#Data construction: means for each species dataframe-----
+
+#Let's add mean time of each trial
 
 PERsugar8trials<-data.frame(last.test.done.bees$ID,
                            last.test.done.bees$Species,
@@ -583,6 +587,7 @@ par(cex.axis=1)
 #We extract slopes of the lm as well and add it to the data.frame
 par(mfrow = c(3,4))
 slope<-NULL
+test.numbers<-(1:8)
 for (n in 1:nrow(PERsugar.success.mean)) {
 plot(t(PERsugar.success.mean[n,(4:11)]), xlab="Trial number", ylab = "Time", main = (PERsugar.success.mean$Species[n]))
 lines(t(PERsugar.success.mean[n,(4:11)]))
@@ -591,34 +596,67 @@ slope[n]<-(lm(t(PERsugar.success.mean[n,(4:11)]) ~ test.numbers)$coefficients)[2
 
 }
 par(mfrow = c(1,1))
-slope
 PERsugar.success.mean$slope<-slope
 
-#aqui----
-###############Slopes####
+#Let's add brain weight and IT to data
+cerebros.species<-data.frame<-(aggregate(Brain.weight ~ Species, FUN = mean, data = Beeh.data))
+ITs.species<-data.frame<-(aggregate(IT..mm. ~ Species, FUN = mean, data = Beeh.data))
 
+PERsugar.success.mean<-merge(merge(PERsugar.success.mean, cerebros.species), ITs.species)
+PERsugar.success.mean$brain.IT<-(PERsugar.success.mean$Brain.weight / PERsugar.success.mean$IT..mm.)
+#Add genus
+PERsugar.success.mean
+add.genus<-data.frame(Beeh.data$Genus,
+Beeh.data$Species)
+colnames(add.genus)<-c("Genus","Species")
+add.genus
+Add.genus<-unique(add.genus)
+Add.genus
+PERsugar.success.mean<-merge(PERsugar.success.mean, Add.genus)
+#Slope ~ brain.it----
+#(No correlation)
+plot(slope ~ brain.IT, data = PERsugar.success.mean)
+abline(lm(slope ~ brain.IT, data = PERsugar.success.mean), col="purple")
+summary(lm(slope ~ brain.IT, data = PERsugar.success.mean))
 
+#Number of success ~ brain.it----
+#(Correlation)
+str(PERsugar.success.mean)
+plot(mean.of.success ~ brain.IT, data = PERsugar.success.mean)
+abline(lm(mean.of.success ~ brain.IT, data = PERsugar.success.mean), col="purple")
 
-par(mgp=c(2,1,0), mar=c(3,3,1,1))
-# Fit regression line
-require(stats)
-reg<-lm(dist ~ speed, data = cars)
-coeff=coefficients(reg)
-# equation of the line : 
-eq = paste0("y = ", round(coeff[2],1), "*x ", round(coeff[1],1))
-# plot
-plot(cars, main=eq)
-abline(reg, col="blue")
+hist(PERsugar.success.mean$brain.IT)
+shapiro.test(PERsugar.success.mean$brain.IT)
+n.succ.brain.IT<-lm(mean.of.success ~ brain.IT, data = PERsugar.success.mean)
+summary(n.succ.brain.IT)
 
+#Control by genus? with this little n?
+summary(lmer(mean.of.success ~ brain.IT + (1|Genus), data = PERsugar.success.mean))
 
+n.succ.brain.IT.glm<-glm(mean.of.success ~ brain.IT, data = PERsugar.success.mean)
+summary(n.succ.brain.IT.glm)
 
+#residuals
+#residuals are ok
+plot(log(Brain.weight) ~ log(IT..mm.), data = PERsugar.success.mean)
+abline(lm(log(Brain.weight) ~ log(IT..mm.), data = PERsugar.success.mean), col = "purple")
 
+brain.it.species.lm<-lm(log(Brain.weight) ~ log(IT..mm.), data = PERsugar.success.mean)
+summary(brain.it.species.lm)
+
+brain.it.species.lm$residuals
+
+PERsugar.success.mean$residuals <- brain.it.species.lm$residuals
+
+meansucc.res<-lm(mean.of.success ~ residuals, data= PERsugar.success.mean)
+plot(mean.of.success ~ residuals, data= PERsugar.success.mean)
+abline(meansucc.res, col = "purple")
+summary(meansucc.res)
 
 
 
 ##QUESTION: Time PER sugar - Time PER water----
 
-View(Beeh.data)
 
 par(mfrow=c(2,2))
 plot((Beeh.data$PER.sugar1 - Beeh.data$PER.water1), row.names(Beeh.data), xlab="Time PER sugar minus time water PER", ylab="Individual", main = "Trial 1", ylim = c(0,nrow(Beeh.data)),xlim=c(-150,175))
