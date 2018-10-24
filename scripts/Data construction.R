@@ -6,6 +6,7 @@ library(DHARMa)
 library(effects)
 library(lme4)
 library(ggplot2)
+library(reshape2)
 
 Beeh.data<-read.csv("data/Behavior comparison.csv")
 nrow(Beeh.data)
@@ -18,6 +19,19 @@ which(Beeh.data$Correct.cue == "")
 which(is.na(Beeh.data$Genus))
 #The number of individuals identified is
 nrow(Beeh.data)
+
+which(Beeh.data$Genus == "Psithyrus")
+
+
+
+Beeh.data$Genus
+
+#Psithyrus is actually a Bombus
+Beeh.data$Genus<-replace(Beeh.data$Genus, Beeh.data$Genus == "Psithyrus", "Bombus")
+
+#We don't have flavipanurgus as a genus in the phylo tree, 
+#so we replace it with panurgus
+Beeh.data$Genus<-replace(Beeh.data$Genus, Beeh.data$Genus == "Flavipanurgus", "Panurgus")
 
 
 
@@ -506,6 +520,18 @@ succ81.lm$coefficients[2]
 #Slope for no success
 succ80.lm$coefficients[2]
 
+#success8 ~ n.of.success----
+#Does number of success conditionate success in the test?
+Success8trials.ITf$n.of.success
+Success8trials.ITf$Success.test
+plot(n.of.success ~ Success.test, notch = TRUE, data = Success8trials.ITf)
+plot(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf)
+abline(lm(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf), col="purple")
+
+summary(lm(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf))
+n.succ.succ8<-glm(Success.test ~ n.of.success, data = Success8trials.ITf, family = binomial)
+summary(n.succ.succ8)
+allEffects(n.succ.succ8)
 
 #SPECIES LEVEL-----
 #Data construction: means for each species dataframe-----
@@ -606,8 +632,7 @@ PERsugar.success.mean<-merge(merge(PERsugar.success.mean, cerebros.species), ITs
 PERsugar.success.mean$brain.IT<-(PERsugar.success.mean$Brain.weight / PERsugar.success.mean$IT..mm.)
 #Add genus
 PERsugar.success.mean
-add.genus<-data.frame(Beeh.data$Genus,
-Beeh.data$Species)
+add.genus<-data.frame(Beeh.data$Genus, Beeh.data$Species)
 colnames(add.genus)<-c("Genus","Species")
 add.genus
 Add.genus<-unique(add.genus)
@@ -652,6 +677,61 @@ meansucc.res<-lm(mean.of.success ~ residuals, data= PERsugar.success.mean)
 plot(mean.of.success ~ residuals, data= PERsugar.success.mean)
 abline(meansucc.res, col = "purple")
 summary(meansucc.res)
+
+Success8trials.ITf
+
+PER.sugar.test.mean
+#aqui-----
+#TimePER8 ~ trial * brain ----
+
+Success8trials.ITf
+
+#We take 
+ID<-Success8trials.ITf$ID 
+ID<-as.data.frame(ID)
+colnames(Beeh.data)
+PER.sugar<-data.frame(Beeh.data$ID, Beeh.data$PER.sugar1, Beeh.data$PER.sugar2, 
+           Beeh.data$PER.sugar3, Beeh.data$PER.sugar4, Beeh.data$PER.sugar5,
+           Beeh.data$PER.sugar6, Beeh.data$PER.sugar7)
+
+colnames(PER.sugar)<-c("ID", "PER.sugar1", "PER.sugar2", "PER.sugar3", "PER.sugar4",
+                       "PER.sugar5", "PER.sugar6", "PER.sugar7")
+
+#What should we do with NAs?
+ID.PER.sugar<-merge(ID, PER.sugar)
+
+melted.ID.PER.sugar<-melt(ID.PER.sugar)
+
+ID.test<-data.frame(Beeh.data$ID, Beeh.data$PER.sugar.test)
+colnames(ID.test)<-c("ID","PER.sugar.test")
+
+ID.PER.sugar<-merge(melted.ID.PER.sugar, ID.test)
+
+ID.PER.sugar
+
+rest<-data.frame(Success8trials.ITf$ID,Success8trials.ITf$Genus,Success8trials.ITf$Species, Success8trials.ITf$Brain.weight,
+Success8trials.ITf$IT..mm., Success8trials.ITf$brain.IT, Success8trials.ITf$residuals)
+
+colnames(rest)<-c("ID","Genus","Species","Brain.weight","IT..mm.","brain.IT","residuals")
+
+merge(ID.PER.sugar, rest)
+
+Success8trials.melt<-merge(ID.PER.sugar, rest)
+
+#Model for test~values
+succ8.values.brainIT<-lm(PER.sugar.test ~ value * brain.IT, data = Success8trials.melt)
+summary(succ8.values.brainIT)
+
+#Control by ID, something fails
+succ8.values.brainIT.ID<-lmer(PER.sugar.test ~ value * brain.IT + (1|ID), data = Success8trials.melt)
+summary(succ8.values.brainIT.ID)
+
+#Why the fixed effects are different?
+succ8.values.brainIT.sp<-lmer(PER.sugar.test ~ value * brain.IT + (1|Species), data = Success8trials.melt)
+summary(succ8.values.brainIT.sp)
+
+succ8.values.brainIT.g<-lmer(PER.sugar.test ~ value * brain.IT + (1|Genus), data = Success8trials.melt)
+summary(succ8.values.brainIT.g)
 
 
 
@@ -699,6 +779,8 @@ par(mfrow=c(1,1))
 
 #melt----
 #Let's transform data.frames to proper data form to extract slopes and do models
+
+
 Beeh.PER.sugar
 melt.Beeh.PER.sugar<-melt(Beeh.PER.sugar)
 colnames(melt.Beeh.PER.sugar)<-c("ID","Species","Trial","Time")
@@ -715,8 +797,8 @@ library(MCMCglmm)
 library(brms)
 library(data.tree)
 library('ctv') 
-install.views('Phylogenetics')
-update.views('Phylogenetics')
+#install.views('Phylogenetics')
+#update.views('Phylogenetics')
 
 #Librería para leer y modificar árboles filogenéticos
 library(ape)
@@ -743,11 +825,19 @@ str(t1)
 plot(t1)
 t1$tip.label
 
+PERsugar.success.mean
+unique(Success8trials.ITf$Genus)
+levels(Success8trials.ITf$Genus)
 
-
-
-# We drop tips except "Andrena", "Anthophora", "Apis", "Bombus", "Lasioglossum","Megachile", "Eucera", "Osmia", "Panurgus", "Rhodanthidium", "Xylocopa"
+# We drop tips except "Andrena", "Apis", "Bombus", "Lasioglossum", "Osmia",  "Rhodanthidium"
 # We don't have Flavipanurgus and Psithyrus
+
+"Anthophora"
+"Megachile"
+"Eucera"
+"Panurgus"
+"Xylocopa"
+
 tree1<-drop.tip(t1, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa", "Chilimelissa",    
                             "Hylaeus", "Amphylaeus", "Meroglossa", "Palaeorhiza",     
                             "Hyleoides", "Scrapter", "Euhesma", "Euryglossina",    
@@ -840,7 +930,11 @@ tree1<-drop.tip(t1, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa", "Chil
                             "Colletellus", "Protomorpha", "Goniocolletes", "Odontocolletes",  
                             "Glossurocolletes", "Reedapis", "Cephalocolletes", "Chilicolletes",   
                             "Paracolletes", "Trichocolletes", "Callomelitta", "Xanthocotelles",  
-                            "Hemicotelles", "Colletes", "Mourecotelles", "Chilicola"))
+                            "Hemicotelles", "Colletes", "Mourecotelles", "Chilicola","Anthophora",
+                            "Megachile",
+                            "Eucera",
+                            "Xylocopa"
+))
 
 tree1$tip.label
 
@@ -940,7 +1034,12 @@ tree2<-drop.tip(t2, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa", "Chil
                             "Ectemnius", "trigona", "Tetrapedia", "Neoceratina", "Nasutapis", "Apidae",        
                             "Toromelissa", "Lonchopria", "Baeocolletes", "Astata", "Stigmus",       
                             "Stangeella", "Crabro", "Pison", "Sphecius", "Zanysson", "Heterogyna", "Acamptopoeum", "Psaenythia",    
-                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides"))
+                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides","Anthophora",
+                            "Megachile",
+                            "Eucera",
+                            
+                            "Xylocopa"
+))
 
 tree2$tip.label
 
@@ -1040,7 +1139,11 @@ tree3<-drop.tip(t3, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa", "Chil
                             "Ectemnius", "trigona", "Tetrapedia", "Neoceratina", "Nasutapis", "Apidae",        
                             "Toromelissa", "Lonchopria", "Baeocolletes", "Astata", "Stigmus",       
                             "Stangeella", "Crabro", "Pison", "Sphecius", "Zanysson", "Heterogyna", "Acamptopoeum", "Psaenythia",    
-                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides"))
+                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides","Anthophora",
+                            "Megachile",
+                            "Eucera",
+                            "Xylocopa"
+))
 
 tree3$tip.label
 
@@ -1140,7 +1243,11 @@ tree4<-drop.tip(t4, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa", "Chil
                             "Ectemnius", "trigona", "Tetrapedia", "Neoceratina", "Nasutapis", "Apidae",        
                             "Toromelissa", "Lonchopria", "Baeocolletes", "Astata", "Stigmus",       
                             "Stangeella", "Crabro", "Pison", "Sphecius", "Zanysson", "Heterogyna", "Acamptopoeum", "Psaenythia",    
-                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides"))
+                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides","Anthophora",
+                            "Megachile",
+                            "Eucera",
+                            "Xylocopa"
+))
 
 tree4$tip.label
 
@@ -1240,7 +1347,11 @@ tree5<-drop.tip(t5, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa", "Chil
                             "Ectemnius", "trigona", "Tetrapedia", "Neoceratina", "Nasutapis", "Apidae",        
                             "Toromelissa", "Lonchopria", "Baeocolletes", "Astata", "Stigmus",       
                             "Stangeella", "Crabro", "Pison", "Sphecius", "Zanysson", "Heterogyna", "Acamptopoeum", "Psaenythia",    
-                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides"))
+                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides","Anthophora",
+                            "Megachile",
+                            "Eucera",
+                            "Xylocopa"
+))
 
 tree5$tip.label
 
@@ -1340,7 +1451,11 @@ tree6<-drop.tip(t6, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa", "Chil
                             "Ectemnius", "trigona", "Tetrapedia", "Neoceratina", "Nasutapis", "Apidae",        
                             "Toromelissa", "Lonchopria", "Baeocolletes", "Astata", "Stigmus",       
                             "Stangeella", "Crabro", "Pison", "Sphecius", "Zanysson", "Heterogyna", "Acamptopoeum", "Psaenythia",    
-                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides"))
+                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides","Anthophora",
+                            "Megachile",
+                            "Eucera",
+                            "Xylocopa"
+))
 
 tree6$tip.label
 
@@ -1441,7 +1556,11 @@ tree7<-drop.tip(t7, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa", "Chil
                             "Ectemnius", "trigona", "Tetrapedia", "Neoceratina", "Nasutapis", "Apidae",        
                             "Toromelissa", "Lonchopria", "Baeocolletes", "Astata", "Stigmus",       
                             "Stangeella", "Crabro", "Pison", "Sphecius", "Zanysson", "Heterogyna", "Acamptopoeum", "Psaenythia",    
-                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides"))
+                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides","Anthophora",
+                            "Megachile",
+                            "Eucera",
+                            "Xylocopa"
+))
 
 tree7$tip.label
 
@@ -1542,7 +1661,11 @@ tree8<-drop.tip(t8, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa", "Chil
                             "Ectemnius", "trigona", "Tetrapedia", "Neoceratina", "Nasutapis", "Apidae",        
                             "Toromelissa", "Lonchopria", "Baeocolletes", "Astata", "Stigmus",       
                             "Stangeella", "Crabro", "Pison", "Sphecius", "Zanysson", "Heterogyna", "Acamptopoeum", "Psaenythia",    
-                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides"))
+                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides","Anthophora",
+                            "Megachile",
+                            "Eucera",
+                            "Xylocopa"
+))
 
 
 tree8$tip.label
@@ -1643,7 +1766,11 @@ tree9<-drop.tip(t9, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa", "Chil
                             "Ectemnius", "trigona", "Tetrapedia", "Neoceratina", "Nasutapis", "Apidae",        
                             "Toromelissa", "Lonchopria", "Baeocolletes", "Astata", "Stigmus",       
                             "Stangeella", "Crabro", "Pison", "Sphecius", "Zanysson", "Heterogyna", "Acamptopoeum", "Psaenythia",    
-                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides"     
+                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides","Anthophora",
+                            "Megachile",
+                            "Panurgus",
+                            "Xylocopa"
+                            
                             ))
 
 tree9$tip.label
@@ -1744,7 +1871,11 @@ tree10<-drop.tip(t10, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa", "Ch
                               "Ectemnius", "trigona", "Tetrapedia", "Neoceratina", "Nasutapis", "Apidae",        
                               "Toromelissa", "Lonchopria", "Baeocolletes", "Astata", "Stigmus",       
                               "Stangeella", "Crabro", "Pison", "Sphecius", "Zanysson", "Heterogyna", "Acamptopoeum", "Psaenythia",    
-                              "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides"))
+                              "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides","Anthophora",
+                              "Megachile",
+                              "Eucera",
+                              "Xylocopa"
+))
 
 tree10$tip.label
 
@@ -1764,7 +1895,7 @@ plot(tree8, main = "Tree 8")
 plot(tree9, main = "Tree 9")
 plot(tree10, main = "Tree 10")
 
-#We use tree2
+#THIS NEEDS RE-DO----
 plot(tree2)
 treep<-tree2
 
