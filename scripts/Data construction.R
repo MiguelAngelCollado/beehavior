@@ -7,6 +7,11 @@ library(effects)
 library(lme4)
 library(ggplot2)
 library(reshape2)
+library(rsq)
+library(MuMlm)
+
+require(lme4)
+require(MuMIn)
 
 Beeh.data<-read.csv("data/Behavior comparison.csv")
 nrow(Beeh.data)
@@ -465,8 +470,6 @@ BIT<-(lm(log(Brain.weight) ~ log(IT..mm.), data = Success8trials.ITf))
 summary(BIT)
 BIT$residuals
 
-
-
 #We do the model with the residuals, it is not correlated
 plot(Success8trials.ITf$Success.test ~ BIT$residuals)
 
@@ -478,7 +481,6 @@ abline(fit, col="blue", lwd=2)
 
 #Controlar por especie
 Success8trials.ITf$residuals<-BIT$residuals
-
 
 succ8.res<-glm(Success.test ~ residuals, data = Success8trials.ITf, family = binomial)
 summary(succ8.res)
@@ -643,6 +645,15 @@ add.genus
 Add.genus<-unique(add.genus)
 Add.genus
 PERsugar.success.mean<-merge(PERsugar.success.mean, Add.genus)
+
+#success8 ~ brain.it----
+
+plot(PER.sugar.test ~ brain.IT, data = PERsugar.success.mean)
+abline(lm(PER.sugar.test ~ brain.IT, data = PERsugar.success.mean), col="purple")
+
+succ8sp.lm<-lm(PER.sugar.test ~ brain.IT, data = PERsugar.success.mean)
+summary(succ8sp.lm)
+
 #Slope ~ brain.it----
 #(No correlation)
 plot(slope ~ brain.IT, data = PERsugar.success.mean)
@@ -666,7 +677,11 @@ summary(lmer(mean.of.success ~ brain.IT + (1|Genus), data = PERsugar.success.mea
 n.succ.brain.IT.glm<-glm(mean.of.success ~ brain.IT, data = PERsugar.success.mean)
 summary(n.succ.brain.IT.glm)
 
-#residuals
+lm(mean.of.success ~ residuals, data= PERsugar.success.mean)
+
+
+
+#residuals----
 #residuals are ok
 plot(log(Brain.weight) ~ log(IT..mm.), data = PERsugar.success.mean)
 abline(lm(log(Brain.weight) ~ log(IT..mm.), data = PERsugar.success.mean), col = "purple")
@@ -741,8 +756,7 @@ summary(succ8.values.brainIT.sp)
 succ8.values.brainIT.g<-lmer(PER.sugar.test ~ value * brain.IT + (1|Genus), data = Success8trials.melt)
 summary(succ8.values.brainIT.g)
 
-rsn.q
-
+r.squaredGLMM(succ8.values.brainIT.g)
 ##QUESTION: Time PER sugar - Time PER water----
 
 
@@ -1930,6 +1944,7 @@ plot(treep)
 
 
 #Queen brain----
+Bombus.terrestris<-(subset(Beeh.data, subset = (Beeh.data$Species == "Bombus terrestris")))
 which(Bombus.terrestris$Sex == "Queen")
 Queen.bombus<-Bombus.terrestris[which(Bombus.terrestris$Sex == "Queen"),]
 Queen.bombus$Brain.weight
