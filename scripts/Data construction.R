@@ -446,12 +446,17 @@ succ.brain.itrg<-glmer(Success.test ~ brain.IT + (1|Genus/Species), data = Succe
 summary(succ.brain.itrg)
 
 
-
+dev.off()
 #Success8 ~ brain/IT residuals----
 
 #First we extract residuals from Brain ~ IT models
-plot(Brain.weight ~ IT..mm.,data = Success8trials.ITf)
-plot(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf)
+par(mfrow=c(2,1))
+plot(Brain.weight ~ IT..mm.,data = Success8trials.ITf, xlab="Body Size")
+abline(lm(Brain.weight ~ IT..mm.,data = Success8trials.ITf), col="pink")
+plot(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf, xlab="log(Body Size)")
+abline(lm(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf), col="pink")
+par(mfrow=c(1,1))
+
 
 summary(lm(Brain.weight ~ IT..mm.,data = Success8trials.ITf))
 
@@ -723,6 +728,9 @@ succ8.values.brainIT<-lm(PER.sugar.test ~ value * brain.IT, data = Success8trial
 summary(succ8.values.brainIT)
 
 #Control by ID, something fails
+Success8trials.melt$PER.sugar.test
+Success8trials.melt$value
+View(Success8trials.melt)
 succ8.values.brainIT.ID<-lmer(PER.sugar.test ~ value * brain.IT + (1|ID), data = Success8trials.melt)
 summary(succ8.values.brainIT.ID)
 
@@ -733,7 +741,7 @@ summary(succ8.values.brainIT.sp)
 succ8.values.brainIT.g<-lmer(PER.sugar.test ~ value * brain.IT + (1|Genus), data = Success8trials.melt)
 summary(succ8.values.brainIT.g)
 
-
+rsn.q
 
 ##QUESTION: Time PER sugar - Time PER water----
 
@@ -804,7 +812,6 @@ library('ctv')
 library(ape)
 
 #LOAD IN YOUR TREE, by Hedtke et al 2013
-getwd()
 apoidea<-read.tree(file = "data/phylogeny_genus_level.txt")
 
 #We have 10 possible trees
@@ -821,6 +828,7 @@ t8<-apoidea[[8]]
 t9<-apoidea[[9]]
 t10<-apoidea[[10]]
 
+#Structure, plot and genus of the phylo tree
 str(t1)
 plot(t1)
 t1$tip.label
@@ -830,7 +838,7 @@ unique(Success8trials.ITf$Genus)
 levels(Success8trials.ITf$Genus)
 
 # We drop tips except "Andrena", "Apis", "Bombus", "Lasioglossum", "Osmia",  "Rhodanthidium"
-# We don't have Flavipanurgus and Psithyrus
+
 
 "Anthophora"
 "Megachile"
