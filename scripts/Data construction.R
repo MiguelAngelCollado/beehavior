@@ -426,20 +426,26 @@ Success8trials
 Success8trials.ITf<-Success8trials[-which(is.na(Success8trials$brain.IT)),]
 
 plot(Success.test ~ brain.IT, data = Success8trials.ITf, main="Success related to brain size")
-plot(as.numeric(Success.test) ~ brain.IT, data = Success8trials.ITf, main="Success related to brain size")
-fit <- glm(as.numeric(Success.test) ~ brain.IT, data = Success8trials.ITf)
-co <- coef(fit)
-abline(fit, col="blue", lwd=2)
 
+#Create new variable for graphs only
+temp<-as.numeric(Success8trials.ITf$Success.test)
+temp<-replace(temp, temp == 1, 0)
+temp<-replace(temp, temp == 2, 1)
+Success8trials.ITf$Success.test.as.numeric<-temp
+
+#plot
+plot(Success.test.as.numeric ~ brain.IT, data = Success8trials.ITf, main="Success related to brain size", xlab="Encephalization (Brain/IT)", ylab = "Success learning test")
+xweight <- seq(0, 2, 0.01)
+fit <- glm(Success.test ~ brain.IT, family = binomial, data = Success8trials.ITf)
+yweight <- predict(fit, list(brain.IT = xweight), type="response")
+lines(xweight, yweight)
 
 
 lm.succ.brain.it<-lm(as.numeric(Success.test) ~ brain.IT, data = Success8trials.ITf)
 summary(lm.succ.brain.it)
-visreg(lm.succ.brain.it)
 
 succ.brain.it<-glm(Success.test ~ brain.IT, data = Success8trials.ITf, family = binomial)
 summary(succ.brain.it)
-visreg(succ.brain.it)
 
 #Add random factor Species, still significant
 succ.brain.itr<-glmer(Success.test ~ brain.IT + (1|Species), data = Success8trials.ITf, family = binomial)
@@ -447,11 +453,11 @@ summary(succ.brain.itr)
 
 #Add nested random factor Genus/Species, still significant
 
+#result
 succ.brain.itrg<-glmer(Success.test ~ brain.IT + (1|Genus/Species), data = Success8trials.ITf, family = binomial)
 summary(succ.brain.itrg)
 
 
-dev.off()
 #Success8 ~ brain/IT residuals----
 
 #First we extract residuals from Brain ~ IT models
@@ -472,23 +478,29 @@ BIT$residuals
 
 #We do the model with the residuals, it is not correlated
 plot(Success8trials.ITf$Success.test ~ BIT$residuals)
+Success8trials.ITf$residuals<-BIT$residuals
 
-plot(as.numeric(Success8trials.ITf$Success.test) ~ BIT$residuals)
+#plot
+plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf)
+min(Success8trials.ITf$residuals)
+max(Success8trials.ITf$residuals)
+xweight <- seq(-1, 2, 0.01)
+fit <- glm(Success.test ~ residuals, family = binomial, data = Success8trials.ITf)
+yweight <- predict(fit, list(residuals = xweight), type="response")
+lines(xweight, yweight)
 
-fit <- glm(as.numeric(Success8trials.ITf$Success.test) ~ BIT$residuals)
-co <- coef(fit)
-abline(fit, col="blue", lwd=2)
+
+summary(glm(as.numeric(Success8trials.ITf$Success.test) ~ BIT$residuals))
 
 #Controlar por especie
-Success8trials.ITf$residuals<-BIT$residuals
 
 succ8.res<-glm(Success.test ~ residuals, data = Success8trials.ITf, family = binomial)
 summary(succ8.res)
-visreg(succ8.res)
 
 succ8.ress<-glmer(Success.test ~ residuals + (1|Species), data = Success8trials.ITf, family = binomial)
 summary(succ8.ress)
 
+#result
 succ8.ressg<-glmer(Success.test ~ residuals + (1|Genus/Species), data = Success8trials.ITf, family = binomial)
 summary(succ8.ressg)
 
@@ -509,10 +521,27 @@ ggplot(Success8trials.ITf, aes(x=IT..mm., y=Brain.weight, color=Success.test)) +
   geom_point() +
   geom_smooth(method=lm, aes(fill=Success.test))
 
+#Linearlized with log
+ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=Success.test)) +
+  geom_point() 
 
+ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=Success.test)) +
+  geom_point() +
+  geom_smooth(method=lm, aes(fill=Success.test), se = FALSE)
+
+ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=Success.test)) +
+  geom_point() +
+  geom_smooth(method=lm, aes(fill=Success.test))
+
+brain.IT.succ.sp<-lmer(log(Brain.weight) ~ log(IT..mm.) * Success.test + (1|Species), data = Success8trials.ITf)
+summary(brain.IT.succ.sp)
+
+#################
 
 brain.IT.succ<-lm(Brain.weight ~ IT..mm. * Success.test, data = Success8trials.ITf)
 summary(brain.IT.succ)
+brain.IT.succ.sp<-lmer(Brain.weight ~ IT..mm. * Success.test + (1|Species), data = Success8trials.ITf)
+summary(brain.IT.succ.sp)
 
 #Slopes
 succ81<-subset(Success8trials.ITf, subset = (Success8trials.ITf$Success.test == "1"))
@@ -527,10 +556,28 @@ succ81.lm$coefficients[2]
 #Slope for no success
 succ80.lm$coefficients[2]
 
+#n.of.success ~~ brain/IT
+hist(Success8trials.ITf$n.of.success)
+plot(n.of.success~brain.IT,data = Success8trials.ITf)
+abline(lm(n.of.success~brain.IT,data = Success8trials.ITf), col = "purple")
+n.succ.brainit.lm<-lm(n.of.success~brain.IT,data = Success8trials.ITf)
+summary(n.succ.brainit.lm)
+#control by species and genus
+n.succ.brainit.lm.sp<-lmer(n.of.success~brain.IT + (1|Species),data = Success8trials.ITf)
+summary(n.succ.brainit.lm.sp)
+
+n.succ.brainit.lm.g<-lmer(n.of.success~brain.IT + (1|Genus),data = Success8trials.ITf)
+summary(n.succ.brainit.lm.g)
+
+
+#residuals are bad
+n.succ.res.lm<-lm(n.of.success~residuals,data = Success8trials.ITf)
+summary(n.succ.res.lm)
+
+
+
 #success8 ~ n.of.success----
 #Does number of success conditionate success in the test?
-Success8trials.ITf$n.of.success
-Success8trials.ITf$Success.test
 plot(n.of.success ~ Success.test, notch = TRUE, data = Success8trials.ITf)
 plot(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf)
 abline(lm(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf), col="purple")
@@ -538,7 +585,7 @@ abline(lm(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf), c
 summary(lm(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf))
 n.succ.succ8<-glm(Success.test ~ n.of.success, data = Success8trials.ITf, family = binomial)
 summary(n.succ.succ8)
-allEffects(n.succ.succ8)
+allEffects(n.succ.succ8, xlevels=list(n.of.success=c(0:8)))
 
 #SPECIES LEVEL-----
 #Data construction: means for each species dataframe-----
@@ -654,6 +701,8 @@ abline(lm(PER.sugar.test ~ brain.IT, data = PERsugar.success.mean), col="purple"
 succ8sp.lm<-lm(PER.sugar.test ~ brain.IT, data = PERsugar.success.mean)
 summary(succ8sp.lm)
 
+#(add genus)
+
 #Slope ~ brain.it----
 #(No correlation)
 plot(slope ~ brain.IT, data = PERsugar.success.mean)
@@ -757,6 +806,8 @@ succ8.values.brainIT.g<-lmer(PER.sugar.test ~ value * brain.IT + (1|Genus), data
 summary(succ8.values.brainIT.g)
 
 r.squaredGLMM(succ8.values.brainIT.g)
+#(Controlar por todo a la vez)
+
 ##QUESTION: Time PER sugar - Time PER water----
 
 
@@ -841,7 +892,7 @@ t7<-apoidea[[7]]
 t8<-apoidea[[8]]
 t9<-apoidea[[9]]
 t10<-apoidea[[10]]
-
+plot(t1)
 #Structure, plot and genus of the phylo tree
 str(t1)
 plot(t1)
