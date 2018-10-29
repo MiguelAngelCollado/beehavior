@@ -418,7 +418,7 @@ Genus<-data.frame(Beeh.data$ID,
 Beeh.data$Genus)
 colnames(Genus)<-(c("ID","Genus"))
 Success8trials<-merge(Success8trials,Genus)
-#INDIVIDUAL LEVEL-----
+#SUCCESS 8 BLOCK-----
 #Success8 ~ brain/IT----
 
 #We filter NA in brain/IT
@@ -481,7 +481,7 @@ plot(Success8trials.ITf$Success.test ~ BIT$residuals)
 Success8trials.ITf$residuals<-BIT$residuals
 
 #plot
-plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf)
+plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf, main= "Learning success related to IT/Brain residuals", ylab="No success / Success", xlab= "IT/Brain residuals")
 min(Success8trials.ITf$residuals)
 max(Success8trials.ITf$residuals)
 xweight <- seq(-1, 2, 0.01)
@@ -507,8 +507,7 @@ summary(succ8.ressg)
 
 #Slope differences for success/no success----
 #Let's see tendency lines for success and no success
-plot(Brain.weight ~ IT..mm. + Success.test, data = Success8trials.ITf, notch = TRUE)
-
+plot(Brain.weight ~ Success.test, data = Success8trials.ITf, notch = TRUE)
 
 ggplot(Success8trials.ITf, aes(x=IT..mm., y=Brain.weight, color=Success.test)) +
   geom_point() 
@@ -536,13 +535,6 @@ ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=Succes
 brain.IT.succ.sp<-lmer(log(Brain.weight) ~ log(IT..mm.) * Success.test + (1|Species), data = Success8trials.ITf)
 summary(brain.IT.succ.sp)
 
-#################
-
-brain.IT.succ<-lm(Brain.weight ~ IT..mm. * Success.test, data = Success8trials.ITf)
-summary(brain.IT.succ)
-brain.IT.succ.sp<-lmer(Brain.weight ~ IT..mm. * Success.test + (1|Species), data = Success8trials.ITf)
-summary(brain.IT.succ.sp)
-
 #Slopes
 succ81<-subset(Success8trials.ITf, subset = (Success8trials.ITf$Success.test == "1"))
 succ80<-subset(Success8trials.ITf, subset = (Success8trials.ITf$Success.test == "0"))
@@ -556,7 +548,18 @@ succ81.lm$coefficients[2]
 #Slope for no success
 succ80.lm$coefficients[2]
 
-#n.of.success ~~ brain/IT
+
+#Only IT.mm. is significative, logically
+brain.IT.succ.sp<-lmer(log(Brain.weight) ~ log(IT..mm.) * Success.test + (1|Genus/Species), data = Success8trials.ITf)
+summary(brain.IT.succ.sp)
+
+
+
+
+
+
+#N.OF.SUCCESS BLOCK-----
+#n.of.success ~ brain/IT-----
 hist(Success8trials.ITf$n.of.success)
 plot(n.of.success~brain.IT,data = Success8trials.ITf)
 abline(lm(n.of.success~brain.IT,data = Success8trials.ITf), col = "purple")
@@ -566,26 +569,114 @@ summary(n.succ.brainit.lm)
 n.succ.brainit.lm.sp<-lmer(n.of.success~brain.IT + (1|Species),data = Success8trials.ITf)
 summary(n.succ.brainit.lm.sp)
 
-n.succ.brainit.lm.g<-lmer(n.of.success~brain.IT + (1|Genus),data = Success8trials.ITf)
+#Brain.IT is significative related to n.of.success
+n.succ.brainit.lm.g<-lmer(n.of.success~brain.IT + (1|Genus/Species),data = Success8trials.ITf)
 summary(n.succ.brainit.lm.g)
 
 
-#residuals are bad
+
+
+
+
+
+#n.of.success ~ residuals------
+plot(n.of.success~residuals,data = Success8trials.ITf, main= "Number of learning success compared with residuals", xlab="IT/Brain residuals", ylab="Number of success")
+abline(lm(n.of.success~residuals,data = Success8trials.ITf), col = "purple")
+
+
 n.succ.res.lm<-lm(n.of.success~residuals,data = Success8trials.ITf)
 summary(n.succ.res.lm)
 
+#No effects
+n.succ.res.lmer<-lmer(n.of.success~residuals + (1|Genus/Species),data = Success8trials.ITf)
+summary(n.succ.res.lmer)
 
 
-#success8 ~ n.of.success----
-#Does number of success conditionate success in the test?
-plot(n.of.success ~ Success.test, notch = TRUE, data = Success8trials.ITf)
-plot(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf)
-abline(lm(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf), col="purple")
 
-summary(lm(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf))
-n.succ.succ8<-glm(Success.test ~ n.of.success, data = Success8trials.ITf, family = binomial)
-summary(n.succ.succ8)
-allEffects(n.succ.succ8, xlevels=list(n.of.success=c(0:8)))
+#Slope differences for number of success----
+
+ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=as.factor(n.of.success))) +
+  geom_point() 
+
+
+ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=as.factor(n.of.success))) +
+  geom_point() +
+  geom_smooth(method=lm, aes(fill=as.factor(n.of.success)), se = FALSE)
+
+ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=as.factor(n.of.success))) +
+  geom_point() +
+  geom_smooth(method=lm, aes(fill=as.factor(n.of.success)))
+
+
+brain.IT.succ.sp<-lmer(log(Brain.weight) ~ log(IT..mm.) * n.of.success + (1|Species), data = Success8trials.ITf)
+summary(brain.IT.succ.sp)
+
+#effects only for IT.mm
+brain.IT.succ.spg<-lmer(log(Brain.weight) ~ log(IT..mm.) * n.of.success + (1|Genus/Species), data = Success8trials.ITf)
+summary(brain.IT.succ.spg)
+
+
+
+
+
+
+
+
+#PER.SUGAR.TEST.BLOCK----
+#PER.sugar.test ~ Brain.IT----
+PER.sugar.test.censored<-replace(Beeh.data$PER.sugar.test, is.na(Beeh.data$PER.sugar.test), 121)
+
+PER.merge<-data.frame(Beeh.data$ID,
+Beeh.data$PER.sugar.test,
+PER.sugar.test.censored)
+colnames(PER.merge)<-c("ID","PER.sugar.test","PER.sugar.test.censored")
+
+Success8trials.ITf<-merge(Success8trials.ITf, PER.merge)
+
+#Acumulation in low time until success
+par(mfrow=c(2,1))
+plot(PER.sugar.test ~ brain.IT,data = Success8trials.ITf, main= "Time until success ~ Brain.IT", ylim=c(0,120))
+abline(lm(PER.sugar.test ~ brain.IT,data = Success8trials.ITf), col = "purple")
+plot(PER.sugar.test.censored ~ brain.IT,data = Success8trials.ITf, main= "Censored time until success ~ Brain.IT", ylim=c(0,120))
+abline(lm(PER.sugar.test.censored ~ brain.IT,data = Success8trials.ITf), col = "purple")
+par(mfrow=c(1,1))
+
+PERsugar.lm<-lm(PER.sugar.test ~ brain.IT,data = Success8trials.ITf)
+summary(PERsugar.lm)
+
+#There is some effect, yay
+
+PERsugarc.lmer<-lmer(PER.sugar.test.censored ~ brain.IT + (1|Genus/Species),data = Success8trials.ITf)
+summary(PERsugarc.lmer)
+
+
+PERsugar.lmer<-lmer(PER.sugar.test ~ brain.IT + (1|Genus/Species),data = Success8trials.ITf)
+summary(PERsugar.lmer)
+
+
+
+
+#Per.sugar.test ~ residuals----
+plot(PER.sugar.test ~ residuals,data=Success8trials.ITf, main="Time until learning success ~ residuals", xlab="Brain/IT residuals", ylab="Time until learning success")
+abline(lm(PER.sugar.test ~ residuals,data=Success8trials.ITf), col="purple")
+
+PERsugar.res.lm<-lm(PER.sugar.test ~ residuals,data=Success8trials.ITf)
+summary(PERsugar.res.lm)
+
+PERsugar.res.lmer<-lmer(PER.sugar.test ~ residuals + (1|Genus/Species), data=Success8trials.ITf)
+#Terrible
+summary(PERsugar.res.lmer)
+
+
+#Slope differences for Per.sugar.test----
+
+#Don't know how to plot that
+ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=PER.sugar.test)) +
+  geom_point() 
+
+per.sugar.lmer.slopes<-lmer(Brain.weight ~ IT..mm. * PER.sugar.test + (1|Genus/Species), data=Success8trials.ITf)
+summary(per.sugar.lmer.slopes)
+
 
 #SPECIES LEVEL-----
 #Data construction: means for each species dataframe-----
@@ -808,6 +899,20 @@ summary(succ8.values.brainIT.g)
 r.squaredGLMM(succ8.values.brainIT.g)
 #(Controlar por todo a la vez)
 
+
+#success8 ~ n.of.success (Does bees learn?)----
+#Does number of success conditionate success in the test?
+plot(n.of.success ~ Success.test, notch = TRUE, data = Success8trials.ITf)
+plot(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf)
+abline(lm(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf), col="purple")
+
+summary(lm(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf))
+n.succ.succ8<-glm(Success.test ~ n.of.success, data = Success8trials.ITf, family = binomial)
+summary(n.succ.succ8)
+allEffects(n.succ.succ8, xlevels=list(n.of.success=c(0:8)))
+
+
+
 ##QUESTION: Time PER sugar - Time PER water----
 
 
@@ -848,6 +953,8 @@ abline(v = 120)
 abline(v = -120)
 
 par(mfrow=c(1,1))
+
+
 
 
 #melt----
