@@ -414,10 +414,16 @@ Success8trials<-Success8trials[-c(as.numeric(rownames(subset(Success8trials, sub
                      as.numeric(rownames(subset(Success8trials, subset = (Success8trials$Species == "Andrena labialis"))))
 ),]
 
+
+###########
+View(Success8trials.ITf)
+###########
+
 Genus<-data.frame(Beeh.data$ID,
 Beeh.data$Genus)
 colnames(Genus)<-(c("ID","Genus"))
 Success8trials<-merge(Success8trials,Genus)
+dev.off()
 #SUCCESS 8 BLOCK-----
 #Success8 ~ brain/IT----
 
@@ -678,7 +684,206 @@ per.sugar.lmer.slopes<-lmer(Brain.weight ~ IT..mm. * PER.sugar.test + (1|Genus/S
 summary(per.sugar.lmer.slopes)
 
 
-#SPECIES LEVEL-----
+#INDIVIDUAL.SLOPES.BLOCK----
+#Individual.slopes ~ brain.IT----
+Success8trials.ITf
+
+PER<-data.frame(Beeh.data$ID,
+Beeh.data$PER.sugar1,
+Beeh.data$PER.sugar2,
+Beeh.data$PER.sugar3,
+Beeh.data$PER.sugar4,
+Beeh.data$PER.sugar5,
+Beeh.data$PER.sugar6,
+Beeh.data$PER.sugar7,
+Beeh.data$PER.sugar.test)
+
+colnames(PER)<-c("ID", "PER.sugar1", "PER.sugar2", "PER.sugar3", "PER.sugar4"
+                 , "PER.sugar5", "PER.sugar6", "PER.sugar7", "PER.sugartest")
+
+Success8trials.PER<-merge(Success8trials.ITf, PER)
+
+
+
+touch.sugar1<-NULL
+for (n in 1:nrow(Success8trials.PER)) {
+  if(is.na(Success8trials.PER$PER.sugar1)[n]){
+    touch.sugar1[n]<-0  
+  }else{
+    touch.sugar1[n]<-1  
+  }}
+
+touch.sugar2<-NULL
+for (n in 1:nrow(Success8trials.PER)) {
+  if(is.na(Success8trials.PER$PER.sugar2)[n]){
+    touch.sugar2[n]<-0  
+  }else{
+    touch.sugar2[n]<-1  
+  }}
+
+touch.sugar3<-NULL
+for (n in 1:nrow(Success8trials.PER)) {
+  if(is.na(Success8trials.PER$PER.sugar3)[n]){
+    touch.sugar3[n]<-0  
+  }else{
+    touch.sugar3[n]<-1  
+  }}
+
+touch.sugar4<-NULL
+for (n in 1:nrow(Success8trials.PER)) {
+  if(is.na(Success8trials.PER$PER.sugar4)[n]){
+    touch.sugar4[n]<-0  
+  }else{
+    touch.sugar4[n]<-1  
+  }}
+
+touch.sugar5<-NULL
+for (n in 1:nrow(Success8trials.PER)) {
+  if(is.na(Success8trials.PER$PER.sugar5)[n]){
+    touch.sugar5[n]<-0  
+  }else{
+    touch.sugar5[n]<-1  
+  }}
+
+touch.sugar6<-NULL
+for (n in 1:nrow(Success8trials.PER)) {
+  if(is.na(Success8trials.PER$PER.sugar6)[n]){
+    touch.sugar6[n]<-0  
+  }else{
+    touch.sugar6[n]<-1  
+  }}
+
+touch.sugar7<-NULL
+for (n in 1:nrow(Success8trials.PER)) {
+  if(is.na(Success8trials.PER$PER.sugar7)[n]){
+    touch.sugar7[n]<-0  
+  }else{
+    touch.sugar7[n]<-1  
+  }}
+
+touch.sugar.test<-NULL
+for (n in 1:nrow(Success8trials.PER)) {
+  if(is.na(Success8trials.PER$PER.sugar.test)[n]){
+    touch.sugar.test[n]<-0  
+  }else{
+    touch.sugar.test[n]<-1  
+  }}
+
+PERactivityevents<-(touch.sugar1 + touch.sugar2 + touch.sugar3 + touch.sugar4 + 
+                      touch.sugar5 + touch.sugar6 + touch.sugar7 + touch.sugar.test)
+Success8trials.PER$PERactivityevents<-(touch.sugar1 + touch.sugar2 + touch.sugar3 + touch.sugar4 + 
+                                         touch.sugar5 + touch.sugar6 + touch.sugar7 + touch.sugar.test)
+
+#We filter for having done PER in more than 3 events 
+Success8trials.PER<-subset(Success8trials.PER, subset = (Success8trials.PER$PERactivityevents>3))
+
+
+
+test.numbers<-(1:8)
+n=25
+colnames(Success8trials.PER)
+which(colnames(Success8trials.PER)=="PER.sugar1")
+which(colnames(Success8trials.PER)=="PER.sugartest")
+slope<-NULL
+
+par(mfrow = c(3,4))
+for (n in 1:nrow(Success8trials.PER)) {
+  plot(t(Success8trials.PER[n,((which(colnames(Success8trials.PER)=="PER.sugar1")
+):(which(colnames(Success8trials.PER)=="PER.sugartest")
+))]), xlab="Trial number", ylab = "Time", main = (Success8trials.PER$Species[n]))
+  lines(t(Success8trials.PER[n,(which(colnames(Success8trials.PER)=="PER.sugar1"):which(colnames(Success8trials.PER)=="PER.sugartest"))]))
+  abline(lm(t(Success8trials.PER[n,(which(colnames(Success8trials.PER)=="PER.sugar1"):which(colnames(Success8trials.PER)=="PER.sugartest"))]) ~ test.numbers), col="purple")
+  slope[n]<-(lm(t(Success8trials.PER[n,(which(colnames(Success8trials.PER)=="PER.sugar1")
+:which(colnames(Success8trials.PER)=="PER.sugartest"))]) ~ test.numbers)$coefficients)[2]
+  
+}
+par(mfrow = c(1,1))
+
+slope
+Success8trials.PER$slope<-slope
+
+plot(slope ~  brain.IT, data=Success8trials.PER, main = "Learning slopes related to brain/IT", ylab="Individual Slopes", xlab="Brain/IT")
+abline(lm(slope ~  brain.IT, data=Success8trials.PER), col="purple")
+
+individual.slopes.lm<-lm(slope ~  brain.IT, data=Success8trials.PER)
+summary(individual.slopes.lm)
+
+individual.slopes.lmer<-lmer(slope ~  brain.IT + (1|Genus/Species), data=Success8trials.PER)
+summary(individual.slopes.lmer)
+
+#Individual.slopes ~ residuals-----
+Success8trials.PER.res<-Success8trials.PER
+
+Success8trials.PER.res$brain.IT
+lm(Brain.weight ~ IT..mm., data=Success8trials.PER)$residuals
+Success8trials.PER.res$residuals<-lm(Brain.weight ~ IT..mm., data=Success8trials.PER)$residuals
+
+Success8trials.PER<-Success8trials.PER.res
+
+plot(slope ~ residuals,data=Success8trials.PER)
+abline(lm(slope ~ residuals,data=Success8trials.PER), col="purple")
+
+summary(lm(slope ~ residuals,data=Success8trials.PER))
+summary(lmer(slope ~ residuals + (1|Genus/Species),data=Success8trials.PER))
+
+
+#Slope differences for individual slopes------
+
+ggplot(Success8trials.PER, aes(x=log(IT..mm.), y=log(Brain.weight), color=slope)) +
+  geom_point() 
+
+per.slopes.lmer.slopes<-lmer(Brain.weight ~ IT..mm. * slope + (1|Genus/Species), data=Success8trials.PER)
+summary(per.slopes.lmer.slopes)
+
+
+
+#PER.TIME.TRIALS.BLOCK-----
+#PERtime ~ trial number-----
+
+############
+
+#We create the dataframe
+#For all the bees that reacted to some trial
+Beeh.PER.sugar
+melt.Beeh.PER.sugar<-melt(Beeh.PER.sugar)
+colnames(melt.Beeh.PER.sugar)<-c("ID","Species","Trial","Time")
+
+melt.Beeh.PER.sugar<-melt.Beeh.PER.sugar[order(melt.Beeh.PER.sugar$ID),]
+
+temp.melt.sugar<-replace(melt.Beeh.PER.sugar, c("PER.sugar1","PER.sugar2","PER.sugar3","PER.sugar4","PER.sugar5","PER.sugar6","PER.sugar.test"), c(1,2,3,4,5,6,7,8))
+melt.Beeh.PER.sugar$Trial<-temp.melt.sugar$PER.sugar1
+
+melt.Beeh.PER.sugar
+
+str(melt.Beeh.PER.sugar)
+boxplot(melt.Beeh.PER.sugar$Time ~ melt.Beeh.PER.sugar$Trial)
+abline(lm(Time ~ Trial, data = melt.Beeh.PER.sugar), col="purple")
+
+plot(Time ~ Trial, data = melt.Beeh.PER.sugar)
+abline(lm(Time ~ Trial, data = melt.Beeh.PER.sugar), col="purple")
+
+#Just the bees that reached trial8
+ID<-last.test.done.bees$ID
+
+ID<-as.data.frame(ID)
+melt.Beeh.PER.sugar
+melt.last.test.done.bees<-merge(ID,melt.Beeh.PER.sugar)
+
+plot(Time ~ Trial, data = melt.last.test.done.bees)
+abline(lm(Time ~ Trial, data = melt.last.test.done.bees), col="purple")
+
+boxplot(melt.last.test.done.bees$Time ~ melt.last.test.done.bees$Trial)
+abline(lm(Time ~ Trial, data = melt.last.test.done.bees), col="purple")
+
+summary(lm(Time ~ Trial, data = melt.last.test.done.bees))
+#SD differences?
+aggregate(melt.last.test.done.bees$Time ~ melt.last.test.done.bees$Trial, FUN=sd, data = melt.last.test.done.bees)
+
+
+
+##################
+
+
 #Data construction: means for each species dataframe-----
 
 #Let's add mean time of each trial
