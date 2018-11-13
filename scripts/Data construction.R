@@ -15,6 +15,7 @@ require(MuMIn)
 
 Beeh.data<-read.csv("data/Behavior comparison.csv")
 nrow(Beeh.data)
+View(Beeh.data)
 #If we don't have the correct cue, we can't use that bee
 Beeh.data<-Beeh.data[-which(Beeh.data$Correct.cue == ""),]
 #If we don't have the genus, we can't use that bee
@@ -564,6 +565,7 @@ summary(brain.IT.succ.sp)
 
 
 
+
 #N.OF.SUCCESS BLOCK-----
 #n.of.success ~ brain/IT-----
 hist(Success8trials.ITf$n.of.success)
@@ -684,7 +686,7 @@ per.sugar.lmer.slopes<-lmer(Brain.weight ~ IT..mm. * PER.sugar.test + (1|Genus/S
 summary(per.sugar.lmer.slopes)
 
 
-#INDIVIDUAL.SLOPES.BLOCK----
+#INDIVIDUAL.SLOPES.BLOCK---- 
 #Individual.slopes ~ brain.IT----
 Success8trials.ITf
 
@@ -808,8 +810,15 @@ abline(lm(slope ~  brain.IT, data=Success8trials.PER), col="purple")
 individual.slopes.lm<-lm(slope ~  brain.IT, data=Success8trials.PER)
 summary(individual.slopes.lm)
 
+#Too much control??
+individual.slopes.lmerID<-lmer(slope ~  brain.IT + (1|Genus/Species/ID), data=Success8trials.PER)
+summary(individual.slopes.lmerID)
+
+
 individual.slopes.lmer<-lmer(slope ~  brain.IT + (1|Genus/Species), data=Success8trials.PER)
 summary(individual.slopes.lmer)
+
+
 
 #Individual.slopes ~ residuals-----
 Success8trials.PER.res<-Success8trials.PER
@@ -839,9 +848,6 @@ summary(per.slopes.lmer.slopes)
 
 #PER.TIME.TRIALS.BLOCK-----
 #PERtime ~ trial number-----
-
-############
-
 #We create the dataframe
 #For all the bees that reacted to some trial
 Beeh.PER.sugar
@@ -876,14 +882,60 @@ boxplot(melt.last.test.done.bees$Time ~ melt.last.test.done.bees$Trial)
 abline(lm(Time ~ Trial, data = melt.last.test.done.bees), col="purple")
 
 summary(lm(Time ~ Trial, data = melt.last.test.done.bees))
+
+summary(lmer(Time ~ Trial + (1|Species), data = melt.last.test.done.bees))
+
+genus<-data.frame(Beeh.data$ID,
+Beeh.data$Genus)
+colnames(genus)<-c("ID", "Genus")
+
+melt.last.test.done.bees<-merge(melt.last.test.done.bees, genus)
+
 #SD differences?
-aggregate(melt.last.test.done.bees$Time ~ melt.last.test.done.bees$Trial, FUN=sd, data = melt.last.test.done.bees)
+aggregate(Time ~ Trial, FUN=sd, data = melt.last.test.done.bees)
+
+#mean differences?
+aov.t<-aov(Time ~ as.factor(Trial), data = melt.last.test.done.bees)
+summary(aov.t)
+TukeyHSD(aov.t)
+
+#I think there are differences along time
+summary(lmer(Time ~ Trial + (1|Genus/Species), data = melt.last.test.done.bees))
+
+
+#PERtime ~ trial number * Brain.IT-----
+ID.BIT<-data.frame(Beeh.data$ID,
+(Beeh.data$Brain.weight/Beeh.data$IT..mm.))
+Success8trials.ITf
+colnames(ID.BIT)<-c("ID", "brain.IT")
+
+melt.last.test.done.bees<-merge(melt.last.test.done.bees, ID.BIT)
 
 
 
-##################
+ggplot(melt.last.test.done.bees, aes(x=Trial, y=Time, color=brain.IT)) +
+  geom_point() 
+
+PERtrial.lmer.bit<-lmer(Time ~ Trial * brain.IT + (1|Genus/Species), data = melt.last.test.done.bees)
+summary(PERtrial.lmer.bit)
+#PERtime ~ trial.number * residuals
 
 
+measured.bit<-subset(melt.last.test.done.bees, subset = (is.na(melt.last.test.done.bees$Brain.weight) == FALSE))
+
+
+BD.BIT<-data.frame(Beeh.data$ID,
+Beeh.data$Brain.weight,
+Beeh.data$IT..mm.)
+
+colnames(BD.BIT)<-c("ID","Brain.weight","IT..mm.")
+
+melt.last.test.done.bees<-merge(melt.last.test.done.bees, BD.BIT)
+
+nrow(melt.last.test.done.bees)
+
+melt.res<-lm(Brain.weight~IT..mm. ,data=melt.last.test.done.bees)$residuals
+melt.last.test.done.bees$residuals<-melt.res
 #Data construction: means for each species dataframe-----
 
 #Let's add mean time of each trial
@@ -1176,6 +1228,29 @@ temp.melt.sugar<-replace(melt.Beeh.PER.sugar, c("PER.sugar1","PER.sugar2","PER.s
 melt.Beeh.PER.sugar$Trial<-temp.melt.sugar$PER.sugar1
 
 melt.Beeh.PER.sugar
+
+#Brain ~ Urban/Natural-----
+Beeh.data$ID
+Beeh.data$Place
+levels(Beeh.data$Place)
+n=1
+Place.type<-NULL
+for (n in 1:length(Beeh.data$Place)) {
+if (Beeh.data$Place[n] == levels(Beeh.data$Place)[1] | Beeh.data$Place[n] == levels(Beeh.data$Place)[2] | Beeh.data$Place[n] == levels(Beeh.data$Place)[3] | Beeh.data$Place[n] == levels(Beeh.data$Place)[5] | Beeh.data$Place[n] == levels(Beeh.data$Place)[6] | Beeh.data$Place[n] == levels(Beeh.data$Place)[7]| Beeh.data$Place[n] == levels(Beeh.data$Place)[8]| Beeh.data$Place[n] == levels(Beeh.data$Place)[9]| Beeh.data$Place[n] == levels(Beeh.data$Place)[11]) {
+  Place.type[n] <- "Natural" }else{
+  Place.type[n] <- "Urban"
+}}  
+Place.type  
+
+
+Place.type.data<-data.frame(Beeh.data$ID, Place.type)
+colnames(Place.type.data)<-c("ID", "Place.type")
+
+
+
+place.brain<-merge(Success8trials.ITf, Place.type.data)
+boxplot(place.brain$brain.IT ~ place.brain$Place.type, notch = TRUE, ylab = "Brain/IT")
+TukeyHSD(aov(place.brain$brain.IT ~ place.brain$Place.type))
 
 #PHYLOGENETIC TREES----
 library(MCMCglmm)
