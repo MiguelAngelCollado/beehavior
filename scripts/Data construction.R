@@ -15,7 +15,7 @@ require(MuMIn)
 
 Beeh.data<-read.csv("data/Behavior comparison.csv")
 nrow(Beeh.data)
-View(Beeh.data)
+
 #If we don't have the correct cue, we can't use that bee
 Beeh.data<-Beeh.data[-which(Beeh.data$Correct.cue == ""),]
 #If we don't have the genus, we can't use that bee
@@ -416,10 +416,6 @@ Success8trials<-Success8trials[-c(as.numeric(rownames(subset(Success8trials, sub
 ),]
 
 
-###########
-View(Success8trials.ITf)
-###########
-
 Genus<-data.frame(Beeh.data$ID,
 Beeh.data$Genus)
 colnames(Genus)<-(c("ID","Genus"))
@@ -453,7 +449,7 @@ summary(lm.succ.brain.it)
 
 succ.brain.it<-glm(Success.test ~ brain.IT, data = Success8trials.ITf, family = binomial)
 summary(succ.brain.it)
-
+allEffects(succ.brain.it)
 #Add random factor Species, still significant
 succ.brain.itr<-glmer(Success.test ~ brain.IT + (1|Species), data = Success8trials.ITf, family = binomial)
 summary(succ.brain.itr)
@@ -559,6 +555,8 @@ succ80.lm$coefficients[2]
 #Only IT.mm. is significative, logically
 brain.IT.succ.sp<-lmer(log(Brain.weight) ~ log(IT..mm.) * Success.test + (1|Genus/Species), data = Success8trials.ITf)
 summary(brain.IT.succ.sp)
+
+
 
 
 
@@ -1142,7 +1140,7 @@ summary(succ8.values.brainIT)
 #Control by ID, something fails
 Success8trials.melt$PER.sugar.test
 Success8trials.melt$value
-View(Success8trials.melt)
+
 succ8.values.brainIT.ID<-lmer(PER.sugar.test ~ value * brain.IT + (1|ID), data = Success8trials.melt)
 summary(succ8.values.brainIT.ID)
 
