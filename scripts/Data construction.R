@@ -9,6 +9,7 @@ library(ggplot2)
 library(reshape2)
 library(rsq)
 library(MuMlm)
+library(optiRum)
 
 require(lme4)
 require(MuMIn)
@@ -422,6 +423,9 @@ colnames(Genus)<-(c("ID","Genus"))
 Success8trials<-merge(Success8trials,Genus)
 dev.off()
 #SUCCESS 8 BLOCK-----
+
+
+
 #Success8 ~ brain/IT----
 
 #We filter NA in brain/IT
@@ -533,7 +537,8 @@ ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=Succes
 
 ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=Success.test)) +
   geom_point() +
-  geom_smooth(method=lm, aes(fill=Success.test))
+  geom_smooth(method=lm, aes(fill=Success.test)) +
+  
 
 brain.IT.succ.sp<-lmer(log(Brain.weight) ~ log(IT..mm.) * Success.test + (1|Species), data = Success8trials.ITf)
 summary(brain.IT.succ.sp)
@@ -564,25 +569,27 @@ summary(brain.IT.succ.sp)
 
 
 
+
+
 #N.OF.SUCCESS BLOCK-----
 #n.of.success ~ brain/IT-----
 hist(Success8trials.ITf$n.of.success)
 plot(n.of.success~brain.IT,data = Success8trials.ITf)
 abline(lm(n.of.success~brain.IT,data = Success8trials.ITf), col = "purple")
+
 n.succ.brainit.lm<-lm(n.of.success~brain.IT,data = Success8trials.ITf)
 summary(n.succ.brainit.lm)
 #control by species and genus
 n.succ.brainit.lm.sp<-lmer(n.of.success~brain.IT + (1|Species),data = Success8trials.ITf)
 summary(n.succ.brainit.lm.sp)
 
+glm(brain.IT~n.of.success, data = Success8trials.ITf)
+allEffects(glm(brain.IT~n.of.success, data = Success8trials.ITf))
+
+
 #Brain.IT is significative related to n.of.success
 n.succ.brainit.lm.g<-lmer(n.of.success~brain.IT + (1|Genus/Species),data = Success8trials.ITf)
 summary(n.succ.brainit.lm.g)
-
-
-
-
-
 
 
 #n.of.success ~ residuals------
@@ -2399,3 +2406,56 @@ par(mfrow=c(1,2))
 boxplot(Bombus.terrestris.woqueen[-which(is.na(Bombus.terrestris.woqueen$Brain.weight)),]$Brain.weight,Queen.bombus$Brain.weight, names=c("Males and Workers", "Queen"), ylab="Brain weight", main = "Brain weight comparison \nBombus terrestris")
 boxplot(Bombus.terrestris.woqueen$IT..mm.,Queen.bombus$IT..mm., ylab="Intertegular distance", names=c("Males and Workers", "Queen"), main = "Intertegular distance comparison \nBombus terrestris")
 par(mfrow=c(1,1))
+
+
+
+
+#Figures
+
+#Figure 2
+par(mfrow=c(1,2))
+
+plot(Success.test.as.numeric ~ brain.IT, data = Success8trials.ITf, main="Success related to brain size (a)", xlab="Encephalization (Brain/IT)", ylab = "Success learning test")
+xweight <- seq(0, 2, 0.01)
+fit <- glm(Success.test ~ brain.IT, family = binomial, data = Success8trials.ITf)
+yweight <- predict(fit, list(brain.IT = xweight), type="response")
+lines(xweight, yweight)
+
+plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf, main= "Learning success related to IT/Brain residuals (b)", ylab="No success / Success", xlab= "Brain/IT residuals")
+xweight <- seq(-1, 2, 0.01)
+fit <- glm(Success.test ~ residuals, family = binomial, data = Success8trials.ITf)
+yweight <- predict(fit, list(residuals = xweight), type="response")
+lines(xweight, yweight)
+
+ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=Success.test)) +
+  geom_point() +
+  geom_smooth(method=lm, aes(fill=Success.test))+
+  ggtitle("Success related to encephalization (c)") 
+  
+  
+par(mfrow=c(1,1))
+
+#Figure 2
+
+par(mfrow=c(1,2))
+
+
+plot(n.of.success~brain.IT,data = Success8trials.ITf, xlab="Encephalization (Brain/IT)", ylab="Number of success", main="Number of success related to brain size (a)")
+abline(lm(n.of.success~brain.IT,data = Success8trials.ITf))
+
+plot(n.of.success~residuals,data = Success8trials.ITf, main= "Number of learning success compared with residuals (b)", xlab="Brain/IT residuals", ylab="Number of success")
+abline(lm(n.of.success~residuals,data = Success8trials.ITf))
+
+ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=as.factor(n.of.success))) +
+  geom_point() +
+  geom_smooth(method=lm, aes(fill=as.factor(n.of.success)))+
+  ggtitle("Number of success related to encephalization (c)")
+
+
+par(mfrow=c(1,1))
+
+
+
+
+
+
