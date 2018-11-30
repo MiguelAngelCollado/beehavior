@@ -685,8 +685,6 @@ ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=PER.su
 
 per.sugar.lmer.slopes<-lmer(Brain.weight ~ IT..mm. * PER.sugar.test + (1|Genus/Species), data=Success8trials.ITf)
 summary(per.sugar.lmer.slopes)
-per.sugar.lmer.slopes  
-
 
 
 #INDIVIDUAL.SLOPES.BLOCK---- 
@@ -846,6 +844,7 @@ ggplot(Success8trials.PER, aes(x=log(IT..mm.), y=log(Brain.weight), color=slope)
 
 per.slopes.lmer.slopes<-lmer(Brain.weight ~ IT..mm. * slope + (1|Genus/Species), data=Success8trials.PER)
 summary(per.slopes.lmer.slopes)
+
 
 
 
@@ -2457,7 +2456,7 @@ par(mfrow=c(1,1))
 
 par(mfrow=c(2,2))
 
-plot(PER.sugar.test ~ brain.IT,data = Success8trials.ITf, main= "Time until PER in the test ~ encephalization", ylim=c(0,120), xlab="encephalization (Brain/IT)", ylab="Time until PER")
+plot(PER.sugar.test ~ brain.IT,data = Success8trials.ITf, main= "Time until PER in the test ~ encephalization", ylim=c(0,120), xlab="Encephalization (Brain/IT)", ylab="Time until PER")
 abline(lm(PER.sugar.test ~ brain.IT,data = Success8trials.ITf))
 
 plot(PER.sugar.test.censored ~ brain.IT,data = Success8trials.ITf, main= "Censored time until PER in the test ~ encephalization", ylim=c(0,120), xlab="Encephalization (Brain/IT)", ylab="Time until PER")
@@ -2469,10 +2468,23 @@ abline(lm(PER.sugar.test ~ residuals,data=Success8trials.ITf))
 par(mfrow=c(1,1))
 
 ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=PER.sugar.test)) +
-  geom_point() 
+  geom_point()+
+  ggtitle(" (c)") 
 
+#Figure 5
 
+par(mfrow=c(1,2))
 
+plot(slope ~  brain.IT, data=Success8trials.PER, main = "Learning slopes related to encephalization (a)", ylab="Learning slopes values", xlab="Encephalization (Brain/IT)")
+abline(lm(slope ~  brain.IT, data=Success8trials.PER))
 
+plot(slope ~ residuals,data=Success8trials.PER, main = "Learning slopes related to encephalization residuals (b)", ylab="Learning slopes values", xlab="Encephalization residuals")
+abline(lm(slope ~ residuals,data=Success8trials.PER))
+
+ggplot(Success8trials.PER, aes(x=log(IT..mm.), y=log(Brain.weight), color=slope)) +
+  geom_point()+
+  ggtitle(" (c)") 
+
+par(mfrow=c(1,1))
 
 
