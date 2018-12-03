@@ -845,9 +845,6 @@ ggplot(Success8trials.PER, aes(x=log(IT..mm.), y=log(Brain.weight), color=slope)
 per.slopes.lmer.slopes<-lmer(Brain.weight ~ IT..mm. * slope + (1|Genus/Species), data=Success8trials.PER)
 summary(per.slopes.lmer.slopes)
 
-
-
-
 #PER.TIME.TRIALS.BLOCK-----
 #PERtime ~ trial number-----
 #We create the dataframe
@@ -916,7 +913,8 @@ melt.last.test.done.bees<-merge(melt.last.test.done.bees, ID.BIT)
 
 
 ggplot(melt.last.test.done.bees, aes(x=Trial, y=Time, color=brain.IT)) +
-  geom_point() 
+  geom_point()+
+  ggtitle("b")
 
 PERtrial.lmer.bit<-lmer(Time ~ Trial * brain.IT + (1|Genus/Species), data = melt.last.test.done.bees)
 summary(PERtrial.lmer.bit)
@@ -932,12 +930,25 @@ Beeh.data$IT..mm.)
 
 colnames(BD.BIT)<-c("ID","Brain.weight","IT..mm.")
 
-melt.last.test.done.bees<-merge(melt.last.test.done.bees, BD.BIT)
+melt.last.test.done.bees2<-merge(melt.last.test.done.bees, BD.BIT)
 
-nrow(melt.last.test.done.bees)
+nrow(melt.last.test.done.bees2)
 
-melt.res<-lm(Brain.weight~IT..mm. ,data=melt.last.test.done.bees)$residuals
-melt.last.test.done.bees$residuals<-melt.res
+melt.res<-lm(Brain.weight~IT..mm. ,data=melt.last.test.done.bees2)$residuals
+melt.last.test.done.bees2<-subset(melt.last.test.done.bees2, subset=(is.na(melt.last.test.done.bees2$brain.IT)==FALSE))
+melt.last.test.done.bees2$residuals<-melt.res
+
+
+
+PERtrial.lmer.bit2<-lmer(Time ~ Trial * residuals + (1|Genus/Species), data = melt.last.test.done.bees2)
+summary(PERtrial.lmer.bit2)
+
+
+
+ggplot(melt.last.test.done.bees2, aes(x=Trial, y=Time, color=residuals)) +
+  geom_point() +
+  ggtitle("c")
+
 
 #Data construction: means for each species dataframe-----
 
@@ -2486,5 +2497,28 @@ ggplot(Success8trials.PER, aes(x=log(IT..mm.), y=log(Brain.weight), color=slope)
   ggtitle(" (c)") 
 
 par(mfrow=c(1,1))
+
+#Figure 6
+
+boxplot(melt.last.test.done.bees$Time ~ melt.last.test.done.bees$Trial, main="Time until PER throughout the trials (a)", xlab="Trial number", ylab="Time until PER")
+abline(lm(Time ~ Trial, data = melt.last.test.done.bees))
+
+ggplot(melt.last.test.done.bees, aes(x=Trial, y=Time, color=brain.IT)) +
+  geom_point()+
+  ggtitle("Time until PER throughout the trials by encephalization (b)")+
+  xlab("Trial number")+
+  ylab("Time until PER")
+
+ggplot(melt.last.test.done.bees2, aes(x=Trial, y=Time, color=residuals)) +
+  geom_point() +
+  ggtitle("Time until PER throughout the trials by encephalization residuals (c)") +
+  xlab("Trial number")+
+  ylab("Time until PER")
+
+#Autocorrelation?
+cor(as.numeric(Success8trials.ITf$n.of.success), as.numeric(Success8trials.ITf$Success.test))
+Success8trials.ITf$Success.test
+Success8trials.ITf$PER.sugar.test
+
 
 
