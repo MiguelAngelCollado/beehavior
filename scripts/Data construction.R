@@ -27,11 +27,6 @@ which(is.na(Beeh.data$Genus))
 #The number of individuals identified is
 nrow(Beeh.data)
 
-which(Beeh.data$Genus == "Psithyrus")
-
-
-
-Beeh.data$Genus
 
 #Psithyrus is actually a Bombus
 Beeh.data$Genus<-replace(Beeh.data$Genus, Beeh.data$Genus == "Psithyrus", "Bombus")
@@ -39,7 +34,6 @@ Beeh.data$Genus<-replace(Beeh.data$Genus, Beeh.data$Genus == "Psithyrus", "Bombu
 #We don't have flavipanurgus as a genus in the phylo tree, 
 #so we replace it with panurgus
 Beeh.data$Genus<-replace(Beeh.data$Genus, Beeh.data$Genus == "Flavipanurgus", "Panurgus")
-
 
 
 #Explore and correct data----
@@ -205,6 +199,26 @@ last.test.done.bees<-functional.bees[-sequedaronporelcamino,]
 functional.bees
 #Data frame of bees that did not work
 useless.bees
+
+getwd()
+
+
+nrow(useless.bees)
+View(useless.bees)
+
+
+useless.bees.export<-data.frame(useless.bees$Genus,
+useless.bees$Species,
+useless.bees$Notes)
+colnames(useless.bees.export)<-c("Genus","Species","Notes")
+
+useless.bees.export
+
+setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior/figures")
+write.csv(useless.bees.export, "list of useless individuals.csv")
+setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior")
+
+
 #Data frame of bees that did the last test
 last.test.done.bees
 
