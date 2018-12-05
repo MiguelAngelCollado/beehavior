@@ -1,46 +1,48 @@
-Genus;Species;Notes
-Andrena;Andrena pilipes;Ignored the trials
-Eucera;Eucera rufa;Ignored the trials
-Andrena;Andrena sp.;Refuses to eat
-Andrena;Andrena sp.;Climb the cues
-Andrena;Andrena sp.;Experiment done the day after
-Eucera;Eucera sp.;Experiment done the day after
-Andrena;Andrena sp.;Experiment done the day after
-Eucera;Eucera elongatula;We can't do the test because didn't licked any cue
-Eucera;Eucera notata;Dead by heat
-Anthophora;Anthopora plumipes;Dead during the trials
-Andrena;Andrena sp.;Ignored the trials
-Xylocopa;Xylocopa cantabrita;Dead by heat
-Xylocopa;Xylocopa cantabrita;Dead by heat
-Xylocopa;Xylocopa cantabrita;Dead by heat
-Xylocopa;Xylocopa cantabrita;Ignored the trials
-Xylocopa;Xylocopa cantabrita;Ignored the trials
-Anthophora;Anthopora dispar;Refuses to eat
-Bombus;Bombus terrestris;Ignored the trials
-Eucera;Eucera notata;Refuses to eat
-Eucera;Eucera notata;Refuses to eat, tries to copulate the cue
-Eucera;Eucera notata;Refuses to eat
-Xylocopa;Xylocopa violacea;Ignored the trials
-Xylocopa;Xylocopa violacea;Ignored the trials
-Osmia;Osmia latreillei;Ignored the trials
-Xylocopa;Xylocopa violacea;Chewing
-Xylocopa;Xylocopa violacea;Focused on chewing the blue
-Anthophora;Anthophora retusa;Dead during experiment
-Anthophora;Anthophora retusa;Dead during experiment
-Andrena;Andrena flavipes;Dead during experiment
-Andrena;Andrena rhyssonota;Ignored the trials
-Andrena;Andrena rhyssonota;Ignored the trials
-Andrena;Andrena rhyssonota;Ignored the trials
-Andrena;Andrena rhyssonota;Ignored the trials
-Bombus;Bombus terrestris;Ignored the trials
-Osmia;Osmia latreillei;Ignored the trials
-Lasioglossum;Lasioglossum malachurum;Ignored the trials
-Rhodanthidium;Rhodanthidium sticticum;Experiment done the day after
-Andrena;Andrena sp.;Experiment done the day after
-Panurgus;Flavipanurgus venustus;Ignored the trials
-Lasioglossum;Lasioglossum sp.;Experiment done the day after
-Lasioglossum;Lasioglossum sp.;Experiment done the day after
-Lasioglossum;Lasioglossum sp.;Experiment done the day after
-Lasioglossum;Lasioglossum immunitum;Ignored the trials
-Rhodanthidium;Rhodanthidium sticticum;Ignored the trials
-Panurgus;Flavipanurgus venustus;Ignored the trials
+"","Genus","Species","Notes"
+"1","Andrena","Andrena pilipes",""
+"2","Eucera","Eucera rufa",""
+"3","Andrena","Andrena sp.","Refuses to eat"
+"4","Andrena","Andrena sp.","Climb the cues"
+"5","Andrena","Andrena sp.","Experiment done the day after"
+"6","Eucera","Eucera sp.","Experiment done the day after"
+"7","Andrena","Andrena sp.","Experiment done the day after"
+"8","Eucera","Eucera elongatula","We can't do the test because didn't licked any cue"
+"9","Eucera","Eucera notata","Dead by heat"
+"10","Anthophora","Anthopora plumipes","Dead during the trials"
+"11","Andrena","Andrena sp.",""
+"12","Xylocopa","Xylocopa cantabrita","Dead by heat"
+"13","Xylocopa","Xylocopa cantabrita","Dead by heat"
+"14","Xylocopa","Xylocopa cantabrita","Dead by heat"
+"15","Xylocopa","Xylocopa cantabrita",""
+"16","Xylocopa","Xylocopa cantabrita","Discarded"
+"17","Anthophora","Anthopora dispar","Refuses to eat"
+"18","Bombus","Bombus terrestris",""
+"19","Eucera","Eucera notata","Refuses to eat"
+"20","Eucera","Eucera notata","Refuses to eat, tries to copulate the cue"
+"21","Eucera","Eucera notata","Refuses to eat"
+"22","Xylocopa","Xylocopa violacea",""
+"23","Xylocopa","Xylocopa violacea",""
+"24","Osmia","Osmia latreillei",""
+"25","Xylocopa","Xylocopa violacea","Chewing"
+"26","Xylocopa","Xylocopa violacea","Focused on chewing the blue"
+"27","Anthophora","Anthophora retusa","Dead during experiment"
+"28","Anthophora","Anthophora retusa","Dead during experiment"
+"29","Andrena","Andrena flavipes","Dead during experiment"
+"30","Andrena","Andrena rhyssonota",""
+"31","Andrena","Andrena rhyssonota",""
+"32","Andrena","Andrena rhyssonota",""
+"33","Andrena","Andrena rhyssonota",""
+"34","Bombus","Bombus terrestris",""
+"35","Osmia","Osmia latreillei",""
+"36","Lasioglossum","Lasioglossum malachurum",""
+"37","Rhodanthidium","Rhodanthidium sticticum","Experiment done the day after"
+"38","Andrena","Andrena sp.","Experiment done the day after"
+"39","Panurgus","Flavipanurgus venustus","Experiment done the day after"
+"40","Panurgus","Flavipanurgus venustus",""
+"41","Lasioglossum","Lasioglossum sp.","Experiment done the day after"
+"42","Lasioglossum","Lasioglossum sp.","Experiment done the day after"
+"43","Lasioglossum","Lasioglossum sp.","Experiment done the day after"
+"44","Lasioglossum","Lasioglossum immunitum",""
+"45","Megachile??",NA,""
+"46","Rhodanthidium","Rhodanthidium sticticum",""
+"47","Panurgus","Flavipanurgus venustus",""

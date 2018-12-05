@@ -1,4 +1,4 @@
-getwd()
+resigetwd()
 library(dplyr)
 library(visreg)
 library(phytools)
@@ -24,6 +24,10 @@ Beeh.data<-Beeh.data[-which(is.na(Beeh.data$Genus)),]
 #Check
 which(Beeh.data$Correct.cue == "")
 which(is.na(Beeh.data$Genus))
+#-----
+Beeh.data<-Beeh.data[-which(Beeh.data$ID == "D41"),]
+
+
 #The number of individuals identified is
 nrow(Beeh.data)
 
@@ -200,11 +204,8 @@ functional.bees
 #Data frame of bees that did not work
 useless.bees
 
-getwd()
-
 
 nrow(useless.bees)
-View(useless.bees)
 
 
 useless.bees.export<-data.frame(useless.bees$Genus,
@@ -215,7 +216,7 @@ colnames(useless.bees.export)<-c("Genus","Species","Notes")
 useless.bees.export
 
 setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior/figures")
-write.csv(useless.bees.export, "list of useless individuals.csv")
+#write.csv(useless.bees.export, "list of useless individuals.csv")
 setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior")
 
 
@@ -270,8 +271,6 @@ summary(Beeh.data$Species)
 
 #Graphs of every individual for PER sugar
 #Plot test
-plot(t(Beeh.PER.sugar[16,(3:10)]), xlab="Trial number", ylab = "Time")
-lines(t(Beeh.PER.sugar[16,(3:10)]))
 
 is.na(Beeh.PER.sugar)
 par(mfrow = c(3,3))
@@ -436,9 +435,9 @@ Beeh.data$Genus)
 colnames(Genus)<-(c("ID","Genus"))
 Success8trials<-merge(Success8trials,Genus)
 dev.off()
+
+unique(Success8trials.ITf$Species)
 #SUCCESS 8 BLOCK-----
-
-
 
 #Success8 ~ brain/IT----
 
@@ -474,6 +473,14 @@ summary(succ.brain.itr)
 
 #Add nested random factor Genus/Species, still significant
 
+#Percentage of success
+View(Success8trials.ITf)
+length(which(Success8trials.ITf$Success.test==1))
+length(which(Success8trials.ITf$Success.test==0))
+
+(length(which(Success8trials.ITf$Success.test==1))/(length(which(Success8trials.ITf$Success.test==1))+length(which(Success8trials.ITf$Success.test==0))))*100
+
+
 #result
 succ.brain.itrg<-glmer(Success.test ~ brain.IT + (1|Genus/Species), data = Success8trials.ITf, family = binomial)
 summary(succ.brain.itrg)
@@ -501,6 +508,8 @@ BIT$residuals
 plot(Success8trials.ITf$Success.test ~ BIT$residuals)
 Success8trials.ITf$residuals<-BIT$residuals
 
+
+
 #plot
 plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf, main= "Learning success related to IT/Brain residuals", ylab="No success / Success", xlab= "IT/Brain residuals")
 min(Success8trials.ITf$residuals)
@@ -520,6 +529,7 @@ summary(succ8.res)
 
 succ8.ress<-glmer(Success.test ~ residuals + (1|Species), data = Success8trials.ITf, family = binomial)
 summary(succ8.ress)
+
 
 #result
 succ8.ressg<-glmer(Success.test ~ residuals + (1|Genus/Species), data = Success8trials.ITf, family = binomial)
@@ -574,6 +584,7 @@ succ80.lm$coefficients[2]
 #Only IT.mm. is significative, logically
 brain.IT.succ.sp<-lmer(log(Brain.weight) ~ log(IT..mm.) * Success.test + (1|Genus/Species), data = Success8trials.ITf)
 summary(brain.IT.succ.sp)
+
 
 
 
@@ -645,6 +656,7 @@ summary(brain.IT.succ.spg)
 
 
 
+
 #PER.SUGAR.TEST.BLOCK----
 #PER.sugar.test ~ Brain.IT----
 PER.sugar.test.censored<-replace(Beeh.data$PER.sugar.test, is.na(Beeh.data$PER.sugar.test), 121)
@@ -699,6 +711,7 @@ ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=PER.su
 
 per.sugar.lmer.slopes<-lmer(Brain.weight ~ IT..mm. * PER.sugar.test + (1|Genus/Species), data=Success8trials.ITf)
 summary(per.sugar.lmer.slopes)
+
 
 
 #INDIVIDUAL.SLOPES.BLOCK---- 
@@ -859,6 +872,7 @@ ggplot(Success8trials.PER, aes(x=log(IT..mm.), y=log(Brain.weight), color=slope)
 per.slopes.lmer.slopes<-lmer(Brain.weight ~ IT..mm. * slope + (1|Genus/Species), data=Success8trials.PER)
 summary(per.slopes.lmer.slopes)
 
+
 #PER.TIME.TRIALS.BLOCK-----
 #PERtime ~ trial number-----
 #We create the dataframe
@@ -912,6 +926,9 @@ aov.t<-aov(Time ~ as.factor(Trial), data = melt.last.test.done.bees)
 summary(aov.t)
 TukeyHSD(aov.t)
 
+
+
+
 #I think there are differences along time
 summary(lmer(Time ~ Trial + (1|Genus/Species), data = melt.last.test.done.bees))
 
@@ -962,6 +979,9 @@ summary(PERtrial.lmer.bit2)
 ggplot(melt.last.test.done.bees2, aes(x=Trial, y=Time, color=residuals)) +
   geom_point() +
   ggtitle("c")
+
+
+
 
 
 #Data construction: means for each species dataframe-----
