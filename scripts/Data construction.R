@@ -24,7 +24,7 @@ Beeh.data<-Beeh.data[-which(is.na(Beeh.data$Genus)),]
 #Check
 which(Beeh.data$Correct.cue == "")
 which(is.na(Beeh.data$Genus))
-#-----
+
 Beeh.data<-Beeh.data[-which(Beeh.data$ID == "D41"),]
 
 
@@ -436,8 +436,7 @@ colnames(Genus)<-(c("ID","Genus"))
 Success8trials<-merge(Success8trials,Genus)
 dev.off()
 
-unique(Success8trials.ITf$Species)
-#SUCCESS 8 BLOCK-----
+unique(Success8trials.ITf$Species) 
 
 #Success8 ~ brain/IT----
 
@@ -597,6 +596,7 @@ summary(brain.IT.succ.sp)
 
 
 
+
 #N.OF.SUCCESS BLOCK-----
 #n.of.success ~ brain/IT-----
 hist(Success8trials.ITf$n.of.success)
@@ -657,6 +657,7 @@ summary(brain.IT.succ.spg)
 
 
 
+
 #PER.SUGAR.TEST.BLOCK----
 #PER.sugar.test ~ Brain.IT----
 PER.sugar.test.censored<-replace(Beeh.data$PER.sugar.test, is.na(Beeh.data$PER.sugar.test), 121)
@@ -684,6 +685,31 @@ summary(PERsugar.lm)
 PERsugarc.lmer<-lmer(PER.sugar.test.censored ~ brain.IT + (1|Genus/Species),data = Success8trials.ITf)
 summary(PERsugarc.lmer)
 
+##survival curves
+
+Success8trials.ITf$PER.sugar.test.censored
+Success8trials.ITf$Success.test<-as.logical(Success8trials.ITf$Success.test)
+
+success.test.logi<-vector()
+n=1
+for (n in 1:(nrow(Success8trials.ITf))) {
+  if (Success8trials.ITf$Success.test[n] == 1) {
+    success.test.logi[n]<-TRUE    
+  }else{
+    success.test.logi[n]<-FALSE
+  }
+}
+is.logical(success.test.logi)
+
+Success8trials.ITf$success.test.logi<-success.test.logi
+
+
+Success8trials.ITf$brain.IT
+
+cox.cue.time<- coxph(Surv(PER.sugar.test.censored, success.test.logi) ~ brain.IT, na.action = na.exclude, data = Success8trials.ITf) 
+cox.cue.time
+
+
 
 PERsugar.lmer<-lmer(PER.sugar.test ~ brain.IT + (1|Genus/Species),data = Success8trials.ITf)
 summary(PERsugar.lmer)
@@ -698,6 +724,12 @@ abline(lm(PER.sugar.test ~ residuals,data=Success8trials.ITf), col="purple")
 PERsugar.res.lm<-lm(PER.sugar.test ~ residuals,data=Success8trials.ITf)
 summary(PERsugar.res.lm)
 
+
+#survival curves
+cox.cue.time2<- coxph(Surv(PER.sugar.test.censored, success.test.logi) ~ residuals, na.action = na.exclude, data = Success8trials.ITf) 
+cox.cue.time2
+
+
 PERsugar.res.lmer<-lmer(PER.sugar.test ~ residuals + (1|Genus/Species), data=Success8trials.ITf)
 #Terrible
 summary(PERsugar.res.lmer)
@@ -711,6 +743,7 @@ ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=PER.su
 
 per.sugar.lmer.slopes<-lmer(Brain.weight ~ IT..mm. * PER.sugar.test + (1|Genus/Species), data=Success8trials.ITf)
 summary(per.sugar.lmer.slopes)
+
 
 
 
@@ -873,6 +906,8 @@ per.slopes.lmer.slopes<-lmer(Brain.weight ~ IT..mm. * slope + (1|Genus/Species),
 summary(per.slopes.lmer.slopes)
 
 
+
+#kaplan meier here?----
 #PER.TIME.TRIALS.BLOCK-----
 #PERtime ~ trial number-----
 #We create the dataframe
@@ -930,8 +965,8 @@ TukeyHSD(aov.t)
 
 
 #I think there are differences along time
-summary(lmer(Time ~ Trial + (1|Genus/Species), data = melt.last.test.done.bees))
 
+summary(lmer(Time ~ Trial + (1|Genus/Species/ID), data = melt.last.test.done.bees))
 
 #PERtime ~ trial number * Brain.IT-----
 ID.BIT<-data.frame(Beeh.data$ID,
@@ -948,6 +983,8 @@ ggplot(melt.last.test.done.bees, aes(x=Trial, y=Time, color=brain.IT)) +
   ggtitle("b")
 
 PERtrial.lmer.bit<-lmer(Time ~ Trial * brain.IT + (1|Genus/Species), data = melt.last.test.done.bees)
+PERtrial.lmer.bit<-lmer(Time ~ Trial * brain.IT + (1|Genus/Species/ID), data = melt.last.test.done.bees)
+
 summary(PERtrial.lmer.bit)
 #PERtime ~ trial.number * residuals----
 
@@ -971,7 +1008,7 @@ melt.last.test.done.bees2$residuals<-melt.res
 
 
 
-PERtrial.lmer.bit2<-lmer(Time ~ Trial * residuals + (1|Genus/Species), data = melt.last.test.done.bees2)
+PERtrial.lmer.bit2<-lmer(Time ~ Trial * residuals + (1|Genus/Species/ID), data = melt.last.test.done.bees2)
 summary(PERtrial.lmer.bit2)
 
 
@@ -979,6 +1016,7 @@ summary(PERtrial.lmer.bit2)
 ggplot(melt.last.test.done.bees2, aes(x=Trial, y=Time, color=residuals)) +
   geom_point() +
   ggtitle("c")
+
 
 
 
