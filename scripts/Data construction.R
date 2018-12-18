@@ -1,4 +1,4 @@
-resigetwd()
+
 library(dplyr)
 library(visreg)
 library(phytools)
@@ -480,6 +480,13 @@ length(which(Success8trials.ITf$Success.test==0))
 (length(which(Success8trials.ITf$Success.test==1))/(length(which(Success8trials.ITf$Success.test==1))+length(which(Success8trials.ITf$Success.test==0))))*100
 
 
+#Linearizing?
+Success8trials.ITf$log.brain.it<-log(Success8trials.ITf$Brain.weight)/log(Success8trials.ITf$IT..mm.)
+
+succ.brain.itrg.log<-glmer(Success.test ~ log.brain.it + (1|Genus/Species), data = Success8trials.ITf, family = binomial)
+summary(succ.brain.itrg.log)
+
+
 #result
 succ.brain.itrg<-glmer(Success.test ~ brain.IT + (1|Genus/Species), data = Success8trials.ITf, family = binomial)
 summary(succ.brain.itrg)
@@ -597,6 +604,7 @@ summary(brain.IT.succ.sp)
 
 
 
+
 #N.OF.SUCCESS BLOCK-----
 #n.of.success ~ brain/IT-----
 hist(Success8trials.ITf$n.of.success)
@@ -653,6 +661,7 @@ summary(brain.IT.succ.sp)
 #effects only for IT.mm
 brain.IT.succ.spg<-lmer(log(Brain.weight) ~ log(IT..mm.) * n.of.success + (1|Genus/Species), data = Success8trials.ITf)
 summary(brain.IT.succ.spg)
+
 
 
 
@@ -743,6 +752,7 @@ ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=PER.su
 
 per.sugar.lmer.slopes<-lmer(Brain.weight ~ IT..mm. * PER.sugar.test + (1|Genus/Species), data=Success8trials.ITf)
 summary(per.sugar.lmer.slopes)
+
 
 
 
@@ -907,7 +917,7 @@ summary(per.slopes.lmer.slopes)
 
 
 
-#kaplan meier here?----
+
 #PER.TIME.TRIALS.BLOCK-----
 #PERtime ~ trial number-----
 #We create the dataframe
@@ -1019,6 +1029,20 @@ ggplot(melt.last.test.done.bees2, aes(x=Trial, y=Time, color=residuals)) +
 
 
 
+
+
+
+
+
+##Does bees learn?-----
+Success8trials.ITf$Success.test.as.numeric
+observed<-c(nrow(subset(Success8trials.ITf, subset = (Success8trials.ITf$Success.test.as.numeric == 1))),
+nrow(subset(Success8trials.ITf, subset = (Success8trials.ITf$Success.test.as.numeric == 0))))
+expected<-c(0.5,0.5)
+
+#Our proportion of learners is different from the expected values
+chisq.test(x = observed,
+           p = expected)
 
 
 
@@ -2502,7 +2526,7 @@ fit <- glm(Success.test ~ brain.IT, family = binomial, data = Success8trials.ITf
 yweight <- predict(fit, list(brain.IT = xweight), type="response")
 lines(xweight, yweight)
 
-plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf, main= "Learning success related to IT/Brain residuals (b)", ylab="No success / Success", xlab= "Encephalization residuals")
+plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf, main= "Learning success related to encephalization residuals (b)", ylab="No success / success", xlab= "Encephalization residuals")
 xweight <- seq(-1, 2, 0.01)
 fit <- glm(Success.test ~ residuals, family = binomial, data = Success8trials.ITf)
 yweight <- predict(fit, list(residuals = xweight), type="response")
@@ -2524,7 +2548,7 @@ par(mfrow=c(1,2))
 plot(n.of.success~brain.IT,data = Success8trials.ITf, xlab="Encephalization (Brain/IT)", ylab="Number of success", main="Number of success related to brain size (a)")
 abline(lm(n.of.success~brain.IT,data = Success8trials.ITf))
 
-plot(n.of.success~residuals,data = Success8trials.ITf, main= "Number of learning success compared with residuals (b)", xlab="Encephalization residuals", ylab="Number of success")
+plot(n.of.success~residuals,data = Success8trials.ITf, main= "Number of success related to residuals (b)", xlab="Encephalization residuals", ylab="Number of success")
 abline(lm(n.of.success~residuals,data = Success8trials.ITf))
 
 ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=as.factor(n.of.success))) +
@@ -2539,20 +2563,20 @@ par(mfrow=c(1,1))
 
 par(mfrow=c(2,2))
 
-plot(PER.sugar.test ~ brain.IT,data = Success8trials.ITf, main= "Time until PER in the test ~ encephalization", ylim=c(0,120), xlab="Encephalization (Brain/IT)", ylab="Time until PER")
+plot(PER.sugar.test ~ brain.IT,data = Success8trials.ITf, main= "Time until PER in the test ~ encephalization (a)", ylim=c(0,120), xlab="Encephalization (Brain/IT)", ylab="Time until PER")
 abline(lm(PER.sugar.test ~ brain.IT,data = Success8trials.ITf))
 
-plot(PER.sugar.test.censored ~ brain.IT,data = Success8trials.ITf, main= "Censored time until PER in the test ~ encephalization", ylim=c(0,120), xlab="Encephalization (Brain/IT)", ylab="Time until PER")
+plot(PER.sugar.test.censored ~ brain.IT,data = Success8trials.ITf, main= "Censored time until PER in the test ~ encephalization (b)", ylim=c(0,120), xlab="Encephalization (Brain/IT)", ylab="Time until PER")
 abline(lm(PER.sugar.test.censored ~ brain.IT,data = Success8trials.ITf))
 
-plot(PER.sugar.test ~ residuals,data=Success8trials.ITf, main="Time until PER in the test ~ encephalization residuals", xlab="Encephalization residuals", ylab="Time until PER")
+plot(PER.sugar.test ~ residuals,data=Success8trials.ITf, main="Time until PER in the test ~ encephalization residuals (c)", xlab="Encephalization residuals", ylab="Time until PER")
 abline(lm(PER.sugar.test ~ residuals,data=Success8trials.ITf))
 
 par(mfrow=c(1,1))
 
 ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=PER.sugar.test)) +
   geom_point()+
-  ggtitle(" (c)") 
+  ggtitle(" (d)") 
 
 #Figure 5
 
