@@ -473,7 +473,7 @@ summary(succ.brain.itr)
 #Add nested random factor Genus/Species, still significant
 
 #Percentage of success
-View(Success8trials.ITf)
+
 length(which(Success8trials.ITf$Success.test==1))
 length(which(Success8trials.ITf$Success.test==0))
 
