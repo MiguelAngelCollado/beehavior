@@ -8,9 +8,10 @@ library(lme4)
 library(ggplot2)
 library(reshape2)
 library(rsq)
+install.packages(MuMlm)
 library(MuMlm)
 library(optiRum)
-
+library(survival)
 require(lme4)
 require(MuMIn)
 
@@ -26,6 +27,17 @@ which(Beeh.data$Correct.cue == "")
 which(is.na(Beeh.data$Genus))
 
 Beeh.data<-Beeh.data[-which(Beeh.data$ID == "D41"),]
+
+
+
+
+#Ask Nacho-----
+Lasioglossum.malachurum<-subset(Beeh.data, subset = (Beeh.data$Species == "Lasioglossum malachurum"))
+#D139 has the bigger brain of all Lasioglossum malachurum
+#D139 has outlier residuals
+
+boxplot(Beeh.data$Brain.weight/Beeh.data$IT..mm.)
+#######
 
 
 #The number of individuals identified is
@@ -444,6 +456,7 @@ unique(Success8trials.ITf$Species)
 Success8trials
 Success8trials.ITf<-Success8trials[-which(is.na(Success8trials$brain.IT)),]
 
+
 plot(Success.test ~ brain.IT, data = Success8trials.ITf, main="Success related to brain size")
 
 #Create new variable for graphs only
@@ -487,23 +500,30 @@ succ.brain.itrg.log<-glmer(Success.test ~ log.brain.it + (1|Genus/Species), data
 summary(succ.brain.itrg.log)
 
 
+
+
 #result
 succ.brain.itrg<-glmer(Success.test ~ brain.IT + (1|Genus/Species), data = Success8trials.ITf, family = binomial)
+allEffects(succ.brain.itrg)
 summary(succ.brain.itrg)
 
 
 #Success8 ~ brain/IT residuals----
 
 #First we extract residuals from Brain ~ IT models
-par(mfrow=c(2,1))
+par(mfrow=c(2,2))
 plot(Brain.weight ~ IT..mm.,data = Success8trials.ITf, xlab="Body Size")
 abline(lm(Brain.weight ~ IT..mm.,data = Success8trials.ITf), col="pink")
 plot(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf, xlab="log(Body Size)")
 abline(lm(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf), col="pink")
+plot(log(Brain.weight) ~ IT..mm.,data = Success8trials.ITf, xlab="Body Size", ylab = "Log(Brain)")
+abline(lm(log(Brain.weight) ~ IT..mm.,data = Success8trials.ITf), col="pink")
 par(mfrow=c(1,1))
 
 
 summary(lm(Brain.weight ~ IT..mm.,data = Success8trials.ITf))
+summary(lm(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf))
+summary(lm(log(Brain.weight) ~ IT..mm.,data = Success8trials.ITf))
 
 #The best model is the log-transformed
 BIT<-(lm(log(Brain.weight) ~ log(IT..mm.), data = Success8trials.ITf))
@@ -540,6 +560,9 @@ summary(succ8.ress)
 #result
 succ8.ressg<-glmer(Success.test ~ residuals + (1|Genus/Species), data = Success8trials.ITf, family = binomial)
 summary(succ8.ressg)
+
+
+
 
 
 #Slope differences for success/no success----
@@ -1150,6 +1173,7 @@ add.genus
 Add.genus<-unique(add.genus)
 Add.genus
 PERsugar.success.mean<-merge(PERsugar.success.mean, Add.genus)
+
 
 #success8 ~ brain.it----
 
@@ -2511,6 +2535,7 @@ par(mfrow=c(1,2))
 boxplot(Bombus.terrestris.woqueen[-which(is.na(Bombus.terrestris.woqueen$Brain.weight)),]$Brain.weight,Queen.bombus$Brain.weight, names=c("Males and Workers", "Queen"), ylab="Brain weight", main = "Brain weight comparison \nBombus terrestris")
 boxplot(Bombus.terrestris.woqueen$IT..mm.,Queen.bombus$IT..mm., ylab="Intertegular distance", names=c("Males and Workers", "Queen"), main = "Intertegular distance comparison \nBombus terrestris")
 par(mfrow=c(1,1))
+
 
 
 
