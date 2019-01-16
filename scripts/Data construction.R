@@ -8,7 +8,6 @@ library(lme4)
 library(ggplot2)
 library(reshape2)
 library(rsq)
-install.packages(MuMlm)
 library(MuMlm)
 library(optiRum)
 library(survival)
@@ -31,13 +30,17 @@ Beeh.data<-Beeh.data[-which(Beeh.data$ID == "D41"),]
 
 
 
-#Ask Nacho-----
-Lasioglossum.malachurum<-subset(Beeh.data, subset = (Beeh.data$Species == "Lasioglossum malachurum"))
-#D139 has the bigger brain of all Lasioglossum malachurum
-#D139 has outlier residuals
 
-boxplot(Beeh.data$Brain.weight/Beeh.data$IT..mm.)
-#######
+Lasioglossum.malachurum<-subset(Beeh.data, subset = (Beeh.data$Species == "Lasioglossum malachurum"))
+#D139 has the bigger brain of all Lasioglossum malachurum, we could remove it
+#D139 has outlier residuals
+boxplot(Lasioglossum.malachurum$Brain.weight/Lasioglossum.malachurum$IT..mm.)
+boxplot(Lasioglossum.malachurum$Brain.weight)
+boxplot(Lasioglossum.malachurum$IT..mm.)
+
+boxplot(Lasioglossum.malachurum)
+
+#Beeh.data<-Beeh.data[-which(Beeh.data$ID == "D139"),]
 
 
 #The number of individuals identified is
@@ -449,7 +452,6 @@ Success8trials<-merge(Success8trials,Genus)
 dev.off()
 
 unique(Success8trials.ITf$Species) 
-
 #Success8 ~ brain/IT----
 
 #We filter NA in brain/IT
@@ -562,9 +564,6 @@ succ8.ressg<-glmer(Success.test ~ residuals + (1|Genus/Species), data = Success8
 summary(succ8.ressg)
 
 
-
-
-
 #Slope differences for success/no success----
 #Let's see tendency lines for success and no success
 plot(Brain.weight ~ Success.test, data = Success8trials.ITf, notch = TRUE)
@@ -620,14 +619,7 @@ summary(brain.IT.succ.sp)
 
 
 
-
-
-
-
-
-
-
-
+Success8trials.ITf$Success.test
 #N.OF.SUCCESS BLOCK-----
 #n.of.success ~ brain/IT-----
 hist(Success8trials.ITf$n.of.success)
@@ -691,64 +683,6 @@ summary(brain.IT.succ.spg)
 
 
 #PER.SUGAR.TEST.BLOCK----
-#PER.sugar.test ~ Brain.IT----
-PER.sugar.test.censored<-replace(Beeh.data$PER.sugar.test, is.na(Beeh.data$PER.sugar.test), 121)
-
-PER.merge<-data.frame(Beeh.data$ID,
-Beeh.data$PER.sugar.test,
-PER.sugar.test.censored)
-colnames(PER.merge)<-c("ID","PER.sugar.test","PER.sugar.test.censored")
-
-Success8trials.ITf<-merge(Success8trials.ITf, PER.merge)
-
-#Acumulation in low time until success
-par(mfrow=c(2,1))
-plot(PER.sugar.test ~ brain.IT,data = Success8trials.ITf, main= "Time until success ~ Brain.IT", ylim=c(0,120))
-abline(lm(PER.sugar.test ~ brain.IT,data = Success8trials.ITf), col = "purple")
-plot(PER.sugar.test.censored ~ brain.IT,data = Success8trials.ITf, main= "Censored time until success ~ Brain.IT", ylim=c(0,120))
-abline(lm(PER.sugar.test.censored ~ brain.IT,data = Success8trials.ITf), col = "purple")
-par(mfrow=c(1,1))
-
-PERsugar.lm<-lm(PER.sugar.test ~ brain.IT,data = Success8trials.ITf)
-summary(PERsugar.lm)
-
-#There is some effect, yay
-
-PERsugarc.lmer<-lmer(PER.sugar.test.censored ~ brain.IT + (1|Genus/Species),data = Success8trials.ITf)
-summary(PERsugarc.lmer)
-
-##survival curves
-
-Success8trials.ITf$PER.sugar.test.censored
-Success8trials.ITf$Success.test<-as.logical(Success8trials.ITf$Success.test)
-
-success.test.logi<-vector()
-n=1
-for (n in 1:(nrow(Success8trials.ITf))) {
-  if (Success8trials.ITf$Success.test[n] == 1) {
-    success.test.logi[n]<-TRUE    
-  }else{
-    success.test.logi[n]<-FALSE
-  }
-}
-is.logical(success.test.logi)
-
-Success8trials.ITf$success.test.logi<-success.test.logi
-
-
-Success8trials.ITf$brain.IT
-
-cox.cue.time<- coxph(Surv(PER.sugar.test.censored, success.test.logi) ~ brain.IT, na.action = na.exclude, data = Success8trials.ITf) 
-cox.cue.time
-
-
-
-PERsugar.lmer<-lmer(PER.sugar.test ~ brain.IT + (1|Genus/Species),data = Success8trials.ITf)
-summary(PERsugar.lmer)
-
-
-
-
 #Per.sugar.test ~ residuals----
 plot(PER.sugar.test ~ residuals,data=Success8trials.ITf, main="Time until learning success ~ residuals", xlab="Brain/IT residuals", ylab="Time until learning success")
 abline(lm(PER.sugar.test ~ residuals,data=Success8trials.ITf), col="purple")
