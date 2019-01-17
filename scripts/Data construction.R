@@ -17,6 +17,8 @@ require(MuMIn)
 Beeh.data<-read.csv("data/Behavior comparison.csv")
 nrow(Beeh.data)
 
+#DATA CONSTRUCTION--------
+
 #If we don't have the correct cue, we can't use that bee
 Beeh.data<-Beeh.data[-which(Beeh.data$Correct.cue == ""),]
 #If we don't have the genus, we can't use that bee
@@ -451,9 +453,6 @@ colnames(Genus)<-(c("ID","Genus"))
 Success8trials<-merge(Success8trials,Genus)
 dev.off()
 
-unique(Success8trials.ITf$Species) 
-#Success8 ~ brain/IT----
-
 #We filter NA in brain/IT
 Success8trials
 Success8trials.ITf<-Success8trials[-which(is.na(Success8trials$brain.IT)),]
@@ -466,6 +465,61 @@ temp<-as.numeric(Success8trials.ITf$Success.test)
 temp<-replace(temp, temp == 1, 0)
 temp<-replace(temp, temp == 2, 1)
 Success8trials.ITf$Success.test.as.numeric<-temp
+
+#We extract RESIDUALS from Brain ~ IT models
+par(mfrow=c(2,2))
+plot(Brain.weight ~ IT..mm.,data = Success8trials.ITf, xlab="Body Size")
+abline(lm(Brain.weight ~ IT..mm.,data = Success8trials.ITf), col="pink")
+plot(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf, xlab="log(Body Size)")
+abline(lm(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf), col="pink")
+plot(log(Brain.weight) ~ IT..mm.,data = Success8trials.ITf, xlab="Body Size", ylab = "Log(Brain)")
+abline(lm(log(Brain.weight) ~ IT..mm.,data = Success8trials.ITf), col="pink")
+par(mfrow=c(1,1))
+
+
+summary(lm(Brain.weight ~ IT..mm.,data = Success8trials.ITf))
+summary(lm(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf))
+summary(lm(log(Brain.weight) ~ IT..mm.,data = Success8trials.ITf))
+
+#The best model is the log-transformed
+BIT<-(lm(log(Brain.weight) ~ log(IT..mm.), data = Success8trials.ITf))
+summary(BIT)
+BIT$residuals
+
+#We add the residuals to our dataframe
+Success8trials.ITf$residuals<-BIT$residuals
+plot(Success8trials.ITf$Success.test ~ Success8trials.ITf$residuals)
+
+#We add censored data, and time until PER
+PER.sugar.test.censored<-replace(Beeh.data$PER.sugar.test, is.na(Beeh.data$PER.sugar.test), 121)
+
+PER.merge<-data.frame(Beeh.data$ID,
+                      Beeh.data$PER.sugar.test,
+                      PER.sugar.test.censored)
+colnames(PER.merge)<-c("ID","PER.sugar.test","PER.sugar.test.censored")
+
+Success8trials.ITf<-merge(Success8trials.ITf, PER.merge)
+
+#Cox analysis need results as logical, we add a logical variable for success
+
+Success8trials.ITf$PER.sugar.test.censored
+
+success.test.logi<-vector()
+n=1
+for (n in 1:(nrow(Success8trials.ITf))) {
+  if (Success8trials.ITf$Success.test[n] == 1) {
+    success.test.logi[n]<-TRUE    
+  }else{
+    success.test.logi[n]<-FALSE
+  }
+}
+is.logical(success.test.logi)
+
+Success8trials.ITf$success.test.logi<-success.test.logi
+#MAIN ANALYSIS-----
+#Success 8 block----
+#Success8 ~ brain/IT----
+
 
 #plot
 plot(Success.test.as.numeric ~ brain.IT, data = Success8trials.ITf, main="Success related to brain size", xlab="Encephalization (Brain/IT)", ylab = "Success learning test")
@@ -511,31 +565,6 @@ summary(succ.brain.itrg)
 
 
 #Success8 ~ brain/IT residuals----
-
-#First we extract residuals from Brain ~ IT models
-par(mfrow=c(2,2))
-plot(Brain.weight ~ IT..mm.,data = Success8trials.ITf, xlab="Body Size")
-abline(lm(Brain.weight ~ IT..mm.,data = Success8trials.ITf), col="pink")
-plot(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf, xlab="log(Body Size)")
-abline(lm(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf), col="pink")
-plot(log(Brain.weight) ~ IT..mm.,data = Success8trials.ITf, xlab="Body Size", ylab = "Log(Brain)")
-abline(lm(log(Brain.weight) ~ IT..mm.,data = Success8trials.ITf), col="pink")
-par(mfrow=c(1,1))
-
-
-summary(lm(Brain.weight ~ IT..mm.,data = Success8trials.ITf))
-summary(lm(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf))
-summary(lm(log(Brain.weight) ~ IT..mm.,data = Success8trials.ITf))
-
-#The best model is the log-transformed
-BIT<-(lm(log(Brain.weight) ~ log(IT..mm.), data = Success8trials.ITf))
-summary(BIT)
-BIT$residuals
-
-#We do the model with the residuals, it is not correlated
-plot(Success8trials.ITf$Success.test ~ BIT$residuals)
-Success8trials.ITf$residuals<-BIT$residuals
-
 
 
 #plot
@@ -589,7 +618,7 @@ ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=Succes
 
 ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=Success.test)) +
   geom_point() +
-  geom_smooth(method=lm, aes(fill=Success.test)) +
+  geom_smooth(method=lm, aes(fill=Success.test))
   
 
 brain.IT.succ.sp<-lmer(log(Brain.weight) ~ log(IT..mm.) * Success.test + (1|Species), data = Success8trials.ITf)
@@ -619,8 +648,9 @@ summary(brain.IT.succ.sp)
 
 
 
-Success8trials.ITf$Success.test
-#N.OF.SUCCESS BLOCK-----
+
+
+#n.of.success block-----
 #n.of.success ~ brain/IT-----
 hist(Success8trials.ITf$n.of.success)
 plot(n.of.success~brain.IT,data = Success8trials.ITf)
@@ -682,12 +712,44 @@ summary(brain.IT.succ.spg)
 
 
 
-#PER.SUGAR.TEST.BLOCK----
-#Per.sugar.test ~ residuals----
-plot(PER.sugar.test ~ residuals,data=Success8trials.ITf, main="Time until learning success ~ residuals", xlab="Brain/IT residuals", ylab="Time until learning success")
-abline(lm(PER.sugar.test ~ residuals,data=Success8trials.ITf), col="purple")
 
-PERsugar.res.lm<-lm(PER.sugar.test ~ residuals,data=Success8trials.ITf)
+#per.sugar.test.block----
+#PER.sugar.test ~ Brain.IT----
+
+
+#Acumulation in low time until success
+par(mfrow=c(2,1))
+plot(PER.sugar.test ~ brain.IT,data = Success8trials.ITf, main= "Time until success ~ Brain.IT", ylim=c(0,120))
+abline(lm(PER.sugar.test ~ brain.IT,data = Success8trials.ITf), col = "purple")
+plot(PER.sugar.test.censored ~ brain.IT,data = Success8trials.ITf, main= "Censored time until success ~ Brain.IT", ylim=c(0,120))
+abline(lm(PER.sugar.test.censored ~ brain.IT,data = Success8trials.ITf), col = "purple")
+par(mfrow=c(1,1))
+
+PERsugar.lm<-lm(PER.sugar.test ~ brain.IT,data = Success8trials.ITf)
+summary(PERsugar.lm)
+
+#There is some effect, yay
+
+PERsugarc.lmer<-lmer(PER.sugar.test.censored ~ brain.IT + (1|Genus/Species),data = Success8trials.ITf)
+summary(PERsugarc.lmer)
+
+##survival curves
+
+
+cox.cue.time<- coxph(Surv(PER.sugar.test.censored, success.test.logi) ~ brain.IT, na.action = na.exclude, data = Success8trials.ITf) 
+cox.cue.time
+
+
+
+PERsugar.lmer<-lmer(PER.sugar.test ~ brain.IT + (1|Genus/Species),data = Success8trials.ITf)
+summary(PERsugar.lmer)
+
+#Per.sugar.test ~ residuals----
+
+plot(PER.sugartest ~ residuals, data=Success8trials.PER, main="Time until learning success ~ residuals", xlab="Brain/IT residuals", ylab="Time until learning success")
+abline(lm(PER.sugartest ~ residuals, data=Success8trials.PER), col="purple")
+
+PERsugar.res.lm<-lm(PER.sugartest ~ residuals,data=Success8trials.PER)
 summary(PERsugar.res.lm)
 
 
@@ -712,9 +774,7 @@ summary(per.sugar.lmer.slopes)
 
 
 
-
-
-#INDIVIDUAL.SLOPES.BLOCK---- 
+#individual.slopes.block---- 
 #Individual.slopes ~ brain.IT----
 Success8trials.ITf
 
@@ -875,7 +935,7 @@ summary(per.slopes.lmer.slopes)
 
 
 
-#PER.TIME.TRIALS.BLOCK-----
+#per.time.trials.block-----
 #PERtime ~ trial number-----
 #We create the dataframe
 #For all the bees that reacted to some trial
@@ -990,7 +1050,7 @@ ggplot(melt.last.test.done.bees2, aes(x=Trial, y=Time, color=residuals)) +
 
 
 
-
+#OTHER ANALYSIS---------
 ##Does bees learn?-----
 Success8trials.ITf$Success.test.as.numeric
 observed<-c(nrow(subset(Success8trials.ITf, subset = (Success8trials.ITf$Success.test.as.numeric == 1))),
