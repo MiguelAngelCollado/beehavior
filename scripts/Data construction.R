@@ -752,6 +752,8 @@ abline(lm(PER.sugartest ~ residuals, data=Success8trials.PER), col="purple")
 PERsugar.res.lm<-lm(PER.sugartest ~ residuals,data=Success8trials.PER)
 summary(PERsugar.res.lm)
 
+plot(PER.sugar.test.censored ~ residuals, data = Success8trials.ITf)
+abline(lm(PER.sugar.test.censored ~ residuals, data = Success8trials.ITf), col="purple")
 
 #survival curves
 cox.cue.time2<- coxph(Surv(PER.sugar.test.censored, success.test.logi) ~ residuals, na.action = na.exclude, data = Success8trials.ITf) 
@@ -1050,6 +1052,25 @@ ggplot(melt.last.test.done.bees2, aes(x=Trial, y=Time, color=residuals)) +
 
 
 
+#success8 ~ n.of.success (Does bees learn?)----
+#Does number of success conditionate success in the test?
+plot(n.of.success ~ Success.test, notch = TRUE, data = Success8trials.ITf)
+plot(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf)
+abline(lm(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf), col="purple")
+
+summary(lm(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf))
+n.succ.succ8<-glm(Success.test ~ n.of.success, data = Success8trials.ITf, family = binomial)
+summary(n.succ.succ8)
+allEffects(n.succ.succ8, xlevels=list(n.of.success=c(0:8)))
+
+
+#mixed model
+n.succ.succ8.glmm<-glmer(Success.test ~ n.of.success + (1|Genus/Species), data = Success8trials.ITf, family = binomial)
+allEffects(n.succ.succ8.glmm, xlevels=list(n.of.success=c(0:8)))
+
+summary(n.succ.succ8.glmm)
+
+
 #OTHER ANALYSIS---------
 ##Does bees learn?-----
 Success8trials.ITf$Success.test.as.numeric
@@ -1284,17 +1305,6 @@ summary(succ8.values.brainIT.g)
 r.squaredGLMM(succ8.values.brainIT.g)
 #(Controlar por todo a la vez)
 
-
-#success8 ~ n.of.success (Does bees learn?)----
-#Does number of success conditionate success in the test?
-plot(n.of.success ~ Success.test, notch = TRUE, data = Success8trials.ITf)
-plot(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf)
-abline(lm(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf), col="purple")
-
-summary(lm(as.numeric(Success.test) ~ n.of.success, data = Success8trials.ITf))
-n.succ.succ8<-glm(Success.test ~ n.of.success, data = Success8trials.ITf, family = binomial)
-summary(n.succ.succ8)
-allEffects(n.succ.succ8, xlevels=list(n.of.success=c(0:8)))
 
 
 
@@ -2539,13 +2549,13 @@ par(mfrow=c(1,1))
 #Figure 2
 par(mfrow=c(1,2))
 
-plot(Success.test.as.numeric ~ brain.IT, data = Success8trials.ITf, main="Success related to brain size (a)", xlab="Encephalization (Brain/IT)", ylab = "Success learning test")
+plot(Success.test.as.numeric ~ brain.IT, data = Success8trials.ITf, main="Success related to brain size (a)", xlab="Encephalization (Brain/IT)", ylab = "No success / success", yaxt='n')
 xweight <- seq(0, 2, 0.01)
 fit <- glm(Success.test ~ brain.IT, family = binomial, data = Success8trials.ITf)
 yweight <- predict(fit, list(brain.IT = xweight), type="response")
 lines(xweight, yweight)
 
-plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf, main= "Learning success related to encephalization residuals (b)", ylab="No success / success", xlab= "Encephalization residuals")
+plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf, main= "Success related to brain-body size residuals (b)", ylab="", xlab= "brain-body size residuals", yaxt='n')
 xweight <- seq(-1, 2, 0.01)
 fit <- glm(Success.test ~ residuals, family = binomial, data = Success8trials.ITf)
 yweight <- predict(fit, list(residuals = xweight), type="response")
@@ -2580,18 +2590,23 @@ par(mfrow=c(1,1))
 
 #Figure 4
 
-par(mfrow=c(2,2))
+par(mfrow=c(1,2))
+
+plot(PER.sugar.test.censored ~ brain.IT,data = Success8trials.ITf, main= "Censored time until PER in the test ~ encephalization (a)", ylim=c(0,120), xlab="Encephalization (Brain/IT)", ylab="Censored time until PER")
+abline(lm(PER.sugar.test.censored ~ brain.IT,data = Success8trials.ITf))
+
+plot(PER.sugar.test.censored ~ residuals, data = Success8trials.ITf, main= "Censored time until PER in the test ~ brain-body size residuals (b)", ylab = "", xlab="Brain ~ Body size residuals")
+abline(lm(PER.sugar.test.censored ~ residuals, data = Success8trials.ITf))
+
+par(mfrow=c(1,1))
 
 plot(PER.sugar.test ~ brain.IT,data = Success8trials.ITf, main= "Time until PER in the test ~ encephalization (a)", ylim=c(0,120), xlab="Encephalization (Brain/IT)", ylab="Time until PER")
 abline(lm(PER.sugar.test ~ brain.IT,data = Success8trials.ITf))
 
-plot(PER.sugar.test.censored ~ brain.IT,data = Success8trials.ITf, main= "Censored time until PER in the test ~ encephalization (b)", ylim=c(0,120), xlab="Encephalization (Brain/IT)", ylab="Time until PER")
-abline(lm(PER.sugar.test.censored ~ brain.IT,data = Success8trials.ITf))
-
 plot(PER.sugar.test ~ residuals,data=Success8trials.ITf, main="Time until PER in the test ~ encephalization residuals (c)", xlab="Encephalization residuals", ylab="Time until PER")
 abline(lm(PER.sugar.test ~ residuals,data=Success8trials.ITf))
 
-par(mfrow=c(1,1))
+
 
 ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=PER.sugar.test)) +
   geom_point()+
