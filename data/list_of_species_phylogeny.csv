@@ -1,22 +1,22 @@
-Ferrans phylogeny,Bees without phylogeny
-Andrena flavipes,Andrena angustior
-Andrena hispania,Andrena cinerea
-Andrena sp.,Andrena labialis
-Anthophora retusa,Andrena pilipes
-Anthopora plumipes,Andrena rhyssonota
-Apis mellifera,Anthopora dispar
-Bombus pascuorum,Eucera notata
-Bombus pratorum,Eucera rufa
-Bombus terrestris,Lasioglossum malachurum
-Eucera elongatula,Panurgus dargius
-Eucera sp.,Psithyrus vestalis
-Flavipanurgus venustus,
-Lasioglossum immunitum,
-Lasioglossum sp.,
-Megachile willughbiella,
-Osmia caerulescens,
-Osmia latreillei,
-Panurgus sp.,
-Rhodanthidium sticticum,
-Xylocopa cantabrita,
-Xylocopa violacea,
+Ferrans phylogeny;Bees without phylogeny;genbank
+Andrena flavipes;Andrena angustior;https://www.ncbi.nlm.nih.gov/nuccore/KT074003.1
+Andrena hispania;Andrena cinerea;No
+Andrena sp.;Andrena labialis;https://www.ncbi.nlm.nih.gov/nuccore/KJ836447.1
+Anthophora retusa;Andrena pilipes;https://www.ncbi.nlm.nih.gov/nuccore/KJ839229.1
+Anthopora plumipes;Andrena rhyssonota;No
+Apis mellifera;Lasioglossum malachurum;https://www.ncbi.nlm.nih.gov/nuccore/KC798359.1
+Bombus pascuorum;Panurgus dargius;No
+Bombus pratorum;Psithyrus vestalis;https://www.ncbi.nlm.nih.gov/nuccore/AY181194.1
+Bombus terrestris;;
+Eucera elongatula;;
+Eucera sp.;;
+Flavipanurgus venustus;;
+Lasioglossum immunitum;;
+Lasioglossum sp.;;
+Megachile willughbiella;;
+Osmia caerulescens;;
+Osmia latreillei;;
+Panurgus sp.;;
+Rhodanthidium sticticum;;
+Xylocopa cantabrita;;
+Xylocopa violacea;;
