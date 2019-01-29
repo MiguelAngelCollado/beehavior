@@ -13,6 +13,13 @@ library(optiRum)
 library(survival)
 require(lme4)
 require(MuMIn)
+library(MCMCglmm)
+library(brms)
+library(data.tree)
+library('ctv') 
+library(ape)
+
+
 
 Beeh.data<-read.csv("data/Behavior comparison.csv")
 nrow(Beeh.data)
@@ -1391,16 +1398,7 @@ boxplot(place.brain$brain.IT ~ place.brain$Place.type, notch = TRUE, ylab = "Bra
 TukeyHSD(aov(place.brain$brain.IT ~ place.brain$Place.type))
 
 #PHYLOGENETIC TREES----
-library(MCMCglmm)
-library(brms)
-library(data.tree)
-library('ctv') 
-#install.views('Phylogenetics')
-#update.views('Phylogenetics')
-
-#Librería para leer y modificar árboles filogenéticos
-library(ape)
-
+#Tree construction----
 #LOAD IN YOUR TREE, by Hedtke et al 2013
 apoidea<-read.tree(file = "data/phylogeny_genus_level.txt")
 
@@ -1423,7 +1421,6 @@ str(t1)
 plot(t2)
 t2$tip.label
 
-PERsugar.success.mean
 unique(Success8trials.ITf$Genus)
 levels(Success8trials.ITf$Genus)
 
@@ -1617,6 +1614,25 @@ tree$tip.label[15]<-"Andrena pilipes"
 tree$tip.label[16]<-"Andrena sp."
 tree$tip.label[17]<-"Duckeanthidium sp."
 plot(tree)
+
+#Transform to ultrametric tree
+is.ultrametric(tree)
+tree.u<-force.ultrametric(tree)
+plot(tree.u)
+tree.u$edge.length
+
+#add species distance?
+tree.d<-tree
+plot(tree.d)
+
+tree$edge.length
+
+
+
+
+#MCMCGLMM analysis----
+#aaaaaaaaa
+
 
 #Queen brain----
 Bombus.terrestris<-(subset(Beeh.data, subset = (Beeh.data$Species == "Bombus terrestris")))
