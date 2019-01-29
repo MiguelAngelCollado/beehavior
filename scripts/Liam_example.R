@@ -1,11 +1,30 @@
+tree<-read.tree("Miguel_Tree.txt")
 ##BEE_PHYLO STRUCTURE
 library(MCMCglmm)
 library(brms)
-library(ggphylo)
+plot(tree)
+#I try to do the MCMCglmm directly
+inv.phylo <- MCMCglmm::inverseA(tree, nodes = "TIPS", scale = FALSE)
+
+# But node labels are not unique, I assing some random names, I don't think this is
+# important
+tree$node.label<-c(1:length(tree$node.label))
+
+#Phylogeny edge.lengths are zero
+inv.phylo <- MCMCglmm::inverseA(tree, nodes = "TIPS", scale = FALSE)
+
+plot(tree)
+tiplabels()
+nodelabels()
+tree$edge.length
+tree$edge
+#Species have no distance, what distance should I assign?
+
+
 ##LOAD IN YOUR TREE
 plot(tree)
 any(duplicated(tree$node.label))
-tree$node.label<-c("","","","","","","","","","","","","","","","")
+
 any(duplicated(tree$node.label))
 nodelabels()
 tree$node.label<-c(1:length(tree$node.label))

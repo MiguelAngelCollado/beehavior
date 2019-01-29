@@ -1614,7 +1614,7 @@ tree$tip.label[15]<-"Andrena pilipes"
 tree$tip.label[16]<-"Andrena sp."
 tree$tip.label[17]<-"Duckeanthidium sp."
 plot(tree)
-
+#write.tree(tree, "Miguel_tree.txt")
 #Transform to ultrametric tree
 is.ultrametric(tree)
 tree.u<-force.ultrametric(tree)
