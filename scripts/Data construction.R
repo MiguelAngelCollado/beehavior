@@ -738,8 +738,13 @@ summary(PERsugar.lm)
 
 #There is some effect, yay
 
+
 PERsugarc.lmer<-lmer(PER.sugar.test.censored ~ brain.IT + (1|Genus/Species),data = Success8trials.ITf)
 summary(PERsugarc.lmer)
+#Possion distribution?
+PERsugarc.glmer<-glmer(PER.sugar.test.censored ~ brain.IT + (1|Genus/Species),family = poisson,data = Success8trials.ITf)
+summary(PERsugarc.glmer)
+
 
 ##survival curves
 
@@ -766,6 +771,21 @@ abline(lm(PER.sugar.test.censored ~ residuals, data = Success8trials.ITf), col="
 #survival curves
 cox.cue.time2<- coxph(Surv(PER.sugar.test.censored, success.test.logi) ~ residuals, na.action = na.exclude, data = Success8trials.ITf) 
 cox.cue.time2
+
+
+PERsugar.res.glmer<-glmer(PER.sugar.test ~ residuals + (1|Genus/Species), family = poisson, data=Success8trials.ITf)
+summary(PERsugar.res.glmer)
+
+#Poisson distribution?
+PERsugar.res.glmer<-glmer(PER.sugar.test ~ residuals + (1|Genus/Species), family = poisson, data=Success8trials.ITf)
+#Terrible
+summary(PERsugar.res.glmer)
+
+
+PERsugar.c.res.glmer<-glmer(PER.sugar.test.censored ~ residuals + (1|Genus/Species), family = poisson, data=Success8trials.ITf)
+#Terrible
+summary(PERsugar.c.res.glmer)
+
 
 
 PERsugar.res.lmer<-lmer(PER.sugar.test ~ residuals + (1|Genus/Species), data=Success8trials.ITf)
@@ -1399,7 +1419,6 @@ boxplot(place.brain$brain.IT ~ place.brain$Place.type, notch = TRUE, ylab = "Bra
 TukeyHSD(aov(place.brain$brain.IT ~ place.brain$Place.type))
 
 #PHYLOGENETIC TREES----
-#Liam tree construction----
 
 ##LOAD TREE
 bee.trees=read.tree(file="data/phylogeny_genus_level.txt")
@@ -1585,6 +1604,7 @@ brm.prueba<-brm(Success.test ~ brain.IT + (1|Species), data = dataformcmc,
 
 
 ##Posterior predictive checks - with these you are looking at how well yrep replicates y - if they are very different, it suggests your model is misspecified
+# if a model is a good fit then we should be able to use it to generate data that looks a lot like the data we observed
 pp_check(brm.prueba,nsamples=1000)
 
 #we create the prio object, with the formula of our model
@@ -1634,18 +1654,21 @@ brm.succ8res<-brm(Success.test ~ residuals + (1|Species), data = dataformcmc,
                 family = bernoulli, cov_ranef = list("Species" = A),
                 control = list(adapt_delta = 0.99,max_treedepth=15))
 
-summary(succ8.ressg)
+
 brm.succ8res
-brm.prueba=add_ic(brm.succ8res,ic=c("waic"))
-pp_check(brm.prueba,nsamples=1000)
+brm.succ8res=add_ic(brm.succ8res,ic=c("waic"))
+pp_check(brm.succ8res,nsamples=1000)
+bayes_R2(brm.succ8res)
 #n.of.success~brain.it glmm------
 brm.nsuccbrain.it<-brm(n.of.success ~ brain.IT + (1|Species), data = dataformcmc,
                         cores=4,
                         family = gaussian, cov_ranef = list("Species" = A),
                         control = list(adapt_delta = 0.99,max_treedepth=15))
 brm.nsuccbrain.it
-summary(n.succ.brainit.lm.g)
-brm.nsuccbrain.it
+
+brm.nsuccbrain.it=add_ic(brm.nsuccbrain.it,ic=c("waic"))
+pp_check(brm.nsuccbrain.it,nsamples=1000)
+bayes_R2(brm.nsuccbrain.it)
 
 
 #n.of.success~residuals glmm------
@@ -1655,11 +1678,137 @@ brm.nsuccresiduals<-brm(n.of.success ~ residuals + (1|Species), data = dataformc
                   control = list(adapt_delta = 0.99,max_treedepth=15))
 
 brm.nsuccresiduals
-summary(n.succ.res.lmer)
-#por aqui-----
-#PER.sugar.test ~ Brain.IT-------
-#do it
+brm.nsuccresiduals=add_ic(brm.nsuccresiduals,ic=c("waic"))
+pp_check(brm.nsuccresiduals,nsamples=1000)
+bayes_R2(brm.nsuccresiduals)
 
+
+#PER.sugar.test ~ Brain.IT-------
+brm.persugartest.brain.IT<-brm(PER.sugar.test ~ brain.IT + (1|Species), data = dataformcmc,
+                      cores=4,
+                      family = gaussian, cov_ranef = list("Species" = A),
+                      control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.persugartest.brain.IT=add_ic(brm.persugartest.brain.IT,ic=c("waic"))
+#Not a good model mate
+pp_check(brm.persugartest.brain.IT,nsamples=1000)
+bayes_R2(brm.persugartest.brain.IT)
+
+brm.persugartest.brain.IT<-brm(PER.sugar.test ~ brain.IT + (1|Species), data = dataformcmc,
+                      cores=4,
+                      family = poisson, cov_ranef = list("Species" = A),
+                      control = list(adapt_delta = 0.99,max_treedepth=15))
+
+brm.persugartest.brain.IT=add_ic(brm.persugartest.brain.IT,ic=c("waic"))
+
+pp_check(brm.persugartest.brain.IT,nsamples=1000)
+bayes_R2(brm.persugartest.brain.IT)
+
+#PER.sugar.test ~ residuals glmm-----
+brm.persugartest<-brm(PER.sugar.test ~ residuals + (1|Species), data = dataformcmc,
+                        cores=4,
+                        family = gaussian, cov_ranef = list("Species" = A),
+                        control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.persugartest=add_ic(brm.persugartest,ic=c("waic"))
+#Not a good model mate
+pp_check(brm.persugartest,nsamples=1000)
+bayes_R2(brm.persugartest)
+
+brm.persugartest<-brm(PER.sugar.test ~ residuals + (1|Species), data = dataformcmc,
+                      cores=4,
+                      family = poisson, cov_ranef = list("Species" = A),
+                      control = list(adapt_delta = 0.99,max_treedepth=15))
+
+brm.persugartest=add_ic(brm.persugartest,ic=c("waic"))
+pp_check(brm.persugartest,nsamples=1000)
+bayes_R2(brm.persugartest)
+
+
+#PER.sugar.test.censored ~ Brain.IT-------
+brm.persugartest.c.brainIT<-brm(PER.sugar.test.censored ~ brain.IT + (1|Species), data = dataformcmc,
+                        cores=4,
+                        family = gaussian, cov_ranef = list("Species" = A),
+                        control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.persugartest.c.brainIT=add_ic(brm.persugartest.c.brainIT,ic=c("waic"))
+#This is not a good model either
+pp_check(brm.persugartest.c.brainIT,nsamples=1000)
+bayes_R2(brm.persugartest.c.brainIT)
+
+
+
+#PER.sugar.test.censored ~ residuals----
+brm.persugartest.c<-brm(PER.sugar.test.censored ~ residuals + (1|Species), data = dataformcmc,
+                      cores=4,
+                      family = gaussian, cov_ranef = list("Species" = A),
+                      control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.persugartest.c=add_ic(brm.persugartest.c,ic=c("waic"))
+#This is not a good model either
+pp_check(brm.persugartest.c,nsamples=1000)
+bayes_R2(brm.persugartest.c)
+
+
+
+#Time ~ Trial glmmm
+summary(lmer(Time ~ Trial + (1|Genus/Species/ID), data = melt.last.test.done.bees))
+melt.last.test.done.beesforglmm<-melt.last.test.done.bees
+
+
+melt.last.test.done.beesforglmm$Species<-stri_replace_first_regex(melt.last.test.done.beesforglmm$Species,pattern = " ", replacement = "_")
+melt.last.test.done.beesforglmm[melt.last.test.done.beesforglmm$Species%in%"Psithyrus_vestalis","Species"]=c("Bombus_vestalis")
+melt.last.test.done.beesforglmm<-na.omit(melt.last.test.done.beesforglmm)
+melt.last.test.done.beesforglmm<-melt.last.test.done.beesforglmm[-(which(melt.last.test.done.beesforglmm$Species == "Panurgus_dargius")),]
+melt.last.test.done.beesforglmm<-melt.last.test.done.beesforglmm[-(which(melt.last.test.done.beesforglmm$Species == "Osmia_caerulescens")),]
+
+View(melt.last.test.done.beesforglmm)
+
+setdiff(melt.last.test.done.beesforglmm$Species,bee.tree$tip.label)
+
+brm.time.trial<-brm(Time ~ Trial + (1|Species), data = melt.last.test.done.beesforglmm,
+                        cores=4,
+                        family = gaussian, cov_ranef = list("Species" = A),
+                        control = list(adapt_delta = 0.99,max_treedepth=15))
+
+brm.time.trial=add_ic(brm.time.trial,ic=c("waic"))
+
+pp_check(brm.time.trial,nsamples=1000)
+bayes_R2(brm.time.trial)
+
+brm.time.trial.poisson<-brm(Time ~ Trial + (1|Species), data = melt.last.test.done.beesforglmm,
+                    cores=4,
+                    family = poisson, cov_ranef = list("Species" = A),
+                    control = list(adapt_delta = 0.99,max_treedepth=15))
+
+brm.time.trial.poisson=add_ic(brm.time.trial.poisson,ic=c("waic"))
+#not very good
+pp_check(brm.time.trial.poisson,nsamples=1000)
+bayes_R2(brm.time.trial.poisson)
+
+#bayesian vs mixed models-----
+#success8~brain.it
+summary(succ.brain.itrg)
+success8brain.itglmmm
+#success8~residuals
+summary(succ8.ressg)
+brm.succ8res
+#n.of.success~brain.it
+summary(n.succ.brainit.lm.g)
+brm.nsuccbrain.it
+#n.of.success~residuals
+summary(n.succ.res.lmer)
+brm.nsuccresiduals
+#PER.sugar.time~brain.IT
+summary(PERsugarc.glmer)
+brm.persugartest.brain.IT
+#PER.sugar.time~residuals
+summary(PERsugar.res.glmer)
+brm.persugartest
+summary(PERsugar.c.res.glmer)
+PERsugarc.glmer
+
+#Time~Trial
+summary(lmer(Time ~ Trial + (1|Species), data = melt.last.test.done.bees))
+brm.time.trial.poisson
+
+#other-------------------
 #I just had a bit of fun with your dataset below haha...
 
 ##I imagine your next model could be the number of successes?
@@ -1701,411 +1850,6 @@ marginal_effects(brm_successes)
 
 
 
-#Tree construction----
-#LOAD IN YOUR TREE, by Hedtke et al 2013
-apoidea<-read.tree(file = "data/phylogeny_genus_level.txt")
-
-#We have 10 possible trees
-str(apoidea)
-apoidea[[1]]
-t1<-apoidea[[1]]
-t2<-apoidea[[2]]
-t3<-apoidea[[3]]
-t4<-apoidea[[4]]
-t5<-apoidea[[5]]
-t6<-apoidea[[6]]
-t7<-apoidea[[7]]
-t8<-apoidea[[8]]
-t9<-apoidea[[9]]
-t10<-apoidea[[10]]
-plot(t1)
-#Structure, plot and genus of the phylo tree
-str(t1)
-plot(t2)
-t2$tip.label
-
-unique(Success8trials.ITf$Genus)
-levels(Success8trials.ITf$Genus)
-
-# We drop tips except "Andrena", "Apis", "Bombus", "Lasioglossum", 
-# "Osmia", "Rhodanthidium"
-
-
-#All trees are the same for our genus levels, except from tree 1, we pick tree2
-
-tree2<-drop.tip(t2, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa", "Chilimelissa",    
-                            "Hylaeus", "Amphylaeus", "Meroglossa", "Palaeorhiza",     
-                            "Hyleoides", "Scrapter", "Euhesma", "Euryglossina",    
-                            "Callohesma", "Euryglossa", "Xanthesma", "Stenotritus",     
-                            "Ctenocolletes", "Alocandrena", "Megandrena",      
-                            "Euherbstia", "Orphana", "Protoxaea", "Nolanomelissa",   
-                            "Neffapis", "Meliturgula", "Plesiopanurgus", "Macrotera",       
-                            "Perdita", "Clavipanurgus", "Panurginus",        
-                            "Camptopoeum", "Melitturga", "Protandrena", "Pseudopanurgus",  
-                            "Calliopsis", "Arhysosage", "Callonychium", "Cerceris",        
-                            "Eucerceris", "Clypeadon", "Philanthus", "Pulverro",        
-                            "Clitemnestra", "Stizoides", "Bembix", "Xerostictia",     
-                            "Microbembex", "Bicyrtes", "Ampulex", "Sceliphron",      
-                            "Chlorion", "Chalybion", "Isodontia", "Sphex",           
-                            "Podalonia", "Prionyx", "Ammophila", "Eremnophila",     
-                            "Oxybelus", "Anacrabro", "Plenoculus", "Tachytes",        
-                             "Samba", "Capicola", "Hesperapis",      
-                            "Eremaphanta", "Dasypoda", "Melitta", "Redivivoides",    
-                            "Rediviva", "Macropis", "Promelitta", "Meganomia",       
-                            "Habropoda", "Deltoptila", "Pachymelus", "Amegilla",        
-                            "Sphecodopsis", "Pasites", "Oreopasites",     
-                            "Ammobates", "Odyneropsis", "Triepeolus", "Rhinepeolus",     
-                            "Doeringiella", "Thalestria", "Epeolus", "Triopasites",     
-                            "Brachynomada", "Paranomada", "Holcopasites", "Ammobatoides",    
-                            "Nomada", "Hexepeolus", "Neolarra", "Biastes",         
-                            "Neopasites", "Townsendiella", "Caenoprosopina", "Caenoprosopis",   
-                            "Tetralonioidella", "Zacosmia", "Xeromelecta", "Melecta",         
-                            "Thyreus", "Hopliphora", "Mesoplia", "Mesocheira",      
-                            "Ctenioschelus", "Epiclopus", "Mesonychium", "Ericrocis",       
-                            "Rhathymus", "Nanorhathymus", "Osiris", "Isepeolus",       
-                            "Melectoides", "Epeoloides", "Leiopodus", "Coelioxoides",    
-                            "Parepeolus", "Ancyla", "Florilegus", "Svastrina",       
-                            "Peponapis", "Xenoglossa", "Tetraloniella",   
-                            "Tetralonia", "Svastra", "Melissodes", "Martinapis",      
-                            "Svastrides", "Thygater", "Melissoptila", "Meliphilopsis",   
-                            "Diadasia", "Alepidosceles", "Ptilothrix", "Diadasina",       
-                            "Melitoma", "Tapinotaspoides", "Caenonomada", "Tapinotaspidini", 
-                            "Arhysoceble", "Paratetrapedia", "Anthophorula", "Exomalopsis",     
-                            "Ancyloscelis", "Epicharis", "Exaerete", "Euglossa",        
-                            "Aglae", "Eulaema", "Eufriesea",            
-                            "Tetragonilla", "Tetragonula", "Platytrigona",    
-                            "Heterotrigona", "Sundatrigona", "Geniotrigona", "Lepidotrigona",   
-                            "Lophotrigona", "Tetrigona", "Homotrigona", "Odontotrigona",   
-                            "Leurotrigona", "Hypotrigona", "Austroplebeia", "Lisotrigona",     
-                            "Liotrigona", "Plebeiella", "Axestotrigona", "Meliponula",      
-                            "Apotrigona", "Meliplebeia", "Plebeina", "Dactylurina",     
-                            "Melipona", "Parapartamona", "Meliwillea", "Partamona",       
-                            "Nogueirapis", "Aparatrigona", "Paratrigona", "Nannotrigona",    
-                            "Tetragonisca", "Frieseomelitta", "Duckeola", "Trichotrigona",   
-                            "Lestrimelitta", "Plebeia", "Friesella", "Mourella",        
-                            "Schwarziana", "Oxytrigona", "Scaptotrigona", "Ptilotrigona",    
-                            "Tetragona", "Trigona", "Cephalotrigona", "Geotrigona",      
-                            "Scaura", "Schwarzula", "Dolichotrigona", "Trigonisca",      
-                            "Celetrigona", "Centris", "Manuelia", "Ctenoplectrina",  
-                            "Ctenoplectra", "Macrogalea", "Allodapula",      
-                            "Exoneuridia", "Exoneurella", "Brevineura", "Exoneura",        
-                            "Inquilina",  "Halterapis", "Compsomelissa", "Braunsapis",      
-                            "Allodape", "Ceratina", "Fideliopsis", "Fidelia",         
-                            "Pararhophites", "Aspidosmia", "Aglaoapis", "Paradioxys",      
-                            "Dioxys", "Noteriades", "Radoszkowskiana", 
-                            "Coelioxys", "Pseudoheriades", "Afroheriades", "Protosmia",       
-                            "Heriades", "Stenoheriades", "Hofferia", "Othinosmia",      
-                            "Haetosmia", "Wainia", "Hoplosmia",           
-                            "Ashmeadiella", "Atoposmia", "Hoplitis", "Stenosmia",       
-                            "Chelostoma", "Ochreriades", "Trachusa", "Afranthidium",    
-                            "Anthidium", "Serapista", "Pseudoanthidium", "Bathanthidium",   
-                            "Dianthidium", "Anthidiellum", "Paranthidium",  
-                            "Icteranthidium", "Pachyanthidium", "Benanthis", "Eoanthidium",     
-                            "Hypanthidium","Anthodioctes", "Hypanthidioides", 
-                            "Notanthidium", "Epanthidium", "Stelis", "Lithurgus",       
-                            "Microthurge", "Trichothurgus", "Neofidelia", "Dieunomia",       
-                            "Pseudapis", "Lipotriches", "Curvinomia", "Hoplonomia",      
-                            "Nomia", "Macronomia", "Nomioides", "Cellariella",     
-                            "Corynura", "Neocorynura", "Megommation", "Megalopta",       
-                            "Xenochlora", "Megaloptidia", "Augochlora", "Augochlorella",   
-                            "Augochloropsis", "Agapostemon", "Dinagapostemon", "Rhinetula",       
-                            "Caenohalictus", "Habralictus", "Ruizantheda", "Pseudagapostemon",
-                            "Eupetersia", "Sphecodes", "Mexalictus", "Patellapis",      
-                            "Thrincohalictus", "Halictus", "Homalictus",   
-                            "Parathrincostoma", "Thrinchostoma", "Penapis", "Goeletapis",      
-                            "Xeralictus", "Protodufourea", "Dufourea", "Systropha",       
-                            "Rophites", "Sphecodosoma", "Conanthalictus", "Mydrosoma",       
-                            "Ptiloglossidia", "Willinkapis", "Caupolicana", "Ptiloglossa",     
-                            "Zikanapis", "Cadeguala", "Diphaglossa", "Cadegualina", 
-                            "Edwyniana", "Belopria", "Nomiocolletes", "Eulonchopria",    
-                            "Hoplocolletes",  "Niltonia", "Spinolapis", "Kylopasiphae",    
-                            "Hexantheda", "Brachyglossula", "Tetraglossula", "Perditomorpha",   
-                            "Halictanthrena", "Phenacolletes", "Euryglossidia", "Excolletes",      
-                            "Leioproctus", "Lamprocolletes", "Neopasiphae", "Andrenopsis",     
-                            "Colletellus", "Protomorpha", "Goniocolletes", "Odontocolletes",  
-                            "Glossurocolletes", "Reedapis", "Cephalocolletes", "Chilicolletes",   
-                            "Paracolletes", "Trichocolletes", "Callomelitta", "Xanthocotelles",  
-                            "Hemicotelles", "Colletes", "Mourecotelles", 
-                            "Ectemnius", "trigona", "Tetrapedia", "Neoceratina", "Nasutapis", "Apidae",        
-                            "Toromelissa", "Lonchopria", "Baeocolletes", "Astata", "Stigmus",       
-                            "Stangeella", "Crabro", "Pison", "Sphecius", "Zanysson", "Heterogyna", "Acamptopoeum", "Psaenythia",    
-                            "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides","Anthophora",
-                            "Eucera", "Chilicola", "Duckeanthidium",
-                            
-                            "Xylocopa" 
-))
-
-tree2$tip.label
-
-
-#Create tree for our data
-plot(tree2)
-treep<-tree2
-plot(treep)
-
-treep$edge.length
-
-
-#The model to change the tree
-#treep<-bind.tip(tree = treep, tip.label = "", where = , position = )
-
-#Tree modification, we add polytomies
-plot(treep)
-summary(Success8trials.ITf$Species)
-nodelabels()
-tiplabels()
-
-#This is the branch lengths
-treep$edge.length
-#And this is the position of those branch lengths
-treep$edge
-
-#So now we add the politomies with the same branch lengths 
-treep<-bind.tip(tree = treep, tip.label = "Andrena", where = 8, edge.length = 0)
-treep<-bind.tip(tree = treep, tip.label = "Andrena", where = 8, edge.length = 0)
-treep<-bind.tip(tree = treep, tip.label = "Andrena", where = 8, edge.length = 0)
-treep<-bind.tip(tree = treep, tip.label = "Andrena", where = 8, edge.length = 0)
-
-
-
-plot(treep)
-nodelabels()
-tiplabels()
-treep$edge.length
-treep$edge
-summary(Success8trials.ITf$Species)
-
-treep<-bind.tip(tree = treep, tip.label = "Lasioglossum", where = 6, edge.length = 0)
-
-plot(treep)
-nodelabels()
-tiplabels()
-treep$edge.length
-treep$edge
-
-
-summary(Success8trials.ITf$Species)
-
-treep<-bind.tip(tree = treep, tip.label = "Bombus", where = 4, edge.length = 0)
-treep<-bind.tip(tree = treep, tip.label = "Bombus", where = 4, edge.length = 0)
-treep<-bind.tip(tree = treep, tip.label = "Bombus", where = 4, edge.length = 0)
-
-plot(treep)
-nodelabels()
-tiplabels()
-treep$edge.length
-#Let's rename our personal phylotree
-tree<-treep
-plot(tree)
-summary(Success8trials.ITf$Species)
-
-tree$tip.label[1]<-"Rhodanthidium sticticum"
-tree$tip.label[2]<-"Osmia latreillei"
-tree$tip.label[3]<-"Megachile willughbiella"
-tree$tip.label[4]<-"Bombus terrestris"
-tree$tip.label[5]<-"Bombus pratorum"
-tree$tip.label[6]<-"Bombus pascuorum"
-tree$tip.label[7]<-"Psithyrus vestalis"
-tree$tip.label[8]<-"Apis mellifera"
-tree$tip.label[9]<-"Lasioglossum malachurum"
-tree$tip.label[10]<-"Lasioglossum immunitum"
-tree$tip.label[11]<-"Flavipanurgus venustus"
-tree$tip.label[12]<-"Andrena angustior"
-tree$tip.label[13]<-"Andrena hispania"
-tree$tip.label[14]<-"Andrena flavipes"
-tree$tip.label[15]<-"Andrena pilipes"
-tree$tip.label[16]<-"Andrena sp."
-tree$tip.label[17]<-"Duckeanthidium sp."
-plot(tree)
-#write.tree(tree, "Miguel_tree.txt")
-#Transform to ultrametric tree
-is.ultrametric(tree)
-tree.u<-force.ultrametric(tree)
-plot(tree.u)
-tree.u$edge.length
-
-#add species distance?
-tree.d<-tree
-plot(tree.d)
-
-tree$edge.length
-
-
-Success8trials.ITf$Genus
-
-###LIAM PART------
-##LOAD TREE
-bee.trees=read.tree(file="data/phylogeny_genus_level.txt")
-
-#Species dataframe, -just make psythirus Bombus
-species=c("Rhodanthidium_sticticum" ,"Osmia_latreillei"   ,    
-          "Megachile_willughbiella", "Bombus_terrestris"      ,
-          "Bombus_pratorum"         ,"Bombus_pascuorum"       ,
-          "Bombus_vestalis"         ,"Apis_mellifera"         ,
-          "Lasioglossum_malachurum" ,"Lasioglossum_immunitum", 
-          "Flavipanurgus_venustus" , "Andrena_angustior"   ,   
-          "Andrena_hispania"       , "Andrena_flavipes"  ,     
-          "Andrena_pilipes"        , "Andrena_sp.")
-
-##Use tree 1 (376 genera) #Genera-level phylogney I used the first one
-bee.mcmc=bee.trees[[1]]
-
-###root with apoid wasp outgroup
-bee.mcmc=root(bee.mcmc,outgroup="Tachysphex")
-range(bee.mcmc$edge.length) 
-bee.mcmc=as.phylo(bee.mcmc)
-
-##Make ultrametric
-bee.mcmc=chronos(bee.mcmc)
-
-bee.tree=drop.tip(bee.mcmc, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa", "Chilimelissa",    
-                                    "Hylaeus", "Amphylaeus", "Meroglossa", "Palaeorhiza",     
-                                    "Hyleoides", "Scrapter", "Euhesma", "Euryglossina",    
-                                    "Callohesma", "Euryglossa", "Xanthesma", "Stenotritus",     
-                                    "Ctenocolletes", "Alocandrena", "Megandrena",      
-                                    "Euherbstia", "Orphana", "Protoxaea", "Nolanomelissa",   
-                                    "Neffapis", "Meliturgula", "Plesiopanurgus", "Macrotera",       
-                                    "Perdita", "Clavipanurgus", "Panurginus",        
-                                    "Camptopoeum", "Melitturga", "Protandrena", "Pseudopanurgus",  
-                                    "Calliopsis", "Arhysosage", "Callonychium", "Cerceris",        
-                                    "Eucerceris", "Clypeadon", "Philanthus", "Pulverro",        
-                                    "Clitemnestra", "Stizoides", "Bembix", "Xerostictia",     
-                                    "Microbembex", "Bicyrtes", "Ampulex", "Sceliphron",      
-                                    "Chlorion", "Chalybion", "Isodontia", "Sphex",           
-                                    "Podalonia", "Prionyx", "Ammophila", "Eremnophila",     
-                                    "Oxybelus", "Anacrabro", "Plenoculus", "Tachytes",        
-                                    "Samba", "Capicola", "Hesperapis",      
-                                    "Eremaphanta", "Dasypoda", "Melitta", "Redivivoides",    
-                                    "Rediviva", "Macropis", "Promelitta", "Meganomia",       
-                                    "Habropoda", "Deltoptila", "Pachymelus", "Amegilla",        
-                                    "Sphecodopsis", "Pasites", "Oreopasites",     
-                                    "Ammobates", "Odyneropsis", "Triepeolus", "Rhinepeolus",     
-                                    "Doeringiella", "Thalestria", "Epeolus", "Triopasites",     
-                                    "Brachynomada", "Paranomada", "Holcopasites", "Ammobatoides",    
-                                    "Nomada", "Hexepeolus", "Neolarra", "Biastes",         
-                                    "Neopasites", "Townsendiella", "Caenoprosopina", "Caenoprosopis",   
-                                    "Tetralonioidella", "Zacosmia", "Xeromelecta", "Melecta",         
-                                    "Thyreus", "Hopliphora", "Mesoplia", "Mesocheira",      
-                                    "Ctenioschelus", "Epiclopus", "Mesonychium", "Ericrocis",       
-                                    "Rhathymus", "Nanorhathymus", "Osiris", "Isepeolus",       
-                                    "Melectoides", "Epeoloides", "Leiopodus", "Coelioxoides",    
-                                    "Parepeolus", "Ancyla", "Florilegus", "Svastrina",       
-                                    "Peponapis", "Xenoglossa", "Tetraloniella",   
-                                    "Tetralonia", "Svastra", "Melissodes", "Martinapis",      
-                                    "Svastrides", "Thygater", "Melissoptila", "Meliphilopsis",   
-                                    "Diadasia", "Alepidosceles", "Ptilothrix", "Diadasina",       
-                                    "Melitoma", "Tapinotaspoides", "Caenonomada", "Tapinotaspidini", 
-                                    "Arhysoceble", "Paratetrapedia", "Anthophorula", "Exomalopsis",     
-                                    "Ancyloscelis", "Epicharis", "Exaerete", "Euglossa",        
-                                    "Aglae", "Eulaema", "Eufriesea",            
-                                    "Tetragonilla", "Tetragonula", "Platytrigona",    
-                                    "Heterotrigona", "Sundatrigona", "Geniotrigona", "Lepidotrigona",   
-                                    "Lophotrigona", "Tetrigona", "Homotrigona", "Odontotrigona",   
-                                    "Leurotrigona", "Hypotrigona", "Austroplebeia", "Lisotrigona",     
-                                    "Liotrigona", "Plebeiella", "Axestotrigona", "Meliponula",      
-                                    "Apotrigona", "Meliplebeia", "Plebeina", "Dactylurina",     
-                                    "Melipona", "Parapartamona", "Meliwillea", "Partamona",       
-                                    "Nogueirapis", "Aparatrigona", "Paratrigona", "Nannotrigona",    
-                                    "Tetragonisca", "Frieseomelitta", "Duckeola", "Trichotrigona",   
-                                    "Lestrimelitta", "Plebeia", "Friesella", "Mourella",        
-                                    "Schwarziana", "Oxytrigona", "Scaptotrigona", "Ptilotrigona",    
-                                    "Tetragona", "Trigona", "Cephalotrigona", "Geotrigona",      
-                                    "Scaura", "Schwarzula", "Dolichotrigona", "Trigonisca",      
-                                    "Celetrigona", "Centris", "Manuelia", "Ctenoplectrina",  
-                                    "Ctenoplectra", "Macrogalea", "Allodapula",      
-                                    "Exoneuridia", "Exoneurella", "Brevineura", "Exoneura",        
-                                    "Inquilina",  "Halterapis", "Compsomelissa", "Braunsapis",      
-                                    "Allodape", "Ceratina", "Fideliopsis", "Fidelia",         
-                                    "Pararhophites", "Aspidosmia", "Aglaoapis", "Paradioxys",      
-                                    "Dioxys", "Noteriades", "Radoszkowskiana", 
-                                    "Coelioxys", "Pseudoheriades", "Afroheriades", "Protosmia",       
-                                    "Heriades", "Stenoheriades", "Hofferia", "Othinosmia",      
-                                    "Haetosmia", "Wainia", "Hoplosmia",           
-                                    "Ashmeadiella", "Atoposmia", "Hoplitis", "Stenosmia",       
-                                    "Chelostoma", "Ochreriades", "Trachusa", "Afranthidium",    
-                                    "Anthidium", "Serapista", "Pseudoanthidium", "Bathanthidium",   
-                                    "Dianthidium", "Anthidiellum", "Paranthidium",  
-                                    "Icteranthidium", "Pachyanthidium", "Benanthis", "Eoanthidium",     
-                                    "Hypanthidium","Anthodioctes", "Hypanthidioides", 
-                                    "Notanthidium", "Epanthidium", "Stelis", "Lithurgus",       
-                                    "Microthurge", "Trichothurgus", "Neofidelia", "Dieunomia",       
-                                    "Pseudapis", "Lipotriches", "Curvinomia", "Hoplonomia",      
-                                    "Nomia", "Macronomia", "Nomioides", "Cellariella",     
-                                    "Corynura", "Neocorynura", "Megommation", "Megalopta",       
-                                    "Xenochlora", "Megaloptidia", "Augochlora", "Augochlorella",   
-                                    "Augochloropsis", "Agapostemon", "Dinagapostemon", "Rhinetula",       
-                                    "Caenohalictus", "Habralictus", "Ruizantheda", "Pseudagapostemon",
-                                    "Eupetersia", "Sphecodes", "Mexalictus", "Patellapis",      
-                                    "Thrincohalictus", "Halictus", "Homalictus",   
-                                    "Parathrincostoma", "Thrinchostoma", "Penapis", "Goeletapis",      
-                                    "Xeralictus", "Protodufourea", "Dufourea", "Systropha",       
-                                    "Rophites", "Sphecodosoma", "Conanthalictus", "Mydrosoma",       
-                                    "Ptiloglossidia", "Willinkapis", "Caupolicana", "Ptiloglossa",     
-                                    "Zikanapis", "Cadeguala", "Diphaglossa", "Cadegualina", 
-                                    "Edwyniana", "Belopria", "Nomiocolletes", "Eulonchopria",    
-                                    "Hoplocolletes",  "Niltonia", "Spinolapis", "Kylopasiphae",    
-                                    "Hexantheda", "Brachyglossula", "Tetraglossula", "Perditomorpha",   
-                                    "Halictanthrena", "Phenacolletes", "Euryglossidia", "Excolletes",      
-                                    "Leioproctus", "Lamprocolletes", "Neopasiphae", "Andrenopsis",     
-                                    "Colletellus", "Protomorpha", "Goniocolletes", "Odontocolletes",  
-                                    "Glossurocolletes", "Reedapis", "Cephalocolletes", "Chilicolletes",   
-                                    "Paracolletes", "Trichocolletes", "Callomelitta", "Xanthocotelles",  
-                                    "Hemicotelles", "Colletes", "Mourecotelles", 
-                                    "Ectemnius", "trigona", "Tetrapedia", "Neoceratina", "Nasutapis", "Apidae",        
-                                    "Toromelissa", "Lonchopria", "Baeocolletes", "Astata", "Stigmus",       
-                                    "Stangeella", "Crabro", "Pison", "Sphecius", "Zanysson", "Heterogyna", "Acamptopoeum", "Psaenythia",    
-                                    "Austropanurgus", "Anthrenoides", "Ancylandrena", "Melittoides","Anthophora",
-                                    "Eucera", "Chilicola", "Duckeanthidium", 
-                                    
-                                    "Xylocopa", "Tachysphex" 
-))
-bee.tree
-plot(bee.tree)
-## Add species tips to genera tips
-
-#change panurgus to flavipanurgus
-bee.tree$tip.label[2]
-bee.tree$tip.label[2]=c("Flavipanurgus")
-
-#add dummy species labels
-bee.tree$tip.label<-paste(bee.tree$tip.label,"_dum",sep="")
-
-#Add species tips
-for(i in 1:length(species)){
-  bee.tree<-add.species.to.genus(bee.tree,species[i],
-                                 where="root")
-}
-## prune out dummy taxa
-ii<-grep("dum",bee.tree$tip.label)
-bee.tree<-drop.tip(bee.tree,bee.tree$tip.label[ii])
-
-plot(bee.tree)
-
-##Check for missing species
-setdiff(species,bee.tree$tip.label)
-
-#Remove node labels
-bee.tree$node.label=NULL
-
-
-##Phylogenetic co-variance matrix
-inv.phylo <- MCMCglmm::inverseA(bee.tree, nodes = "TIPS", scale = TRUE)
-A <- solve(inv.phylo$Ainv)
-rownames(A) <- rownames(inv.phylo$Ainv)
-isSymmetric(A, check.attributes = FALSE)
-
-#And the model
-bee_p1<- brm(log(Spec.wgt) ~ Sex + log(IT) + (1 |Species) + Sex:log(IT), data = bee_all,
-             cores=4,
-             family = gaussian(),cov_ranef = list("Species" = A),
-             prior=bprior1,control = list(adapt_delta = 0.99,max_treedepth=15))
-
-brm.prueba<-brm(log(Spec.wgt) ~ Sex + log(IT) + (1 |Species) + Sex:log(IT), data = bee_all,
-                cores=4,
-                family = gaussian(),cov_ranef = list("Species" = A),
-                prior=bprior1,control = list(adapt_delta = 0.99,max_treedepth=15))
-pp_check(bee_p1)
-pp_check(brm.prueba)
 
 #Queen brain----
 Bombus.terrestris<-(subset(Beeh.data, subset = (Beeh.data$Species == "Bombus terrestris")))
