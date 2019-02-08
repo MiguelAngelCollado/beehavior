@@ -1643,11 +1643,10 @@ compare_ic(brm.prueba,brm.prueba2,ic=c("waic"))
 #brms is very good at fitting binomial/bernoulli models
 
 #Bayesian R2
-bayes_R2(brm.prueba2)
+bayes_R2(brm.prueba)
 success8brain.itglmmm<-brm.prueba
 brm.prueba
 #Success8 ~ residuals glmmm----
-
 
 brm.succ8res<-brm(Success.test ~ residuals + (1|Species), data = dataformcmc,
                 cores=4,
