@@ -1698,7 +1698,7 @@ brm.persugartest.brain.IT<-brm(PER.sugar.test ~ brain.IT + (1|Species), data = d
                       control = list(adapt_delta = 0.99,max_treedepth=15))
 
 brm.persugartest.brain.IT=add_ic(brm.persugartest.brain.IT,ic=c("waic"))
-
+brm.persugartest.brain.IT
 pp_check(brm.persugartest.brain.IT,nsamples=1000)
 bayes_R2(brm.persugartest.brain.IT)
 
@@ -1716,7 +1716,7 @@ brm.persugartest<-brm(PER.sugar.test ~ residuals + (1|Species), data = dataformc
                       cores=4,
                       family = poisson, cov_ranef = list("Species" = A),
                       control = list(adapt_delta = 0.99,max_treedepth=15))
-
+brm.persugartest
 brm.persugartest=add_ic(brm.persugartest,ic=c("waic"))
 pp_check(brm.persugartest,nsamples=1000)
 bayes_R2(brm.persugartest)
