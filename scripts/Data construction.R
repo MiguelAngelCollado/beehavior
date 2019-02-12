@@ -1781,6 +1781,21 @@ brm.time.trial.poisson=add_ic(brm.time.trial.poisson,ic=c("waic"))
 pp_check(brm.time.trial.poisson,nsamples=1000)
 bayes_R2(brm.time.trial.poisson)
 
+#success8 ~ n.of.success (Does bees learn?)----
+
+dataformcmc$n.of.success
+dataformcmc$Success.test
+
+brm.succnsucc<-brm(Success.test ~ n.of.success + (1|Species), data = dataformcmc,
+                        cores=4,
+                        family = bernoulli, cov_ranef = list("Species" = A),
+                        control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.succnsucc=add_ic(brm.succnsucc,ic=c("waic"))
+pp_check(brm.succnsucc,nsamples=1000)
+bayes_R2(brm.succnsucc)
+brm.succnsucc
+
+
 #bayesian vs mixed models-----
 #success8~brain.it
 summary(succ.brain.itrg)
