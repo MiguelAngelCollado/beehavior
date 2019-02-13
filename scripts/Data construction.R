@@ -1732,6 +1732,17 @@ brm.persugartest.c.brainIT=add_ic(brm.persugartest.c.brainIT,ic=c("waic"))
 pp_check(brm.persugartest.c.brainIT,nsamples=1000)
 bayes_R2(brm.persugartest.c.brainIT)
 
+brm.persugartest.c.brainIT<-brm(PER.sugar.test.censored ~ brain.IT + (1|Species), data = dataformcmc,
+                                cores=4,
+                                family = poisson, cov_ranef = list("Species" = A),
+                                control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.persugartest.c.brainIT=add_ic(brm.persugartest.c.brainIT,ic=c("waic"))
+#This is not a good model either
+pp_check(brm.persugartest.c.brainIT,nsamples=1000)
+bayes_R2(brm.persugartest.c.brainIT)
+
+
+
 
 
 #PER.sugar.test.censored ~ residuals----
