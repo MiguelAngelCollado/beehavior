@@ -524,10 +524,14 @@ for (n in 1:(nrow(Success8trials.ITf))) {
 is.logical(success.test.logi)
 
 Success8trials.ITf$success.test.logi<-success.test.logi
+
+
+
+
+
 #MAIN ANALYSIS-----
 #Success 8 block----
 #Success8 ~ brain/IT----
-
 
 #plot
 plot(Success.test.as.numeric ~ brain.IT, data = Success8trials.ITf, main="Success related to brain size", xlab="Encephalization (Brain/IT)", ylab = "Success learning test")
@@ -650,6 +654,24 @@ succ80.lm$coefficients[2]
 brain.IT.succ.sp<-lmer(log(Brain.weight) ~ log(IT..mm.) * Success.test + (1|Genus/Species), data = Success8trials.ITf)
 summary(brain.IT.succ.sp)
 
+
+
+
+
+
+
+
+
+#Success8 ~ Absolute brain size--------
+plot(Success.test.as.numeric ~ Brain.weight, data = Success8trials.ITf, main="Success related to brain size", xlab="Absolute brain size", ylab = "Success learning test")
+xweight <- seq(0, 7, 0.05)
+fit <- glm(Success.test ~ Brain.weight, family = binomial, data = Success8trials.ITf)
+yweight <- predict(fit, list(Brain.weight = xweight), type="response")
+lines(xweight, yweight)
+
+
+succ.globalbrain<-glmer(Success.test ~  Brain.weight + (1|Genus/Species), data = Success8trials.ITf, family = binomial)
+summary(succ.globalbrain)
 
 
 
@@ -1100,6 +1122,15 @@ summary(n.succ.succ8.glmm)
 
 
 #OTHER ANALYSIS---------
+#Encephalization index is related to body size-------
+#If body weight still correlates with encephalization index cannot be used 
+#because it means that the allometric effects is not fully removed.
+Success8trials.ITf$brain.IT
+Success8trials.ITf$IT..mm.
+plot(Success8trials.ITf$brain.IT~Success8trials.ITf$IT..mm.)
+abline(lm(brain.IT~IT..mm., data = Success8trials.ITf))
+summary(lm(brain.IT~IT..mm., data = Success8trials.ITf))
+
 ##Does bees learn?-----
 Success8trials.ITf$Success.test.as.numeric
 observed<-c(nrow(subset(Success8trials.ITf, subset = (Success8trials.ITf$Success.test.as.numeric == 1))),
@@ -1658,6 +1689,25 @@ brm.succ8res
 brm.succ8res=add_ic(brm.succ8res,ic=c("waic"))
 pp_check(brm.succ8res,nsamples=1000)
 bayes_R2(brm.succ8res)
+
+#Success8 ~ absolute brain size mcmcglmm----
+
+brm.succ8brains<-brm(Success.test ~ Brain.weight + (1|Species), data = dataformcmc,
+                  cores=4,
+                  family = bernoulli, cov_ranef = list("Species" = A),
+                  control = list(adapt_delta = 0.99,max_treedepth=15))
+
+
+brm.succ8brains
+brm.succ8brains=add_ic(brm.succ8brains,ic=c("waic"))
+pp_check(brm.succ8brains,nsamples=1000)
+bayes_R2(brm.succ8brains)
+
+
+
+
+
+
 #n.of.success~brain.it glmm------
 brm.nsuccbrain.it<-brm(n.of.success ~ brain.IT + (1|Species), data = dataformcmc,
                         cores=4,
