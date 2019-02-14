@@ -1853,6 +1853,14 @@ brm.persugartest.brain.IT
 pp_check(brm.persugartest.brain.IT,nsamples=1000)
 bayes_R2(brm.persugartest.brain.IT)
 
+
+#n.of.success (starting in trial 2)~brain.it mcmcglmmm------
+#n.of.success (starting in trial 2)~residuals mcmcglmmm------
+#n.of.success (starting in trial 2)~absolute brain size mcmcglmmm------
+
+
+
+
 #PER.sugar.test ~ residuals glmm-----
 brm.persugartest<-brm(PER.sugar.test ~ residuals + (1|Species), data = dataformcmc,
                         cores=4,
