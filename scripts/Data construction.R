@@ -526,8 +526,19 @@ is.logical(success.test.logi)
 Success8trials.ITf$success.test.logi<-success.test.logi
 
 
+Success7trials.ITf<-Success8trials.ITf
+Success7trials.ITf<-Success7trials.ITf[,-(which(colnames(Success7trials.ITf)=="Success1"))]
+
+Success7trials.ITf$n.of.success
 
 
+Success7trials.ITf$n.of.success<-(as.numeric(Success7trials.ITf$Success2)-1) + 
+  (as.numeric(Success7trials.ITf$Success3)-1) + 
+  (as.numeric(Success7trials.ITf$Success4)-1) + 
+  (as.numeric(Success7trials.ITf$Success5)-1) + 
+  (as.numeric(Success7trials.ITf$Success6)-1) + 
+  (as.numeric(Success7trials.ITf$Success7)-1) + 
+  (as.numeric(Success7trials.ITf$Success.test)-1)
 
 #MAIN ANALYSIS-----
 #Success 8 block----
@@ -715,6 +726,26 @@ summary(n.succ.res.lmer)
 
 
 
+#n.of.success ~ absolute brain size-----
+plot(n.of.success~Brain.weight,data = Success8trials.ITf)
+abline(lm(n.of.success~Brain.weight,data = Success8trials.ITf), col = "purple")
+
+n.succ.brain.lm<-lm(n.of.success~Brain.weight,data = Success8trials.ITf)
+summary(n.succ.brain.lm)
+#control by species and genus
+n.succ.brain.lm.sp<-lmer(n.of.success~Brain.weight + (1|Species),data = Success8trials.ITf)
+summary(n.succ.brain.lm.sp)
+
+glm(Brain.weight~n.of.success, data = Success8trials.ITf)
+allEffects(glm(Brain.weight~n.of.success, data = Success8trials.ITf))
+
+
+#Brain.IT is significative related to n.of.success
+n.succ.brain.lm.g<-lmer(n.of.success~Brain.weight + (1|Genus/Species),data = Success8trials.ITf)
+summary(n.succ.brain.lm.g)
+
+
+
 #Slope differences for number of success----
 
 ggplot(Success8trials.ITf, aes(x=log(IT..mm.), y=log(Brain.weight), color=as.factor(n.of.success))) +
@@ -738,6 +769,62 @@ brain.IT.succ.spg<-lmer(log(Brain.weight) ~ log(IT..mm.) * n.of.success + (1|Gen
 summary(brain.IT.succ.spg)
 
 
+
+
+
+
+
+#n.of.success (starting in trial 2) block----
+#n.of.success (starting in trial 2) ~ brain/IT-----
+hist(Success7trials.ITf$n.of.success)
+plot(n.of.success~brain.IT,data = Success8trials.ITf)
+abline(lm(n.of.success~brain.IT,data = Success7trials.ITf), col = "purple")
+
+n.succ7.brainit.lm<-lm(n.of.success~brain.IT,data = Success7trials.ITf)
+summary(n.succ7.brainit.lm)
+#control by species and genus
+n.succ7.brainit.lm.sp<-lmer(n.of.success~brain.IT + (1|Species),data = Success7trials.ITf)
+summary(n.succ7.brainit.lm.sp)
+
+glm(brain.IT~n.of.success, data = Success7trials.ITf)
+allEffects(glm(brain.IT~n.of.success, data = Success7trials.ITf))
+
+
+#Brain.IT is significative related to n.of.success
+n.succ7.brainit.lm.g<-lmer(n.of.success~brain.IT + (1|Genus/Species),data = Success7trials.ITf)
+summary(n.succ7.brainit.lm.g)
+
+
+#n.of.success (starting in trial 2)~ residuals------
+plot(n.of.success~residuals,data = Success7trials.ITf, main= "Number of learning success compared with residuals", xlab="IT/Brain residuals", ylab="Number of success")
+abline(lm(n.of.success~residuals,data = Success7trials.ITf), col = "purple")
+
+
+n.succ7.res.lm<-lm(n.of.success~residuals,data = Success7trials.ITf)
+summary(n.succ.res.lm)
+
+#light effects
+n.succ7.res.lmer<-lmer(n.of.success~residuals + (1|Genus/Species),data = Success7trials.ITf)
+summary(n.succ7.res.lmer)
+
+
+#n.of.success (starting in trial 2) ~ absolute brain size-----
+plot(n.of.success~Brain.weight,data = Success7trials.ITf)
+abline(lm(n.of.success~Brain.weight,data = Success7trials.ITf), col = "purple")
+
+n.succ7.brain.lm<-lm(n.of.success~Brain.weight,data = Success7trials.ITf)
+summary(n.succ7.brain.lm)
+#control by species and genus
+n.succ7.brain.lm.sp<-lmer(n.of.success~Brain.weight + (1|Species),data = Success7trials.ITf)
+summary(n.succ7.brain.lm.sp)
+
+glm(Brain.weight~n.of.success, data = Success7trials.ITf)
+allEffects(glm(Brain.weight~n.of.success, data = Success7trials.ITf))
+
+
+#Brain.IT is significative related to n.of.success
+n.succ7.brain.lm.g<-lmer(n.of.success~Brain.weight + (1|Genus/Species),data = Success7trials.ITf)
+summary(n.succ7.brain.lm.g)
 
 
 
@@ -1731,6 +1818,20 @@ brm.nsuccresiduals=add_ic(brm.nsuccresiduals,ic=c("waic"))
 pp_check(brm.nsuccresiduals,nsamples=1000)
 bayes_R2(brm.nsuccresiduals)
 
+#n.of.success~absolute brain size mcmcglmmm------
+
+brm.nsuccrbrain<-brm(n.of.success ~ Brain.weight + (1|Species), data = dataformcmc,
+                        cores=4,
+                        family = gaussian, cov_ranef = list("Species" = A),
+                        control = list(adapt_delta = 0.99,max_treedepth=15))
+
+brm.nsuccrbrain=add_ic(brm.nsuccrbrain,ic=c("waic"))
+pp_check(brm.nsuccrbrain,nsamples=1000)
+bayes_R2(brm.nsuccrbrain)
+brm.nsuccrbrain
+
+
+
 
 #PER.sugar.test ~ Brain.IT-------
 brm.persugartest.brain.IT<-brm(PER.sugar.test ~ brain.IT + (1|Species), data = dataformcmc,
@@ -1772,6 +1873,19 @@ pp_check(brm.persugartest,nsamples=1000)
 bayes_R2(brm.persugartest)
 
 
+#PER.sugar.test ~ absolute brain size mcmcglmm-----
+brm.persugarbrain<-brm(PER.sugar.test ~ Brain.weight + (1|Species), data = dataformcmc,
+                      cores=4,
+                      family = poisson, cov_ranef = list("Species" = A),
+                      control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.persugarbrain
+brm.persugarbrain=add_ic(brm.persugarbrain,ic=c("waic"))
+pp_check(brm.persugarbrain,nsamples=1000)
+bayes_R2(brm.persugarbrain)
+
+
+
+
 #PER.sugar.test.censored ~ Brain.IT-------
 brm.persugartest.c.brainIT<-brm(PER.sugar.test.censored ~ brain.IT + (1|Species), data = dataformcmc,
                         cores=4,
@@ -1795,7 +1909,7 @@ bayes_R2(brm.persugartest.c.brainIT)
 
 
 
-#PER.sugar.test.censored ~ residuals----
+#PER.sugar.test.censored ~ residuals mcmcglmmm----
 brm.persugartest.c<-brm(PER.sugar.test.censored ~ residuals + (1|Species), data = dataformcmc,
                       cores=4,
                       family = gaussian, cov_ranef = list("Species" = A),
@@ -1804,10 +1918,25 @@ brm.persugartest.c=add_ic(brm.persugartest.c,ic=c("waic"))
 #This is not a good model either
 pp_check(brm.persugartest.c,nsamples=1000)
 bayes_R2(brm.persugartest.c)
+brm.persugartest.c
+#PER.sugar.test.censored ~ absolute brain size mcmcglmmm----
+brm.persugarbrain.c<-brm(brm.persugarbrain.c ~ Brain.weight + (1|Species), data = dataformcmc,
+                        cores=4,
+                        family = gaussian, cov_ranef = list("Species" = A),
+                        control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.persugarbrain.c=add_ic(brm.persugarbrain.c,ic=c("waic"))
+#This is not a good model either
+pp_check(brm.persugarbrain.c,nsamples=1000)
+bayes_R2(brm.persugarbrain.c)
+brm.persugarbrain.c
 
 
 
-#Time ~ Trial glmmm
+
+
+
+
+#Time ~ Trial glmmm-------
 summary(lmer(Time ~ Trial + (1|Genus/Species/ID), data = melt.last.test.done.bees))
 melt.last.test.done.beesforglmm<-melt.last.test.done.bees
 
