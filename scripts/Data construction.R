@@ -1855,8 +1855,31 @@ bayes_R2(brm.persugartest.brain.IT)
 
 
 #n.of.success (starting in trial 2)~brain.it mcmcglmmm------
+
 #n.of.success (starting in trial 2)~residuals mcmcglmmm------
 #n.of.success (starting in trial 2)~absolute brain size mcmcglmmm------
+dataformcmc7trials<-dataformcmc
+dataformcmc7trials
+
+
+dataformcmc7trials$n.of.success<-(as.numeric(dataformcmc7trials$Success2)-1) + 
+  (as.numeric(dataformcmc7trials$Success3)-1) + 
+  (as.numeric(dataformcmc7trials$Success4)-1) + 
+  (as.numeric(dataformcmc7trials$Success5)-1) + 
+  (as.numeric(dataformcmc7trials$Success6)-1) + 
+  (as.numeric(dataformcmc7trials$Success7)-1) + 
+  (as.numeric(dataformcmc7trials$Success.test)-1)
+
+
+brm.nsuccrabsbrain<-brm(n.of.success ~ Brain.weight + (1|Species), data = dataformcmc7trials,
+                     cores=4,
+                     family = gaussian, cov_ranef = list("Species" = A),
+                     control = list(adapt_delta = 0.99,max_treedepth=15))
+
+brm.nsuccrabsbrain=add_ic(brm.nsuccrabsbrain,ic=c("waic"))
+pp_check(brm.nsuccrabsbrain,nsamples=1000)
+bayes_R2(brm.nsuccrabsbrain)
+brm.nsuccrabsbrain
 
 
 
