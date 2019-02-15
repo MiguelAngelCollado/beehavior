@@ -1764,6 +1764,23 @@ compare_ic(brm.prueba,brm.prueba2,ic=c("waic"))
 bayes_R2(brm.prueba)
 success8brain.itglmmm<-brm.prueba
 brm.prueba
+brm.prueba$formula
+brm.prueba$family
+brm.prueba$data
+brm.prueba$data.name
+brm.prueba$model
+brm.prueba$prior
+brm.prueba$autocor
+brm.prueba$ranef
+brm.prueba$cov_ranef
+brm.prueba$loo
+brm.prueba$waic
+brm.prueba$fit
+brm.prueba$exclude
+brm.prueba$algorithm
+brm.prueba$version
+
+
 #Success8 ~ residuals glmmm----
 
 brm.succ8res<-brm(Success.test ~ residuals + (1|Species), data = dataformcmc,
@@ -1856,10 +1873,8 @@ bayes_R2(brm.persugartest.brain.IT)
 
 #n.of.success (starting in trial 2)~brain.it mcmcglmmm------
 
-#n.of.success (starting in trial 2)~residuals mcmcglmmm------
-#n.of.success (starting in trial 2)~absolute brain size mcmcglmmm------
 dataformcmc7trials<-dataformcmc
-dataformcmc7trials
+dataformcmc7trials$brain.IT
 
 
 dataformcmc7trials$n.of.success<-(as.numeric(dataformcmc7trials$Success2)-1) + 
@@ -1870,6 +1885,32 @@ dataformcmc7trials$n.of.success<-(as.numeric(dataformcmc7trials$Success2)-1) +
   (as.numeric(dataformcmc7trials$Success7)-1) + 
   (as.numeric(dataformcmc7trials$Success.test)-1)
 
+brm.nsucc7rbrain.it<-brm(n.of.success ~ brain.IT + (1|Species), data = dataformcmc7trials,
+                     cores=4,
+                     family = gaussian, cov_ranef = list("Species" = A),
+                     control = list(adapt_delta = 0.99,max_treedepth=15))
+
+brm.nsucc7rbrain.it=add_ic(brm.nsucc7rbrain.it,ic=c("waic"))
+pp_check(brm.nsucc7rbrain.it,nsamples=1000)
+bayes_R2(brm.nsucc7rbrain.it)
+brm.nsucc7rbrain.it
+
+
+
+
+#n.of.success (starting in trial 2)~residuals mcmcglmmm------
+brm.nsucc7res<-brm(n.of.success ~ residuals + (1|Species), data = dataformcmc7trials,
+                      cores=4,
+                      family = gaussian, cov_ranef = list("Species" = A),
+                      control = list(adapt_delta = 0.99,max_treedepth=15))
+
+brm.nsucc7res=add_ic(brm.nsucc7res,ic=c("waic"))
+pp_check(brm.nsucc7res,nsamples=1000)
+bayes_R2(brm.nsucc7res)
+brm.nsucc7res
+
+
+#n.of.success (starting in trial 2)~absolute brain size mcmcglmmm------
 
 brm.nsuccrabsbrain<-brm(n.of.success ~ Brain.weight + (1|Species), data = dataformcmc7trials,
                      cores=4,
@@ -1881,7 +1922,7 @@ pp_check(brm.nsuccrabsbrain,nsamples=1000)
 bayes_R2(brm.nsuccrabsbrain)
 brm.nsuccrabsbrain
 
-
+brm.nsuccrabsbrain
 
 
 #PER.sugar.test ~ residuals glmm-----
