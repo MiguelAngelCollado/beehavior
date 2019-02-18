@@ -19,6 +19,7 @@ library(data.tree)
 library('ctv') 
 library(ape)
 library(stringi)
+library("sjstats")
 
 
 
@@ -1760,25 +1761,26 @@ compare_ic(brm.prueba,brm.prueba2,ic=c("waic"))
 #see they are much the same
 #brms is very good at fitting binomial/bernoulli models
 
+# Intraclass Correlation Coefficient: 
+# Close to 1 indicates high similarity between values from the same group.
+
+icc(brm.prueba, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
+
 #Bayesian R2
 bayes_R2(brm.prueba)
-success8brain.itglmmm<-brm.prueba
-brm.prueba
-brm.prueba$formula
-brm.prueba$family
-brm.prueba$data
-brm.prueba$data.name
-brm.prueba$model
-brm.prueba$prior
-brm.prueba$autocor
-brm.prueba$ranef
-brm.prueba$cov_ranef
-brm.prueba$loo
-brm.prueba$waic
-brm.prueba$fit
-brm.prueba$exclude
-brm.prueba$algorithm
-brm.prueba$version
+
+
+# Intraclass Correlation Coefficient:
+# ICC is the proportion of the variance explained by the grouping structure 
+# in the population
+# Close to 1 indicates high similarity between values from the same group.
+
+icc(brm.prueba, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
+
 
 
 #Success8 ~ residuals glmmm----
@@ -1793,6 +1795,9 @@ brm.succ8res
 brm.succ8res=add_ic(brm.succ8res,ic=c("waic"))
 pp_check(brm.succ8res,nsamples=1000)
 bayes_R2(brm.succ8res)
+icc(brm.succ8res, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
 
 #Success8 ~ absolute brain size mcmcglmm----
 
@@ -1806,6 +1811,8 @@ brm.succ8brains
 brm.succ8brains=add_ic(brm.succ8brains,ic=c("waic"))
 pp_check(brm.succ8brains,nsamples=1000)
 bayes_R2(brm.succ8brains)
+icc(brm.succ8brains, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
 
 
@@ -1822,6 +1829,8 @@ brm.nsuccbrain.it
 brm.nsuccbrain.it=add_ic(brm.nsuccbrain.it,ic=c("waic"))
 pp_check(brm.nsuccbrain.it,nsamples=1000)
 bayes_R2(brm.nsuccbrain.it)
+icc(brm.nsuccbrain.it, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
 
 #n.of.success~residuals glmm------
@@ -1834,6 +1843,10 @@ brm.nsuccresiduals
 brm.nsuccresiduals=add_ic(brm.nsuccresiduals,ic=c("waic"))
 pp_check(brm.nsuccresiduals,nsamples=1000)
 bayes_R2(brm.nsuccresiduals)
+icc(brm.nsuccresiduals, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
+
 
 #n.of.success~absolute brain size mcmcglmmm------
 
@@ -1846,6 +1859,8 @@ brm.nsuccrbrain=add_ic(brm.nsuccrbrain,ic=c("waic"))
 pp_check(brm.nsuccrbrain,nsamples=1000)
 bayes_R2(brm.nsuccrbrain)
 brm.nsuccrbrain
+icc(brm.nsuccrbrain, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
 
 
@@ -1859,6 +1874,9 @@ brm.persugartest.brain.IT=add_ic(brm.persugartest.brain.IT,ic=c("waic"))
 #Not a good model mate
 pp_check(brm.persugartest.brain.IT,nsamples=1000)
 bayes_R2(brm.persugartest.brain.IT)
+icc(brm.persugartest.brain.IT, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
 
 brm.persugartest.brain.IT<-brm(PER.sugar.test ~ brain.IT + (1|Species), data = dataformcmc,
                       cores=4,
@@ -1869,6 +1887,8 @@ brm.persugartest.brain.IT=add_ic(brm.persugartest.brain.IT,ic=c("waic"))
 brm.persugartest.brain.IT
 pp_check(brm.persugartest.brain.IT,nsamples=1000)
 bayes_R2(brm.persugartest.brain.IT)
+icc(brm.persugartest.brain.IT, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
 
 #n.of.success (starting in trial 2)~brain.it mcmcglmmm------
@@ -1893,6 +1913,10 @@ brm.nsucc7rbrain.it<-brm(n.of.success ~ brain.IT + (1|Species), data = dataformc
 brm.nsucc7rbrain.it=add_ic(brm.nsucc7rbrain.it,ic=c("waic"))
 pp_check(brm.nsucc7rbrain.it,nsamples=1000)
 bayes_R2(brm.nsucc7rbrain.it)
+icc(brm.nsucc7rbrain.it, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
+
 brm.nsucc7rbrain.it
 
 
@@ -1908,6 +1932,8 @@ brm.nsucc7res=add_ic(brm.nsucc7res,ic=c("waic"))
 pp_check(brm.nsucc7res,nsamples=1000)
 bayes_R2(brm.nsucc7res)
 brm.nsucc7res
+icc(brm.nsucc7res, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
 
 #n.of.success (starting in trial 2)~absolute brain size mcmcglmmm------
@@ -1920,9 +1946,12 @@ brm.nsuccrabsbrain<-brm(n.of.success ~ Brain.weight + (1|Species), data = datafo
 brm.nsuccrabsbrain=add_ic(brm.nsuccrabsbrain,ic=c("waic"))
 pp_check(brm.nsuccrabsbrain,nsamples=1000)
 bayes_R2(brm.nsuccrabsbrain)
-brm.nsuccrabsbrain
+icc(brm.nsuccrabsbrain, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
 
 brm.nsuccrabsbrain
+
 
 
 #PER.sugar.test ~ residuals glmm-----
@@ -1931,7 +1960,6 @@ brm.persugartest<-brm(PER.sugar.test ~ residuals + (1|Species), data = dataformc
                         family = gaussian, cov_ranef = list("Species" = A),
                         control = list(adapt_delta = 0.99,max_treedepth=15))
 brm.persugartest=add_ic(brm.persugartest,ic=c("waic"))
-#Not a good model mate
 pp_check(brm.persugartest,nsamples=1000)
 bayes_R2(brm.persugartest)
 
@@ -1943,6 +1971,8 @@ brm.persugartest
 brm.persugartest=add_ic(brm.persugartest,ic=c("waic"))
 pp_check(brm.persugartest,nsamples=1000)
 bayes_R2(brm.persugartest)
+icc(brm.persugartest, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
 
 #PER.sugar.test ~ absolute brain size mcmcglmm-----
@@ -1954,6 +1984,8 @@ brm.persugarbrain
 brm.persugarbrain=add_ic(brm.persugarbrain,ic=c("waic"))
 pp_check(brm.persugarbrain,nsamples=1000)
 bayes_R2(brm.persugarbrain)
+icc(brm.persugarbrain, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
 
 
@@ -1967,6 +1999,10 @@ brm.persugartest.c.brainIT=add_ic(brm.persugartest.c.brainIT,ic=c("waic"))
 #This is not a good model either
 pp_check(brm.persugartest.c.brainIT,nsamples=1000)
 bayes_R2(brm.persugartest.c.brainIT)
+icc(brm.persugartest.c.brainIT, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
+
 
 brm.persugartest.c.brainIT<-brm(PER.sugar.test.censored ~ brain.IT + (1|Species), data = dataformcmc,
                                 cores=4,
@@ -1976,6 +2012,8 @@ brm.persugartest.c.brainIT=add_ic(brm.persugartest.c.brainIT,ic=c("waic"))
 #This is not a good model either
 pp_check(brm.persugartest.c.brainIT,nsamples=1000)
 bayes_R2(brm.persugartest.c.brainIT)
+icc(brm.persugartest.c.brainIT, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
 
 
@@ -2001,6 +2039,8 @@ brm.persugarbrain.c=add_ic(brm.persugarbrain.c,ic=c("waic"))
 pp_check(brm.persugarbrain.c,nsamples=1000)
 bayes_R2(brm.persugarbrain.c)
 brm.persugarbrain.c
+icc(brm.persugartest.c, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
 
 
@@ -2042,6 +2082,10 @@ brm.time.trial.poisson=add_ic(brm.time.trial.poisson,ic=c("waic"))
 #not very good
 pp_check(brm.time.trial.poisson,nsamples=1000)
 bayes_R2(brm.time.trial.poisson)
+icc(brm.time.trial.poisson, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
+
 
 #success8 ~ n.of.success (Does bees learn?)----
 
@@ -2056,6 +2100,8 @@ brm.succnsucc=add_ic(brm.succnsucc,ic=c("waic"))
 pp_check(brm.succnsucc,nsamples=1000)
 bayes_R2(brm.succnsucc)
 brm.succnsucc
+icc(brm.succnsucc, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
 
 #bayesian vs mixed models-----
