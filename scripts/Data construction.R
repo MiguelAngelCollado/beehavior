@@ -1800,6 +1800,8 @@ dataformcmc$Species
 #Let's fix it
 dataformcmc$Species<-stri_replace_first_regex(dataformcmc$Species,pattern = " ", replacement = "_")
 dataformcmc[dataformcmc$Species%in%"Psithyrus_vestalis","Species"]=c("Bombus_vestalis")
+dataformcmc.success<-dataformcmc
+dataformcmc.success<-subset(dataformcmc, subset = (dataformcmc$Success.test == 1))
 
 #no differences. good
 setdiff(rownames(A),dataformcmc$Species)
@@ -1950,32 +1952,6 @@ icc(brm.nsuccrbrain, re.form = NULL, typical = "mean",
 
 
 
-#PER.sugar.test ~ Brain.IT-------
-brm.persugartest.brain.IT<-brm(PER.sugar.test ~ brain.IT + (1|Species), data = dataformcmc,
-                      cores=4,
-                      family = gaussian, cov_ranef = list("Species" = A),
-                      control = list(adapt_delta = 0.99,max_treedepth=15))
-brm.persugartest.brain.IT=add_ic(brm.persugartest.brain.IT,ic=c("waic"))
-#Not a good model mate
-pp_check(brm.persugartest.brain.IT,nsamples=1000)
-bayes_R2(brm.persugartest.brain.IT)
-icc(brm.persugartest.brain.IT, re.form = NULL, typical = "mean",
-    prob = 0.89, ppd = FALSE, adjusted = FALSE)
-
-
-brm.persugartest.brain.IT<-brm(PER.sugar.test ~ brain.IT + (1|Species), data = dataformcmc,
-                      cores=4,
-                      family = poisson, cov_ranef = list("Species" = A),
-                      control = list(adapt_delta = 0.99,max_treedepth=15))
-
-brm.persugartest.brain.IT=add_ic(brm.persugartest.brain.IT,ic=c("waic"))
-brm.persugartest.brain.IT
-pp_check(brm.persugartest.brain.IT,nsamples=1000)
-bayes_R2(brm.persugartest.brain.IT)
-#ICC high!
-icc(brm.persugartest.brain.IT, re.form = NULL, typical = "mean",
-    prob = 0.89, ppd = FALSE, adjusted = FALSE)
-
 
 #n.of.success (starting in trial 2)~brain.it mcmcglmmm------
 
@@ -2038,6 +2014,32 @@ icc(brm.nsuccrabsbrain, re.form = NULL, typical = "mean",
 
 brm.nsuccrabsbrain
 
+#PER.sugar.test ~ Brain.IT-------
+brm.persugartest.brain.IT<-brm(PER.sugar.test ~ brain.IT + (1|Species), data = dataformcmc,
+                               cores=4,
+                               family = gaussian, cov_ranef = list("Species" = A),
+                               control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.persugartest.brain.IT=add_ic(brm.persugartest.brain.IT,ic=c("waic"))
+#Not a good model mate
+pp_check(brm.persugartest.brain.IT,nsamples=1000)
+bayes_R2(brm.persugartest.brain.IT)
+icc(brm.persugartest.brain.IT, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
+
+brm.persugartest.brain.IT<-brm(PER.sugar.test ~ brain.IT + (1|Species), data = dataformcmc,
+                               cores=4,
+                               family = poisson, cov_ranef = list("Species" = A),
+                               control = list(adapt_delta = 0.99,max_treedepth=15))
+
+brm.persugartest.brain.IT=add_ic(brm.persugartest.brain.IT,ic=c("waic"))
+brm.persugartest.brain.IT
+pp_check(brm.persugartest.brain.IT,nsamples=1000)
+bayes_R2(brm.persugartest.brain.IT)
+#ICC high!
+icc(brm.persugartest.brain.IT, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
 
 
 #PER.sugar.test ~ residuals glmm-----
@@ -2075,6 +2077,44 @@ icc(brm.persugarbrain, re.form = NULL, typical = "mean",
 
 
 
+
+#Per.sugar.test ~ brain.it (only succeeders) brm-----
+brm.persugarbrain.s<-brm(PER.sugar.test ~ Brain.weight + (1|Species), data = dataformcmc.success,
+                       cores=4,
+                       family = poisson, cov_ranef = list("Species" = A),
+                       control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.persugarbrain.s
+brm.persugarbrain.s=add_ic(brm.persugarbrain.s,ic=c("waic"))
+pp_check(brm.persugarbrain.s,nsamples=1000)
+bayes_R2(brm.persugarbrain.s)
+icc(brm.persugarbrain.s, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
+#Per.sugar.test ~ residuals (only succeeders) brm-----
+
+brm.persugartest.rs<-brm(PER.sugar.test ~ residuals + (1|Species), data = dataformcmc.success,
+                      cores=4,
+                      family = poisson, cov_ranef = list("Species" = A),
+                      control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.persugartest.rs
+brm.persugartest.rs=add_ic(brm.persugartest.rs,ic=c("waic"))
+pp_check(brm.persugartest.rs,nsamples=1000)
+bayes_R2(brm.persugartest.rs)
+icc(brm.persugartest.rs, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
+
+#Per.sugar.test ~ absolute brain size (only succeeders) brm-----
+brm.persugarbrainit.s<-brm(PER.sugar.test ~ brain.IT + (1|Species), data = dataformcmc.success,
+                         cores=4,
+                         family = poisson, cov_ranef = list("Species" = A),
+                         control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.persugarbrainit.s
+brm.persugarbrainit.s=add_ic(brm.persugarbrain.sit,ic=c("waic"))
+pp_check(brm.persugarbrainit.s,nsamples=1000)
+bayes_R2(brm.persugarbrainit.s)
+icc(brm.persugarbrainit.s, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
 #PER.sugar.test.censored ~ Brain.IT-------
 brm.persugartest.c.brainIT<-brm(PER.sugar.test.censored ~ brain.IT + (1|Species), data = dataformcmc,
