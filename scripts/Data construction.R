@@ -832,6 +832,30 @@ summary(n.succ7.brain.lm.g)
 
 
 #per.sugar.test.block----
+
+#Only count succeeders as PER.sugar.test
+Success.only<-subset(Success8trials.ITf, subset = (Success8trials.ITf$Success.test == 1))
+
+
+#PER.sugar.test ~ Brain.IT (only succeeders)----
+
+
+plot(PER.sugar.test ~ brain.IT,data = Success.only, main= "Time until success ~ Brain.IT", ylim=c(0,120))
+abline(lm(PER.sugar.test ~ brain.IT,data = Success.only), col = "purple")
+
+PERsugar.lm.s<-lm(PER.sugar.test ~ brain.IT,data = Success.only)
+summary(PERsugar.lm.s)
+
+
+PERsugar.lmer.s<-lmer(PER.sugar.test ~ brain.IT + (1|Genus/Species),data = Success.only)
+summary(PERsugar.lmer.s)
+#Possion distribution
+PERsugarc.glmer.sp<-glmer(PER.sugar.test ~ brain.IT + (1|Genus/Species),family = poisson,data = Success.only)
+summary(PERsugarc.glmer.sp)
+
+
+
+
 #PER.sugar.test ~ Brain.IT----
 
 
@@ -867,6 +891,23 @@ cox.cue.time
 PERsugar.lmer<-lmer(PER.sugar.test ~ brain.IT + (1|Genus/Species),data = Success8trials.ITf)
 summary(PERsugar.lmer)
 
+
+
+#Per.sugar.test ~ residuals (only succeeders)----
+
+plot(PER.sugar.test ~ residuals, data=Success.only, main="Time until learning success ~ residuals", xlab="Brain/IT residuals", ylab="Time until learning success")
+abline(lm(PER.sugartest ~ residuals, data=Success8trials.PER), col="purple")
+
+PERsugar.res.lm<-lm(PER.sugar.test ~ residuals,data=Success.only)
+summary(PERsugar.res.lm)
+
+
+
+
+PERsugar.res.glmer.s<-glmer(PER.sugar.test ~ residuals + (1|Genus/Species), family = poisson, data=Success.only)
+summary(PERsugar.res.glmer.s)
+
+
 #Per.sugar.test ~ residuals----
 
 plot(PER.sugartest ~ residuals, data=Success8trials.PER, main="Time until learning success ~ residuals", xlab="Brain/IT residuals", ylab="Time until learning success")
@@ -901,6 +942,56 @@ summary(PERsugar.c.res.glmer)
 PERsugar.res.lmer<-lmer(PER.sugar.test ~ residuals + (1|Genus/Species), data=Success8trials.ITf)
 #Terrible
 summary(PERsugar.res.lmer)
+
+
+#PER.sugar.test absolute brain size (only succeeders)-------
+
+
+plot(PER.sugar.test ~ Brain.weight,data = Success.only, main= "Time until success ~ Brain.IT", ylim=c(0,120))
+abline(lm(PER.sugar.test ~ Brain.weight,data = Success.only), col = "purple")
+
+PERsugar.lm.abs<-lm(PER.sugar.test ~ Brain.weight,data = Success.only)
+summary(PERsugar.lm.abs)
+
+
+PERsugar.lmer.abs<-lmer(PER.sugar.test ~ Brain.weight + (1|Genus/Species),data = Success.only)
+summary(PERsugar.lmer.abs)
+#Possion distribution
+PERsugarc.glmer.absp<-glmer(PER.sugar.test ~ Brain.weight + (1|Genus/Species),family = poisson,data = Success.only)
+summary(PERsugarc.glmer.absp)
+
+
+#PER.sugar.test absolute brain size-------
+
+#Acumulation in low time until success
+par(mfrow=c(2,1))
+plot(PER.sugar.test ~ Brain.weight,data = Success8trials.ITf, main= "Time until success ~ Brain.weight", ylim=c(0,120))
+abline(lm(PER.sugar.test ~ Brain.weight,data = Success8trials.ITf), col = "purple")
+plot(PER.sugar.test.censored ~ Brain.weight,data = Success8trials.ITf, main= "Censored time until success ~ Brain.weight", ylim=c(0,120))
+abline(lm(PER.sugar.test.censored ~ Brain.weight,data = Success8trials.ITf), col = "purple")
+par(mfrow=c(1,1))
+
+PERsugar.lm.abs<-lm(PER.sugar.test ~ Brain.weight,data = Success8trials.ITf)
+summary(PERsugar.lm.abs)
+
+
+
+PERsugarc.lmer.abs<-lmer(PER.sugar.test.censored ~ Brain.weight + (1|Genus/Species),data = Success8trials.ITf)
+summary(PERsugarc.lmer.abs)
+#Possion distribution?
+PERsugarc.glmer.abs<-glmer(PER.sugar.test.censored ~ Brain.weight + (1|Genus/Species),family = poisson,data = Success8trials.ITf)
+summary(PERsugarc.glmer.abs)
+
+
+##survival curves
+
+
+cox.cue.time.abs<- coxph(Surv(PER.sugar.test.censored, success.test.logi) ~ Brain.weight, na.action = na.exclude, data = Success8trials.ITf) 
+cox.cue.time.abs
+
+
+
+
 
 
 #Slope differences for Per.sugar.test----
@@ -1761,12 +1852,6 @@ compare_ic(brm.prueba,brm.prueba2,ic=c("waic"))
 #see they are much the same
 #brms is very good at fitting binomial/bernoulli models
 
-# Intraclass Correlation Coefficient: 
-# Close to 1 indicates high similarity between values from the same group.
-
-icc(brm.prueba, re.form = NULL, typical = "mean",
-    prob = 0.89, ppd = FALSE, adjusted = FALSE)
-
 
 #Bayesian R2
 bayes_R2(brm.prueba)
@@ -1887,6 +1972,7 @@ brm.persugartest.brain.IT=add_ic(brm.persugartest.brain.IT,ic=c("waic"))
 brm.persugartest.brain.IT
 pp_check(brm.persugartest.brain.IT,nsamples=1000)
 bayes_R2(brm.persugartest.brain.IT)
+#ICC high!
 icc(brm.persugartest.brain.IT, re.form = NULL, typical = "mean",
     prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
