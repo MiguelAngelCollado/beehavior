@@ -1,4 +1,4 @@
-
+library(reshape2)
 library(dplyr)
 library(visreg)
 library(phytools)
@@ -827,10 +827,6 @@ allEffects(glm(Brain.weight~n.of.success, data = Success7trials.ITf))
 n.succ7.brain.lm.g<-lmer(n.of.success~Brain.weight + (1|Genus/Species),data = Success7trials.ITf)
 summary(n.succ7.brain.lm.g)
 
-
-
-
-
 #per.sugar.test.block----
 
 #Only count succeeders as PER.sugar.test
@@ -1300,6 +1296,21 @@ allEffects(n.succ.succ8.glmm, xlevels=list(n.of.success=c(0:8)))
 summary(n.succ.succ8.glmm)
 
 
+#Success ~ Trial-----
+Beeh.succs<-data.frame(Success8trials.ITf$ID,Success8trials.ITf$Species,Success8trials.ITf$Success1,
+Success8trials.ITf$Success2,Success8trials.ITf$Success3,Success8trials.ITf$Success4,
+Success8trials.ITf$Success5,Success8trials.ITf$Success6,Success8trials.ITf$Success7,
+Success8trials.ITf$Success.test)
+colnames(Beeh.succs)<-c("ID","Species","Trial1","Trial2",
+                        "Trial3","Trial4","Trial5","Trial6",
+                        "Trial7","Test")
+
+Beeh.succeeses<-melt(Beeh.succs, id.vars = c("ID","Species"))
+Beeh.succeeses<-Beeh.succeeses[order(Beeh.succeeses$ID),]
+Beeh.succeeses$value<-as.factor(Beeh.succeeses$value)
+
+
+plot(Beeh.succeeses$value ~ Beeh.succeeses$variable, xlab="Trial", ylab = "Success")
 #OTHER ANALYSIS---------
 #Encephalization index is related to body size-------
 #If body weight still correlates with encephalization index cannot be used 
@@ -2185,10 +2196,9 @@ melt.last.test.done.beesforglmm<-na.omit(melt.last.test.done.beesforglmm)
 melt.last.test.done.beesforglmm<-melt.last.test.done.beesforglmm[-(which(melt.last.test.done.beesforglmm$Species == "Panurgus_dargius")),]
 melt.last.test.done.beesforglmm<-melt.last.test.done.beesforglmm[-(which(melt.last.test.done.beesforglmm$Species == "Osmia_caerulescens")),]
 
-View(melt.last.test.done.beesforglmm)
 
 setdiff(melt.last.test.done.beesforglmm$Species,bee.tree$tip.label)
-
+#Good results but does not fit
 brm.time.trial<-brm(Time ~ Trial + (1|Species), data = melt.last.test.done.beesforglmm,
                         cores=4,
                         family = gaussian, cov_ranef = list("Species" = A),
@@ -2198,7 +2208,7 @@ brm.time.trial=add_ic(brm.time.trial,ic=c("waic"))
 
 pp_check(brm.time.trial,nsamples=1000)
 bayes_R2(brm.time.trial)
-
+#Better fit but not good results
 brm.time.trial.poisson<-brm(Time ~ Trial + (1|Species), data = melt.last.test.done.beesforglmm,
                     cores=4,
                     family = poisson, cov_ranef = list("Species" = A),
@@ -2210,6 +2220,24 @@ pp_check(brm.time.trial.poisson,nsamples=1000)
 bayes_R2(brm.time.trial.poisson)
 icc(brm.time.trial.poisson, re.form = NULL, typical = "mean",
     prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
+
+
+brm.time.trial.negbinomial<-brm(Time ~ Trial + (1|Species), data = melt.last.test.done.beesforglmm,
+                            cores=4,
+                            family = negbinomial, cov_ranef = list("Species" = A),
+                            control = list(adapt_delta = 0.99,max_treedepth=15))
+
+brm.time.trial.negbinomial=add_ic(brm.time.trial.negbinomial,ic=c("waic"))
+pp_check(brm.time.trial.negbinomial,nsamples=1000)
+bayes_R2(brm.time.trial.negbinomial)
+icc(brm.time.trial.negbinomial, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
+
+
+
+
 
 
 
