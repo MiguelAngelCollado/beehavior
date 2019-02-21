@@ -1297,19 +1297,19 @@ summary(n.succ.succ8.glmm)
 
 
 #Success ~ Trial-----
-Beeh.succs<-data.frame(Success8trials.ITf$ID,Success8trials.ITf$Species,Success8trials.ITf$Success1,
+Beeh.succs<-data.frame(Success8trials.ITf$ID,Success8trials.ITf$Genus,Success8trials.ITf$Species,Success8trials.ITf$Success1,
 Success8trials.ITf$Success2,Success8trials.ITf$Success3,Success8trials.ITf$Success4,
 Success8trials.ITf$Success5,Success8trials.ITf$Success6,Success8trials.ITf$Success7,
 Success8trials.ITf$Success.test)
-colnames(Beeh.succs)<-c("ID","Species","Trial1","Trial2",
+colnames(Beeh.succs)<-c("ID","Genus","Species","Trial1","Trial2",
                         "Trial3","Trial4","Trial5","Trial6",
                         "Trial7","Test")
 
-Beeh.succeeses<-melt(Beeh.succs, id.vars = c("ID","Species"))
+Beeh.succeeses<-melt(Beeh.succs, id.vars = c("ID","Genus","Species"))
 Beeh.succeeses<-Beeh.succeeses[order(Beeh.succeeses$ID),]
 Beeh.succeeses$value<-as.factor(Beeh.succeeses$value)
 
-colnames(Beeh.succeeses)<-c("ID","Species","Trial","Success")
+colnames(Beeh.succeeses)<-c("ID","Genus","Species","Trial","Success")
 plot(Beeh.succeeses$Success ~ Beeh.succeeses$Trial, xlab="Trial", ylab = "Success")
 
 levels(Beeh.succeeses$Trial)<-c(levels(Beeh.succeeses$Trial),1,2,3,4,5,6,7,8)
@@ -1324,8 +1324,57 @@ Trial.as.numeric<-replace(Trial.as.numeric, Trial.as.numeric == "Test", 8)
 Beeh.succeeses$Trial.as.numeric<-Trial.as.numeric
 Beeh.succeeses$Trial.as.numeric<-as.numeric(Beeh.succeeses$Trial.as.numeric)-8
 
-plot(as.numeric(Beeh.succeeses$Success)-1~Beeh.succeeses$Trial.as.numeric)
+plot(as.numeric(Beeh.succeeses$Success)-1~Beeh.succeeses$Trial.as.numeric,
+     xlab="Trial", ylab = "No success / Success")
 abline(lm(as.numeric(Beeh.succeeses$Success)-1~Beeh.succeeses$Trial.as.numeric))
+
+summary(lm(as.numeric(Beeh.succeeses$Success)-1~Beeh.succeeses$Trial.as.numeric))
+
+str(Beeh.succeeses)
+
+succ.trial.binomial<-glmer(Success~Trial.as.numeric + (1|Genus/Species), family = binomial, data = Beeh.succeeses)
+summary(succ.trial.binomial)
+r.squaredGLMM(succ.trial.binomial)
+#SPECIES COMPARISON-------
+#Species success
+fraction.species<-data.frame(Success8trials.ITf$ID,
+                             Success8trials.ITf$Genus,
+                             Success8trials.ITf$Species,
+                             Success8trials.ITf$Success.test)
+
+colnames(fraction.species)<-c("ID","Genus","Species","Success.test")
+fraction.species$Species<-droplevels(fraction.species$Species)
+fraction.species$Success.test.as.numeric<-as.numeric(fraction.species$Success.test)-1
+plot(fraction.species$Success.test ~ fraction.species$Species, 
+     xlab="Species", ylab = "Proportion of success")
+
+exitos<-as.data.frame(aggregate(fraction.species$Success.test.as.numeric ~ fraction.species$Species, FUN = sum))
+total<-as.data.frame(summary(fraction.species$Species))
+total$Species<-row.names(total)
+colnames(total)<-c("All", "Species")
+colnames(exitos)<-c("Species","Sum")
+species.successes<-merge(total,exitos)
+str(fraction.species)
+#First trial
+tomerge<-data.frame(Beeh.data$ID,
+Beeh.data$Genus,
+Beeh.data$Species,
+Beeh.data$PER.sugar1,
+Beeh.data$PER.water1,
+Beeh.data$Water.exploring1)
+colnames(tomerge)<-c("ID","Genus","Species","PER.sugar1","PER.water1","Water.exploring1")
+
+
+succ1<-data.frame(Success8trials.ITf$ID,
+Success8trials.ITf$Genus,
+Success8trials.ITf$Species,
+Success8trials.ITf$Success1)
+colnames(succ1)<-c("ID","Genus","Species","Success1")
+tomerge
+succ1
+
+first.trial<-merge(succ1,tomerge)
+
 #OTHER ANALYSIS---------
 #Encephalization index is related to body size-------
 #If body weight still correlates with encephalization index cannot be used 
@@ -2213,30 +2262,6 @@ melt.last.test.done.beesforglmm<-melt.last.test.done.beesforglmm[-(which(melt.la
 
 
 setdiff(melt.last.test.done.beesforglmm$Species,bee.tree$tip.label)
-#Good results but does not fit
-brm.time.trial<-brm(Time ~ Trial + (1|Species), data = melt.last.test.done.beesforglmm,
-                        cores=4,
-                        family = gaussian, cov_ranef = list("Species" = A),
-                        control = list(adapt_delta = 0.99,max_treedepth=15))
-
-brm.time.trial=add_ic(brm.time.trial,ic=c("waic"))
-
-pp_check(brm.time.trial,nsamples=1000)
-bayes_R2(brm.time.trial)
-#Better fit but not good results
-brm.time.trial.poisson<-brm(Time ~ Trial + (1|Species), data = melt.last.test.done.beesforglmm,
-                    cores=4,
-                    family = poisson, cov_ranef = list("Species" = A),
-                    control = list(adapt_delta = 0.99,max_treedepth=15))
-
-brm.time.trial.poisson=add_ic(brm.time.trial.poisson,ic=c("waic"))
-#not very good
-pp_check(brm.time.trial.poisson,nsamples=1000)
-bayes_R2(brm.time.trial.poisson)
-icc(brm.time.trial.poisson, re.form = NULL, typical = "mean",
-    prob = 0.89, ppd = FALSE, adjusted = FALSE)
-
-
 
 brm.time.trial.negbinomial<-brm(Time ~ Trial + (1|Species), data = melt.last.test.done.beesforglmm,
                             cores=4,
@@ -2271,6 +2296,33 @@ bayes_R2(brm.succnsucc)
 brm.succnsucc
 icc(brm.succnsucc, re.form = NULL, typical = "mean",
     prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
+
+#Success ~ Trials brms--------
+dataformcmc
+melt.last.test.done.beesforglmm
+Beeh.succeeses
+Beeh.succeesesformcmc<-Beeh.succeeses
+Beeh.succeesesformcmc$Species<-stri_replace_first_regex(Beeh.succeesesformcmc$Species,pattern = " ", replacement = "_")
+Beeh.succeesesformcmc[Beeh.succeesesformcmc$Species%in%"Psithyrus_vestalis","Species"]=c("Bombus_vestalis")
+
+
+Beeh.succeesesformcmc
+
+
+
+
+brm.succtrial<-brm(Success ~ Trial.as.numeric + (1|Species), data = Beeh.succeesesformcmc,
+    cores=4,
+    family = bernoulli, cov_ranef = list("Species" = A),
+    control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.succtrial=add_ic(brm.succtrial,ic=c("waic"))
+pp_check(brm.succtrial,nsamples=1000)
+bayes_R2(brm.succtrial)
+brm.succtrial
+icc(brm.succtrial, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
 
 
 #bayesian vs mixed models-----
