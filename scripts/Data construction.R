@@ -1309,8 +1309,23 @@ Beeh.succeeses<-melt(Beeh.succs, id.vars = c("ID","Species"))
 Beeh.succeeses<-Beeh.succeeses[order(Beeh.succeeses$ID),]
 Beeh.succeeses$value<-as.factor(Beeh.succeeses$value)
 
+colnames(Beeh.succeeses)<-c("ID","Species","Trial","Success")
+plot(Beeh.succeeses$Success ~ Beeh.succeeses$Trial, xlab="Trial", ylab = "Success")
 
-plot(Beeh.succeeses$value ~ Beeh.succeeses$variable, xlab="Trial", ylab = "Success")
+levels(Beeh.succeeses$Trial)<-c(levels(Beeh.succeeses$Trial),1,2,3,4,5,6,7,8)
+Trial.as.numeric<-replace(Beeh.succeeses$Trial, Beeh.succeeses$Trial == "Trial1", 1)
+Trial.as.numeric<-replace(Trial.as.numeric, Trial.as.numeric == "Trial2", 2)
+Trial.as.numeric<-replace(Trial.as.numeric, Trial.as.numeric == "Trial3", 3)
+Trial.as.numeric<-replace(Trial.as.numeric, Trial.as.numeric == "Trial4", 4)
+Trial.as.numeric<-replace(Trial.as.numeric, Trial.as.numeric == "Trial5", 5)
+Trial.as.numeric<-replace(Trial.as.numeric, Trial.as.numeric == "Trial6", 6)
+Trial.as.numeric<-replace(Trial.as.numeric, Trial.as.numeric == "Trial7", 7)
+Trial.as.numeric<-replace(Trial.as.numeric, Trial.as.numeric == "Test", 8)
+Beeh.succeeses$Trial.as.numeric<-Trial.as.numeric
+Beeh.succeeses$Trial.as.numeric<-as.numeric(Beeh.succeeses$Trial.as.numeric)-8
+
+plot(as.numeric(Beeh.succeeses$Success)-1~Beeh.succeeses$Trial.as.numeric)
+abline(lm(as.numeric(Beeh.succeeses$Success)-1~Beeh.succeeses$Trial.as.numeric))
 #OTHER ANALYSIS---------
 #Encephalization index is related to body size-------
 #If body weight still correlates with encephalization index cannot be used 
