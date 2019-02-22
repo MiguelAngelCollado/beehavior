@@ -1354,15 +1354,14 @@ total$Species<-row.names(total)
 colnames(total)<-c("All", "Species")
 colnames(exitos)<-c("Species","Sum")
 species.successes<-merge(total,exitos)
-str(fraction.species)
+species.successes
 #First trial
 tomerge<-data.frame(Beeh.data$ID,
 Beeh.data$Genus,
 Beeh.data$Species,
 Beeh.data$PER.sugar1,
-Beeh.data$PER.water1,
-Beeh.data$Water.exploring1)
-colnames(tomerge)<-c("ID","Genus","Species","PER.sugar1","PER.water1","Water.exploring1")
+Beeh.data$PER.water1)
+colnames(tomerge)<-c("ID","Genus","Species","PER.sugar1","PER.water1")
 
 
 succ1<-data.frame(Success8trials.ITf$ID,
@@ -1374,6 +1373,24 @@ tomerge
 succ1
 
 first.trial<-merge(succ1,tomerge)
+
+
+
+aggregate(first.trial$PER.sugar1~first.trial$Species, FUN = min)
+fs<-data.frame(aggregate(Beeh.data$PER.sugar1~Beeh.data$Species, FUN = min))
+fw<-data.frame(aggregate(Beeh.data$PER.water1~Beeh.data$Species, FUN = min))
+
+fsw<-as.data.frame(merge(fs,fw, all = TRUE))
+colnames(fsw)<-c("Species", "PER.sugar1", "PER.water1")
+
+fu<-data.frame(
+useless.species$Species,
+useless.species$PER.sugar1,
+useless.species$PER.water1)
+colnames(fu)<-c("Species","PER.sugar1","PER.water1")
+fu<-unique(fu)
+minimost1<-rbind(fsw,fu)
+
 
 #OTHER ANALYSIS---------
 #Encephalization index is related to body size-------
