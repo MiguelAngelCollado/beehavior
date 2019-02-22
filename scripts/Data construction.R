@@ -1334,7 +1334,9 @@ str(Beeh.succeeses)
 
 succ.trial.binomial<-glmer(Success~Trial.as.numeric + (1|Genus/Species), family = binomial, data = Beeh.succeeses)
 summary(succ.trial.binomial)
-r.squaredGLMM(succ.trial.binomial)
+allEffects(succ.trial.binomial, xlevels=list(Trial.as.numeric=c(0:8)))
+
+
 #SPECIES COMPARISON-------
 #Species success
 fraction.species<-data.frame(Success8trials.ITf$ID,
@@ -1355,6 +1357,13 @@ colnames(total)<-c("All", "Species")
 colnames(exitos)<-c("Species","Sum")
 species.successes<-merge(total,exitos)
 species.successes
+
+#setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior/data")
+#write.csv(species.successes, "Species_successes.csv")
+#setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior")
+
+
+
 #First trial
 tomerge<-data.frame(Beeh.data$ID,
 Beeh.data$Genus,
@@ -1381,6 +1390,7 @@ fs<-data.frame(aggregate(Beeh.data$PER.sugar1~Beeh.data$Species, FUN = min))
 fw<-data.frame(aggregate(Beeh.data$PER.water1~Beeh.data$Species, FUN = min))
 
 fsw<-as.data.frame(merge(fs,fw, all = TRUE))
+
 colnames(fsw)<-c("Species", "PER.sugar1", "PER.water1")
 
 fu<-data.frame(
@@ -1390,6 +1400,27 @@ useless.species$PER.water1)
 colnames(fu)<-c("Species","PER.sugar1","PER.water1")
 fu<-unique(fu)
 minimost1<-rbind(fsw,fu)
+
+
+minimost1$PER.sugar1[is.na(minimost1$PER.sugar1)] <- 999
+minimost1$PER.water1[is.na(minimost1$PER.water1)] <- 999
+reaction.time<-vector()
+for(n in 1:nrow(minimost1)){
+  reaction.time[n]<-min(minimost1[n,2:3])
+  }
+reaction.time[(reaction.time)==999] <- NA
+minimost1$reaction.time<-reaction.time
+minimost<-data.frame(minimost1$Species, minimost1$reaction.time)
+minimost
+
+
+minimost<-minimost[order(minimost$minimost1.reaction.time),]
+colnames(minimost)<-c("Species","Reaction.time")
+
+
+#setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior/data")
+#write.csv(minimost, "Reaction_times.csv")
+#setwd("/Users/Bartomeus_lab/Desktop/Tesis/R/beehavior")
 
 
 #OTHER ANALYSIS---------
@@ -2290,7 +2321,7 @@ pp_check(brm.time.trial.negbinomial,nsamples=1000)
 bayes_R2(brm.time.trial.negbinomial)
 icc(brm.time.trial.negbinomial, re.form = NULL, typical = "mean",
     prob = 0.89, ppd = FALSE, adjusted = FALSE)
-
+brm.time.trial.negbinomial
 
 
 
