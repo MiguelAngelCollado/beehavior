@@ -684,7 +684,7 @@ lines(xweight, yweight)
 succ.globalbrain<-glmer(Success.test ~  Brain.weight + (1|Genus/Species), data = Success8trials.ITf, family = binomial)
 summary(succ.globalbrain)
 
-
+allEffects(succ.globalbrain)
 
 
 
@@ -2577,7 +2577,43 @@ ggplot(melt.last.test.done.bees2, aes(x=Trial, y=Time, color=residuals)) +
 #Figure 1
 mefig1<-marginal_effects(brm.time.trial.negbinomial)
 plot(mefig1, main="XDDD", xlab="lol")
-#Autocorrelation?
+#Figure 2
+bee.tree$tip.label
+bee.tree.figure<-bee.tree
+plot(bee.tree.figure)
+
+aggregate(residuals ~ Species, dataformcmc)
+R.version
+
+
+#Figure 3
+par(mfrow=c(1,2))
+
+plot(Success.test.as.numeric ~ Brain.weight, data = Success8trials.ITf, main="Success related to brain size (a)", xlab="Absolute brain weight", ylab = "No success / success", yaxt='n')
+xweight <- seq(0, 7, 0.05)
+fit <- glm(Success.test ~ Brain.weight, family = binomial, data = Success8trials.ITf)
+yweight <- predict(fit, list(Brain.weight = xweight), type="response")
+lines(xweight, yweight)
+
+plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf, main= "Success related to brain-body size residuals (b)", ylab="", xlab= "brain-body size residuals",  yaxt='n')
+xweight <- seq(-1, 2, 0.01)
+fit <- glm(Success.test ~ residuals, family = binomial, data = Success8trials.ITf)
+yweight <- predict(fit, list(residuals = xweight), type="response")
+lines(xweight, yweight)
+
+par(mfrow=c(1,1))
+
+par(mfrow=c(1,2))
+
+plot(PER.sugar.test ~ Brain.weight,data = Success.only, main= "Time until success ~ Brain.IT", ylim=c(0,120))
+abline(lm(PER.sugar.test ~ Brain.weight,data = Success.only), col = "purple")
+
+plot(PER.sugar.test ~ residuals,data = Success.only, main= "Time until success ~ Brain.IT", ylim=c(0,120))
+abline(lm(PER.sugar.test ~ residuals, data = Success.only), col = "purple")
+summary(lm(PER.sugar.test ~ residuals, data = Success.only))
+par(mfrow=c(1,1))
+
+#Autocorrelation?--------
 cor(as.numeric(Success8trials.ITf$n.of.success), as.numeric(Success8trials.ITf$Success.test))
 Success8trials.ITf$Success.test
 Success8trials.ITf$PER.sugar.test
