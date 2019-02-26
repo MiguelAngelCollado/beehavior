@@ -22,7 +22,6 @@ library(stringi)
 library("sjstats")
 
 
-
 Beeh.data<-read.csv("data/Behavior comparison.csv")
 nrow(Beeh.data)
 
@@ -2021,6 +2020,7 @@ brm.succ8brains
 brm.succ8brains=add_ic(brm.succ8brains,ic=c("waic"))
 pp_check(brm.succ8brains,nsamples=1000)
 bayes_R2(brm.succ8brains)
+marginal_effects(brm.succ8brains)
 icc(brm.succ8brains, re.form = NULL, typical = "mean",
     prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
@@ -2053,6 +2053,8 @@ brm.nsuccresiduals
 brm.nsuccresiduals=add_ic(brm.nsuccresiduals,ic=c("waic"))
 pp_check(brm.nsuccresiduals,nsamples=1000)
 bayes_R2(brm.nsuccresiduals)
+marginal_effects(brm.nsuccresiduals)
+
 icc(brm.nsuccresiduals, re.form = NULL, typical = "mean",
     prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
@@ -2201,7 +2203,7 @@ icc(brm.persugarbrain, re.form = NULL, typical = "mean",
 
 
 
-#Per.sugar.test ~ brain.it (only succeeders) brm-----
+#Per.sugar.test ~ absolute brain size (only succeeders) brm-----
 brm.persugarbrain.s<-brm(PER.sugar.test ~ Brain.weight + (1|Species), data = dataformcmc.success,
                        cores=4,
                        family = poisson, cov_ranef = list("Species" = A),
@@ -2227,7 +2229,7 @@ icc(brm.persugartest.rs, re.form = NULL, typical = "mean",
     prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
 
-#Per.sugar.test ~ absolute brain size (only succeeders) brm-----
+#Per.sugar.test ~ brain.it (only succeeders) brm-----
 brm.persugarbrainit.s<-brm(PER.sugar.test ~ brain.IT + (1|Species), data = dataformcmc.success,
                          cores=4,
                          family = poisson, cov_ranef = list("Species" = A),
@@ -2324,7 +2326,7 @@ icc(brm.time.trial.negbinomial, re.form = NULL, typical = "mean",
 brm.time.trial.negbinomial
 
 
-
+marginal_effects(brm.time.trial.negbinomial)
 
 
 
@@ -2568,6 +2570,13 @@ ggplot(melt.last.test.done.bees2, aes(x=Trial, y=Time, color=residuals)) +
   xlab("Trial number")+
   ylab("Time until PER")
 
+
+
+#Figures google drive-----
+
+#Figure 1
+mefig1<-marginal_effects(brm.time.trial.negbinomial)
+plot(mefig1, main="XDDD", xlab="lol")
 #Autocorrelation?
 cor(as.numeric(Success8trials.ITf$n.of.success), as.numeric(Success8trials.ITf$Success.test))
 Success8trials.ITf$Success.test
