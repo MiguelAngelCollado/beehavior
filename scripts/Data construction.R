@@ -20,6 +20,11 @@ library('ctv')
 library(ape)
 library(stringi)
 library("sjstats")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("ggtree", version = "3.8")
+library(ggtree)
+
 
 
 Beeh.data<-read.csv("data/Behavior comparison.csv")
@@ -1880,6 +1885,7 @@ bee.tree=drop.tip(bee.mcmc, tip = c("Xenochilicola", "Geodiscelis", "Xeromelissa
 ))
 bee.tree
 plot(bee.tree)
+nodelabels()
 ## Add species tips to genera tips
 
 #change panurgus to flavipanurgus
@@ -2577,13 +2583,35 @@ ggplot(melt.last.test.done.bees2, aes(x=Trial, y=Time, color=residuals)) +
 #Figure 1
 mefig1<-marginal_effects(brm.time.trial.negbinomial)
 plot(mefig1, main="XDDD", xlab="lol")
-#Figure 2
-bee.tree$tip.label
-bee.tree.figure<-bee.tree
-plot(bee.tree.figure)
 
-aggregate(residuals ~ Species, dataformcmc)
-R.version
+#Figure 2
+plot(bee.tree.figure)
+p + geom_tiplab()
+nodelabels()
+tiplabels()
+p + geom_tiplab() + ggtitle("Phylogenetic tree:", subtitle = "Body size - brain weight residuals")+
+geom_cladelabel(node=16, label="0.11", align=T, color='red', offset = 0.1315, fontsize = 5.5) +
+geom_cladelabel(node=1, label="-0.16", align=T, color='red', offset = 0.13, fontsize = 4.5) +
+geom_cladelabel(node=2, label="0.20", align=T, color='red', offset = 0.1315, fontsize = 6) +
+geom_cladelabel(node=3, label="-0.59", align=T, color='red', offset = 0.13, fontsize = 3.5) +
+geom_cladelabel(node=4, label="0.02", align=T, color='red', offset = 0.1315, fontsize = 5) +
+geom_cladelabel(node=5, label="0.17", align=T, color='red', offset = 0.1315, fontsize = 6) +
+geom_cladelabel(node=6, label="0.66", align=T, color='red', offset = 0.1315, fontsize = 7) +
+geom_cladelabel(node=7, label="-0.30", align=T, color='red', offset = 0.13, fontsize = 4) +
+geom_cladelabel(node=8, label="-0.15", align=T, color='red', offset = 0.13, fontsize = 4.5) +
+geom_cladelabel(node=9, label="0.50", align=T, color='red', offset = 0.1315, fontsize = 7) +
+geom_cladelabel(node=10, label="0.02", align=T, color='red', offset = 0.1315, fontsize = 5) +
+geom_cladelabel(node=11, label="0.02", align=T, color='red', offset = 0.1315, fontsize = 5) +
+geom_cladelabel(node=12, label="-0.09", align=T, color='red', offset = 0.13, fontsize = 5) +
+geom_cladelabel(node=13, label="-0.04", align=T, color='red', offset = 0.13, fontsize = 5) +
+geom_cladelabel(node=14, label="0.23", align=T, color='red', offset = 0.1315, fontsize = 6) +
+geom_cladelabel(node=15, label="-0.15", align=T, color='red', offset = 0.13, fontsize = 4.5) +
+  geom_cladelabel(node=19, label="Halictidae", align=T, color='darkgrey', offset = 0.08, fontsize = 4.5) + 
+  geom_cladelabel(node=20, label="Andrenidae", align=T, color='darkgrey', offset = 0.08, fontsize = 4.5) +
+  geom_cladelabel(node=23, label="Apidae", align=T, color='darkgrey', offset = 0.08, fontsize = 4.5) +
+  geom_cladelabel(node=25, label="Megachilidae", align=T, color='darkgrey', offset = 0.08, fontsize = 4.5) 
+  
+
 
 
 #Figure 3
