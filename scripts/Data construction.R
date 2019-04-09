@@ -8,10 +8,8 @@ library(lme4)
 library(ggplot2)
 library(reshape2)
 library(rsq)
-library(MuMIn)
 library(optiRum)
 library(survival)
-require(lme4)
 require(MuMIn)
 library(MCMCglmm)
 library(brms)
@@ -20,9 +18,9 @@ library('ctv')
 library(ape)
 library(stringi)
 library("sjstats")
-if (!requireNamespace("BiocManager", quietly = TRUE))
-  install.packages("BiocManager")
-BiocManager::install("ggtree", version = "3.8")
+#if (!requireNamespace("BiocManager", quietly = TRUE))
+ # install.packages("BiocManager")
+#BiocManager::install("ggtree", version = "3.8")
 library(ggtree)
 
 
@@ -690,6 +688,11 @@ succ.globalbrain<-glmer(Success.test ~  Brain.weight + (1|Genus/Species), data =
 summary(succ.globalbrain)
 
 allEffects(succ.globalbrain)
+
+
+brm.succ8brains
+
+
 
 
 
@@ -2013,7 +2016,7 @@ bayes_R2(brm.succ8res)
 icc(brm.succ8res, re.form = NULL, typical = "mean",
     prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
-
+marginal_effects(brm.succ8res)
 #Success8 ~ absolute brain size mcmcglmm----
 
 brm.succ8brains<-brm(Success.test ~ Brain.weight + (1|Species), data = dataformcmc,
@@ -2580,11 +2583,26 @@ ggplot(melt.last.test.done.bees2, aes(x=Trial, y=Time, color=residuals)) +
 
 #Figures google drive-----
 
-#Figure 1
-mefig1<-marginal_effects(brm.time.trial.negbinomial)
-plot(mefig1, main="XDDD", xlab="lol")
 
 #Figure 2
+
+
+boxplot(Time ~ Trial, data = melt.Beeh.PER.sugar, las = 1, xlab = "Trial", ylab="Time", 
+        main="Time until touching the rewarded strip")
+
+yweight <- ggpredict(brm.time.trial.negbinomial, terms = "Trial")
+lines(yweight$x, yweight$predicted, lwd=2, col = "purple")
+lines(yweight$x, yweight$conf.low, col = "purple")
+lines(yweight$x, yweight$conf.high, col = "purple")
+
+#or
+marginal_effects(brm.time.trial.negbinomial)
+plot(marginal_effects(brm.time.trial.negbinomial), points = T)
+
+
+
+
+#Figure 3
 plot(bee.tree.figure)
 p + geom_tiplab()
 nodelabels()
@@ -2614,7 +2632,7 @@ geom_cladelabel(node=15, label="-0.15", align=T, color='red', offset = 0.13, fon
 
 
 
-#Figure 3
+#Figure 4
 par(mfrow=c(1,2))
 
 plot(Success.test.as.numeric ~ Brain.weight, data = Success8trials.ITf, main="Success related to brain size (a)", xlab="Absolute brain weight", ylab = "No success / success", yaxt='n')
@@ -2641,10 +2659,93 @@ abline(lm(PER.sugar.test ~ residuals, data = Success.only), col = "purple")
 summary(lm(PER.sugar.test ~ residuals, data = Success.only))
 par(mfrow=c(1,1))
 
+#OR
+
+
+#1/4
+
+unique(Success8trials.ITf$Genus)
+Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
+colors()
+plot(Success.test.as.numeric ~ Brain.weight, data = Success8trials.ITf, 
+     main="Success related to brain size", xlab="Absolute brain size", ylab = "Success learning test",
+     col = c("red", "blue", "green", "black","darkblue","gold","khaki","pink")[Genus])
+legend(x=5, y=0.3, legend = levels(Success8trials.ITf$Genus),
+       col=c("red", "blue", "green", "black","darkblue","gold","khaki","pink"), pch=1)
+fit <- marginal_effects(brm.succ8brains)
+fits<-as.data.frame(fit$Brain.weight)
+lines(fits$Brain.weight, fits$estimate__, lwd=2)
+lines(fits$Brain.weight, fits$lower__, col = "purple")
+lines(fits$Brain.weight, fits$upper__, col = "purple")
+
+
+ggpredict(brm.succ8brains, terms = "Brain.weight", ci.lvl = 0.95)  
+
+
+#2/4
+
+
+unique(Success8trials.ITf$Genus)
+Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
+colors()
+plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf, 
+     main="Success related to brain-body size residuals", xlab="Brain-body size residuals", ylab = "Success learning test",
+     col = c("red", "blue", "green", "black","darkblue","gold","khaki","pink")[Genus])
+legend(x=0.4, y=0.3, legend = levels(Success8trials.ITf$Genus),
+       col=c("red", "blue", "green", "black","darkblue","gold","khaki","pink"), pch=1)
+yweight <- ggpredict(brm.succ8res, terms = "residuals")
+fit<-marginal_effects(brm.succ8res)
+fits<-as.data.frame(fit$residuals)
+lines(fits$residuals, fits$estimate__, lwd=2)
+lines(fits$residuals, fits$lower__, col = "purple")
+lines(fits$residuals, fits$upper__, col = "purple")
+
+
+#3/4
+
+brm.persugarbrain.s
+unique(Success8trials.ITf$Genus)
+Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
+colors()
+
+plot(PER.sugar.test ~ Brain.weight, data = dataformcmc.success, 
+     main="Success time related to brain size", xlab="Brain weight", ylab = "Success learning test",
+     col = c("red", "blue", "green", "black","darkblue","gold","khaki","pink")[Genus])
+legend(x=5, y=70, legend = levels(Success8trials.ITf$Genus),
+       col=c("red", "blue", "green", "black","darkblue","gold","khaki","pink"), pch=1)
+fit<-marginal_effects(brm.persugarbrain.s)
+fits<-as.data.frame(fit$Brain.weight)
+lines(fits$Brain.weight, fits$estimate__, lwd=2)
+lines(fits$Brain.weight, fits$lower__, col = "purple")
+lines(fits$Brain.weight, fits$upper__, col = "purple")
+
+
+#4/4
+
+brm.persugartest.rs
+unique(Success8trials.ITf$Genus)
+Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
+colors()
+
+plot(PER.sugar.test ~ residuals, data = dataformcmc.success, 
+     main="Success time related to brain-body size residuals", xlab="Brain-body size residuals", ylab = "Success learning test",
+     col = c("red", "blue", "green", "black","darkblue","gold","khaki","pink")[Genus])
+legend(x=0.45, y=100, legend = levels(Success8trials.ITf$Genus),
+       col=c("red", "blue", "green", "black","darkblue","gold","khaki","pink"), pch=1)
+fit<-marginal_effects(brm.persugartest.rs)
+  fits<-as.data.frame(fit$residuals)
+lines(fits$residuals, fits$estimate__, lwd=2)
+lines(fits$residuals, fits$lower__, col = "purple")
+lines(fits$residuals, fits$upper__, col = "purple")
+
+
 #Autocorrelation?--------
 cor(as.numeric(Success8trials.ITf$n.of.success), as.numeric(Success8trials.ITf$Success.test))
 Success8trials.ITf$Success.test
 Success8trials.ITf$PER.sugar.test
 
 
-
+plot(log(Success8trials.ITf$Brain.weight) ~ log(Success8trials.ITf$IT..mm.), xlab="Inter-tegular distance", ylab="Brain weight", 
+     main="Linearized correlation")
+abline(lm(log(Success8trials.ITf$Brain.weight) ~ log(Success8trials.ITf$IT..mm.)), 
+       col = "purple")
