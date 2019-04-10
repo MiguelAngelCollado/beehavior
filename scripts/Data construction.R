@@ -2224,6 +2224,25 @@ bayes_R2(brm.persugarbrain.s)
 icc(brm.persugarbrain.s, re.form = NULL, typical = "mean",
     prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
+
+#Per.sugar.test~ absolute brain size (capped) brm-----
+hist(dataformcmc.success$PER.sugar.test)
+plot(dataformcmc.success$PER.sugar.test)
+is.numeric(dataformcmc$PER.sugar.test)
+dataformcmc.success40s<-subset(dataformcmc.success, subset = (dataformcmc.success$PER.sugar.test<40))
+
+brm.persugarbrain.40s<-brm(PER.sugar.test ~ Brain.weight + (1|Species), data = dataformcmc.success40s,
+                         cores=4,
+                         family = poisson, cov_ranef = list("Species" = A),
+                         control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.persugarbrain.40s
+brm.persugarbrain.40s=add_ic(brm.persugarbrain.s,ic=c("waic"))
+pp_check(brm.persugarbrain.40s,nsamples=1000)
+bayes_R2(brm.persugarbrain.40s)
+icc(brm.persugarbrain.40s, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
+
 #Per.sugar.test ~ residuals (only succeeders) brm-----
 
 brm.persugartest.rs<-brm(PER.sugar.test ~ residuals + (1|Species), data = dataformcmc.success,
@@ -2236,6 +2255,25 @@ pp_check(brm.persugartest.rs,nsamples=1000)
 bayes_R2(brm.persugartest.rs)
 icc(brm.persugartest.rs, re.form = NULL, typical = "mean",
     prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
+#Per.sugar.test~ residuals (capped) brm-----
+hist(dataformcmc.success$PER.sugar.test)
+plot(dataformcmc.success$PER.sugar.test)
+is.numeric(dataformcmc$PER.sugar.test)
+dataformcmc.success40s<-subset(dataformcmc.success, subset = (dataformcmc.success$PER.sugar.test<40))
+
+
+brm.persugartest.40rs<-brm(PER.sugar.test ~ residuals + (1|Species), data = dataformcmc.success40s,
+                         cores=4,
+                         family = poisson, cov_ranef = list("Species" = A),
+                         control = list(adapt_delta = 0.99,max_treedepth=15))
+brm.persugartest.40rs
+brm.persugartest.40rs=add_ic(brm.persugartest.rs,ic=c("waic"))
+pp_check(brm.persugartest.40rs,nsamples=1000)
+bayes_R2(brm.persugartest.40rs)
+icc(brm.persugartest.40rs, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
+
 
 
 #Per.sugar.test ~ brain.it (only succeeders) brm-----
@@ -2660,8 +2698,8 @@ summary(lm(PER.sugar.test ~ residuals, data = Success.only))
 par(mfrow=c(1,1))
 
 #OR
-
-
+dev.off()
+par(mfrow=c(2,2))
 #1/4
 
 unique(Success8trials.ITf$Genus)
@@ -2669,8 +2707,8 @@ Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
 colors()
 plot(Success.test.as.numeric ~ Brain.weight, data = Success8trials.ITf, 
      main="Success related to brain size", xlab="Absolute brain size", ylab = "Success learning test",
-     col = c("red", "blue", "green", "black","darkblue","gold","khaki","pink")[Genus])
-legend(x=5, y=0.3, legend = levels(Success8trials.ITf$Genus),
+     col = c("red", "blue", "green", "black","darkblue","gold","khaki","pink")[Genus], las = 1)
+legend(x=4.2, y=0.55, legend = levels(Success8trials.ITf$Genus),
        col=c("red", "blue", "green", "black","darkblue","gold","khaki","pink"), pch=1)
 fit <- marginal_effects(brm.succ8brains)
 fits<-as.data.frame(fit$Brain.weight)
@@ -2679,7 +2717,7 @@ lines(fits$Brain.weight, fits$lower__, col = "purple")
 lines(fits$Brain.weight, fits$upper__, col = "purple")
 
 
-ggpredict(brm.succ8brains, terms = "Brain.weight", ci.lvl = 0.95)  
+#ggpredict(brm.succ8brains, terms = "Brain.weight", ci.lvl = 0.95)  
 
 
 #2/4
@@ -2690,9 +2728,9 @@ Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
 colors()
 plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf, 
      main="Success related to brain-body size residuals", xlab="Brain-body size residuals", ylab = "Success learning test",
-     col = c("red", "blue", "green", "black","darkblue","gold","khaki","pink")[Genus])
-legend(x=0.4, y=0.3, legend = levels(Success8trials.ITf$Genus),
-       col=c("red", "blue", "green", "black","darkblue","gold","khaki","pink"), pch=1)
+     col = c("red", "blue", "green", "black","darkblue","gold","khaki","pink")[Genus], las = 1)
+#legend(x=0.4, y=0.3, legend = levels(Success8trials.ITf$Genus),
+ #      col=c("red", "blue", "green", "black","darkblue","gold","khaki","pink"), pch=1)
 yweight <- ggpredict(brm.succ8res, terms = "residuals")
 fit<-marginal_effects(brm.succ8res)
 fits<-as.data.frame(fit$residuals)
@@ -2703,6 +2741,44 @@ lines(fits$residuals, fits$upper__, col = "purple")
 
 #3/4
 
+
+#capped
+levels(dataformcmc.success40s$Genus)
+dataformcmc.success40s$Genus<-droplevels(dataformcmc.success40s$Genus)
+
+plot(PER.sugar.test ~ Brain.weight, data = dataformcmc.success40s, 
+     main="Success time related to brain size", xlab="Brain weight", ylab = "Success time learning test",
+     col = c("red", "blue", "green", "black","darkblue","gold","khaki","pink")[Genus], ylim=c(0,75), las = 1)
+#legend(x=5, y=59, legend = levels(dataformcmc.success40s$Genus),
+ #      col=c("red", "blue", "green", "black","darkblue","gold","khaki","pink"), pch=1)
+
+fit<-marginal_effects(brm.persugarbrain.40s)
+fits<-as.data.frame(fit$Brain.weight)
+lines(fits$Brain.weight, fits$estimate__, lwd=2)
+lines(fits$Brain.weight, fits$lower__, col = "purple")
+lines(fits$Brain.weight, fits$upper__, col = "purple")
+
+#4/4
+
+
+#capped
+
+brm.persugartest.40rs
+Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
+
+plot(PER.sugar.test ~ residuals, data = dataformcmc.success40s, 
+     main="Success time related to brain-body size residuals", xlab="Brain-body size residuals", ylab = "Success time learning test",
+     col = c("red", "blue", "green", "black","darkblue","gold","khaki","pink")[Genus],ylim=c(0,75), las = 1)
+#legend(x=0.45, y=59, legend = levels(dataformcmc.success40s$Genus),
+ #      col=c("red", "blue", "green", "black","darkblue","gold","khaki","pink"), pch=1)
+fit<-marginal_effects(brm.persugartest.40rs)
+fits<-as.data.frame(fit$residuals)
+lines(fits$residuals, fits$estimate__, lwd=2)
+lines(fits$residuals, fits$lower__, col = "purple")
+lines(fits$residuals, fits$upper__, col = "purple")
+
+
+###
 brm.persugarbrain.s
 unique(Success8trials.ITf$Genus)
 Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
@@ -2719,9 +2795,7 @@ lines(fits$Brain.weight, fits$estimate__, lwd=2)
 lines(fits$Brain.weight, fits$lower__, col = "purple")
 lines(fits$Brain.weight, fits$upper__, col = "purple")
 
-
-#4/4
-
+###
 brm.persugartest.rs
 unique(Success8trials.ITf$Genus)
 Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
@@ -2733,7 +2807,7 @@ plot(PER.sugar.test ~ residuals, data = dataformcmc.success,
 legend(x=0.45, y=100, legend = levels(Success8trials.ITf$Genus),
        col=c("red", "blue", "green", "black","darkblue","gold","khaki","pink"), pch=1)
 fit<-marginal_effects(brm.persugartest.rs)
-  fits<-as.data.frame(fit$residuals)
+fits<-as.data.frame(fit$residuals)
 lines(fits$residuals, fits$estimate__, lwd=2)
 lines(fits$residuals, fits$lower__, col = "purple")
 lines(fits$residuals, fits$upper__, col = "purple")
