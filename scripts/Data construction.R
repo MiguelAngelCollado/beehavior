@@ -497,6 +497,24 @@ BIT<-(lm(log(Brain.weight) ~ log(IT..mm.), data = Success8trials.ITf))
 summary(BIT)
 BIT$residuals
 
+
+
+##residuals by species
+dev.off()
+plot(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf, xlab="log(Body Size)")
+abline(lm(log(Brain.weight) ~ log(IT..mm.),data = Success8trials.ITf), col="Darkgreen")
+
+AAAAAXXX<-lmer(log(Brain.weight) ~ log(IT..mm.) + (1|Species), data = Success8trials.ITf)
+AAAAAXXX@beta
+abline(AAAAAXXX@beta, col="purple")
+summary(AAAAAXXX)
+
+
+AAAAAYYY<-lmer(log(Brain.weight) ~ log(IT..mm.) + (1|Genus), data = Success8trials.ITf)
+abline(AAAAAYYY@beta, col="red")
+
+
+
 #We add the residuals to our dataframe
 Success8trials.ITf$residuals<-BIT$residuals
 plot(Success8trials.ITf$Success.test ~ Success8trials.ITf$residuals)
@@ -2035,7 +2053,7 @@ icc(brm.succ8brains, re.form = NULL, typical = "mean",
 
 
 
-
+allEffects(brm.succ8brains)
 
 
 #n.of.success~brain.it glmm------
@@ -2624,28 +2642,65 @@ ggplot(melt.last.test.done.bees2, aes(x=Trial, y=Time, color=residuals)) +
 
 #Figure 2
 
+#pdf("Figure 2.pdf")
 
-boxplot(Time ~ Trial, data = melt.Beeh.PER.sugar, las = 1, xlab = "Trial", ylab="Time", 
-        main="Time until touching the rewarded strip")
+boxplot(Time ~ Trial, data = melt.Beeh.PER.sugar, las = 1, xlab = "Trial", ylab="Time", xaxt="n",
+        main="Time until touching the rewarded strip", outline=FALSE, ylim=c(0,190), col="Grey90", border = "Grey99", names=NULL)
+axis(side=1,at=c(1,2,3,4,5,6,7,8),labels=c("1","2","3","4","5","6","7","Test"))
+fit<-marginal_effects(brm.time.trial.negbinomial)
+fits<-as.data.frame(fit$Trial)
+fits$Trial
+lines(fits$Trial, fits$estimate__, lwd=3, lty = "dashed")
+lines(fits$Trial, fits$lower__, col = "purple", lty = "dashed")
+lines(fits$Trial, fits$upper__, col = "purple", lty = "dashed")
 
-yweight <- ggpredict(brm.time.trial.negbinomial, terms = "Trial")
-lines(yweight$x, yweight$predicted, lwd=2, col = "purple")
-lines(yweight$x, yweight$conf.low, col = "purple")
-lines(yweight$x, yweight$conf.high, col = "purple")
+mylevels<-levels(as.factor(melt.Beeh.PER.sugar$Trial))
+levelProportions<-summary(as.factor(melt.Beeh.PER.sugar$Trial))/nrow(melt.Beeh.PER.sugar)
+
+for(i in 1:length(mylevels)){
+  
+  thislevel<-mylevels[i]
+  thisvalues<-melt.Beeh.PER.sugar[as.factor(melt.Beeh.PER.sugar$Trial)==thislevel, "Time"]
+  
+  # take the x-axis indices and add a jitter, proportional to the N in each level
+  myjitter<-jitter(rep(i, length(thisvalues)), amount=levelProportions[i]/2)
+  points(myjitter, thisvalues, pch=20, col=rgb(0,0,0,.2)) 
+  
+}
+
+
+dev.off()
+
+
 
 #or
-marginal_effects(brm.time.trial.negbinomial)
-plot(marginal_effects(brm.time.trial.negbinomial), points = T)
+#marginal_effects(brm.time.trial.negbinomial)
+#plot(marginal_effects(brm.time.trial.negbinomial), points = T)
 
 
 
 
 #Figure 3
-plot(bee.tree.figure)
+plot(bee.tree)
+p<-ggtree(bee.tree)
 p + geom_tiplab()
 nodelabels()
 tiplabels()
-p + geom_tiplab() + ggtitle("Phylogenetic tree:", subtitle = "Body size - brain weight residuals")+
+
+p + 
+  geom_tiplab(aes(label=paste0('italic(', label, ')~italic(', bee.tree$tip.label, ')')), 
+              parse=TRUE)+
+  geom_cladelabel(node=16, label="0.11", align=T, color='red', offset = 0.1315, fontsize = 5.5)
+
+p + 
+  geom_tiplab(aes(label=paste0('italic(', label, ')~italic(', " ", ')')), 
+              parse=TRUE)+
+  geom_cladelabel(node=16, label="0.11", align=T, color='red', offset = 0.1315, fontsize = 5.5)
+
+
+#pdf("Figure 3.pdf", width = 15, height = 10)
+p + geom_tiplab(aes(label=paste0('italic(', label, ')~italic(', " ", ')')), 
+                parse=TRUE) + ggtitle("Phylogenetic tree:", subtitle = "Body size - brain weight residuals")+
 geom_cladelabel(node=16, label="0.11", align=T, color='red', offset = 0.1315, fontsize = 5.5) +
 geom_cladelabel(node=1, label="-0.16", align=T, color='red', offset = 0.13, fontsize = 4.5) +
 geom_cladelabel(node=2, label="0.20", align=T, color='red', offset = 0.1315, fontsize = 6) +
@@ -2667,118 +2722,96 @@ geom_cladelabel(node=15, label="-0.15", align=T, color='red', offset = 0.13, fon
   geom_cladelabel(node=23, label="Apidae", align=T, color='darkgrey', offset = 0.08, fontsize = 4.5) +
   geom_cladelabel(node=25, label="Megachilidae", align=T, color='darkgrey', offset = 0.08, fontsize = 4.5) 
   
-
+dev.off()
 
 
 #Figure 4
-par(mfrow=c(1,2))
 
-plot(Success.test.as.numeric ~ Brain.weight, data = Success8trials.ITf, main="Success related to brain size (a)", xlab="Absolute brain weight", ylab = "No success / success", yaxt='n')
-xweight <- seq(0, 7, 0.05)
-fit <- glm(Success.test ~ Brain.weight, family = binomial, data = Success8trials.ITf)
-yweight <- predict(fit, list(Brain.weight = xweight), type="response")
-lines(xweight, yweight)
 
-plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf, main= "Success related to brain-body size residuals (b)", ylab="", xlab= "brain-body size residuals",  yaxt='n')
-xweight <- seq(-1, 2, 0.01)
-fit <- glm(Success.test ~ residuals, family = binomial, data = Success8trials.ITf)
-yweight <- predict(fit, list(residuals = xweight), type="response")
-lines(xweight, yweight)
-
-par(mfrow=c(1,1))
-
-par(mfrow=c(1,2))
-
-plot(PER.sugar.test ~ Brain.weight,data = Success.only, main= "Time until success ~ Brain.IT", ylim=c(0,120))
-abline(lm(PER.sugar.test ~ Brain.weight,data = Success.only), col = "purple")
-
-plot(PER.sugar.test ~ residuals,data = Success.only, main= "Time until success ~ Brain.IT", ylim=c(0,120))
-abline(lm(PER.sugar.test ~ residuals, data = Success.only), col = "purple")
-summary(lm(PER.sugar.test ~ residuals, data = Success.only))
-par(mfrow=c(1,1))
-
-#OR
 dev.off()
+pdf("Figure 4.pdf")
 par(mfrow=c(2,2))
 #1/4
-
 unique(Success8trials.ITf$Genus)
+unique(Success8trials.ITf$Species)
+
 Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
 colors()
 plot(Success.test.as.numeric ~ Brain.weight, data = Success8trials.ITf, 
-     main="Success related to brain size", xlab="Absolute brain size", ylab = "Success learning test",
-     col = c("red", "blue", "green", "black","darkblue","gold","khaki","pink")[Genus], las = 1)
+     main="Success related to \nbrain size (a)", xlab="Absolute brain size", ylab = "Success learning test",
+     col = c("red", "blue", "darkgreen", "black","darkblue","gold","khaki","pink")[Genus], las = 1)
 legend(x=4.2, y=0.55, legend = levels(Success8trials.ITf$Genus),
-       col=c("red", "blue", "green", "black","darkblue","gold","khaki","pink"), pch=1)
+       col = c("red", "blue", "darkgreen", "black","darkblue","gold","khaki","pink"), pch=19, cex=0.6,ncol = 1)
+box(which = "plot", lty = "solid")
 fit <- marginal_effects(brm.succ8brains)
 fits<-as.data.frame(fit$Brain.weight)
+polygon(c(fits$Brain.weight, rev(fits$Brain.weight)), c(fits$upper__, rev(fits$lower__)),
+        col = "Gray95", border = NA)
+
 lines(fits$Brain.weight, fits$estimate__, lwd=2)
 lines(fits$Brain.weight, fits$lower__, col = "purple")
 lines(fits$Brain.weight, fits$upper__, col = "purple")
-
-
-#ggpredict(brm.succ8brains, terms = "Brain.weight", ci.lvl = 0.95)  
-
-
+points(Success.test.as.numeric ~ Brain.weight, data = Success8trials.ITf,col = c("red", "blue", "darkgreen", "black","darkblue","gold","khaki","pink")[Genus])
 #2/4
-
-
 unique(Success8trials.ITf$Genus)
 Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
 colors()
 plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf, 
-     main="Success related to brain-body size residuals", xlab="Brain-body size residuals", ylab = "Success learning test",
-     col = c("red", "blue", "green", "black","darkblue","gold","khaki","pink")[Genus], las = 1)
-#legend(x=0.4, y=0.3, legend = levels(Success8trials.ITf$Genus),
- #      col=c("red", "blue", "green", "black","darkblue","gold","khaki","pink"), pch=1)
-yweight <- ggpredict(brm.succ8res, terms = "residuals")
+     main="Success related to\n brain-body size residuals (b)", xlab="Brain-body size residuals", ylab = "Success learning test",
+     col = c("red", "blue", "darkgreen", "black","darkblue","gold","khaki","pink")[Genus], las = 1)
 fit<-marginal_effects(brm.succ8res)
 fits<-as.data.frame(fit$residuals)
+polygon(c(fits$residuals, rev(fits$residuals)), c(fits$upper__, rev(fits$lower__)),
+        col = "Gray95", border = NA)
+
 lines(fits$residuals, fits$estimate__, lwd=2)
 lines(fits$residuals, fits$lower__, col = "purple")
 lines(fits$residuals, fits$upper__, col = "purple")
-
-
 #3/4
-
-
 #capped
-levels(dataformcmc.success40s$Genus)
-dataformcmc.success40s$Genus<-droplevels(dataformcmc.success40s$Genus)
-
 plot(PER.sugar.test ~ Brain.weight, data = dataformcmc.success40s, 
-     main="Success time related to brain size", xlab="Brain weight", ylab = "Success time learning test",
-     col = c("red", "blue", "green", "black","darkblue","gold","khaki","pink")[Genus], ylim=c(0,75), las = 1)
-#legend(x=5, y=59, legend = levels(dataformcmc.success40s$Genus),
- #      col=c("red", "blue", "green", "black","darkblue","gold","khaki","pink"), pch=1)
-
+     col = c("red", "blue", "darkgreen", "black","darkblue","gold","khaki","pink")[Genus],
+     main="Success time related to\n brain size (c)", xlab="Brain weight", ylab = "Success time learning test", ylim=c(0,75), las = 1)
 fit<-marginal_effects(brm.persugarbrain.40s)
 fits<-as.data.frame(fit$Brain.weight)
 lines(fits$Brain.weight, fits$estimate__, lwd=2)
+polygon(c(fits$Brain.weight, rev(fits$Brain.weight)), c(fits$upper__, rev(fits$lower__)),
+        col = "Gray95", border = NA)
+box(which = "plot", lty = "solid")
+lines(fits$Brain.weight, fits$estimate__, lwd=2)
+
 lines(fits$Brain.weight, fits$lower__, col = "purple")
 lines(fits$Brain.weight, fits$upper__, col = "purple")
 
+points(PER.sugar.test ~ Brain.weight,
+       
+       col = c("red", "blue", "darkgreen", "black","darkblue","gold","khaki","pink")[Genus]
+       ,data = dataformcmc.success40s)
 #4/4
-
-
 #capped
 
 brm.persugartest.40rs
 Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
 
 plot(PER.sugar.test ~ residuals, data = dataformcmc.success40s, 
-     main="Success time related to brain-body size residuals", xlab="Brain-body size residuals", ylab = "Success time learning test",
-     col = c("red", "blue", "green", "black","darkblue","gold","khaki","pink")[Genus],ylim=c(0,75), las = 1)
-#legend(x=0.45, y=59, legend = levels(dataformcmc.success40s$Genus),
- #      col=c("red", "blue", "green", "black","darkblue","gold","khaki","pink"), pch=1)
+     main="Success time related to \nbrain-body size residuals (d)", xlab="Brain-body size residuals", ylab = "Success time learning test",
+     col = c("red", "blue", "darkgreen", "black","darkblue","gold","khaki","pink")[Genus],ylim=c(0,75), las = 1)
 fit<-marginal_effects(brm.persugartest.40rs)
 fits<-as.data.frame(fit$residuals)
+polygon(c(fits$residuals, rev(fits$residuals)), c(fits$upper__, rev(fits$lower__)),
+        col = "Gray95", border = NA)
+box(which = "plot", lty = "solid")
+
 lines(fits$residuals, fits$estimate__, lwd=2)
+
 lines(fits$residuals, fits$lower__, col = "purple")
 lines(fits$residuals, fits$upper__, col = "purple")
+points(PER.sugar.test ~ residuals, data = dataformcmc.success40s,
+       col = c("red", "blue", "darkgreen", "black","darkblue","gold","khaki","pink")[Genus])
+dev.off()
+##########end-----
 
-
-###
+#not capped, not presented##
 brm.persugarbrain.s
 unique(Success8trials.ITf$Genus)
 Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
@@ -2823,3 +2856,8 @@ plot(log(Success8trials.ITf$Brain.weight) ~ log(Success8trials.ITf$IT..mm.), xla
      main="Linearized correlation")
 abline(lm(log(Success8trials.ITf$Brain.weight) ~ log(Success8trials.ITf$IT..mm.)), 
        col = "purple")
+
+
+
+View(Success8trials.ITf)
+as.data.frame(summary(Success8trials.ITf$Species))
