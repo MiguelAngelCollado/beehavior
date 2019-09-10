@@ -2438,6 +2438,16 @@ brm.succtrial
 icc(brm.succtrial, re.form = NULL, typical = "mean",
     prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
+#negbiomial??------
+Beeh.succeesesformcmc2<-Beeh.succeesesformcmc
+Beeh.succeesesformcmc2$Success<-as.numeric(as.character(Beeh.succeesesformcmc2$Success))
+brm.succtrial2<-brm(Success ~ Trial.as.numeric + (1|Species), data = Beeh.succeesesformcmc2,
+                   cores=4,
+                   family = negbinomial, cov_ranef = list("Species" = A),
+                   control = list(adapt_delta = 0.99,max_treedepth=15))
+
+icc(brm.succtrial2, re.form = NULL, typical = "mean",
+    prob = 0.89, ppd = FALSE, adjusted = FALSE)
 
 
 #bayesian vs mixed models-----
@@ -2729,7 +2739,7 @@ dev.off()
 
 
 dev.off()
-pdf("Figure 4.pdf")
+pdf("Figure 4.pdf", height = 7, width = 7.5)
 par(mfrow=c(2,2))
 #1/4
 unique(Success8trials.ITf$Genus)
@@ -2738,10 +2748,10 @@ unique(Success8trials.ITf$Species)
 Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
 colors()
 plot(Success.test.as.numeric ~ Brain.weight, data = Success8trials.ITf, 
-     main="Success related to \nbrain size (a)", xlab="Absolute brain size", ylab = "Success learning test",
+     main="Success related to \nbrain size (a)", xlab="Absolute brain size", cex.lab= 1.3 ,ylab = "Success learning test",
      col = c("red", "blue", "darkgreen", "black","darkblue","gold","khaki","pink")[Genus], las = 1)
-legend(x=4.2, y=0.55, legend = levels(Success8trials.ITf$Genus),
-       col = c("red", "blue", "darkgreen", "black","darkblue","gold","khaki","pink"), pch=19, cex=0.6,ncol = 1)
+#legend(x=4.2, y=0.55, legend = levels(Success8trials.ITf$Genus),
+#       col = c("red", "blue", "darkgreen", "black","darkblue","gold","khaki","pink"), pch=19, cex=0.6,ncol = 1)
 box(which = "plot", lty = "solid")
 fit <- marginal_effects(brm.succ8brains)
 fits<-as.data.frame(fit$Brain.weight)
@@ -2756,7 +2766,7 @@ points(Success.test.as.numeric ~ Brain.weight, data = Success8trials.ITf,col = c
 unique(Success8trials.ITf$Genus)
 Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
 colors()
-plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf, 
+plot(Success.test.as.numeric ~ residuals, data = Success8trials.ITf, cex.lab= 1.3,
      main="Success related to\n brain-body size residuals (b)", xlab="Brain-body size residuals", ylab = "Success learning test",
      col = c("red", "blue", "darkgreen", "black","darkblue","gold","khaki","pink")[Genus], las = 1)
 fit<-marginal_effects(brm.succ8res)
@@ -2769,9 +2779,9 @@ lines(fits$residuals, fits$lower__, col = "purple")
 lines(fits$residuals, fits$upper__, col = "purple")
 #3/4
 #capped
-plot(PER.sugar.test ~ Brain.weight, data = dataformcmc.success40s, 
+plot(PER.sugar.test ~ Brain.weight, data = dataformcmc.success40s, cex.lab= 1.3,
      col = c("red", "blue", "darkgreen", "black","darkblue","gold","khaki","pink")[Genus],
-     main="Success time related to\n brain size (c)", xlab="Brain weight", ylab = "Success time learning test", ylim=c(0,75), las = 1)
+     main="Success time related to\n brain size (c)", xlab="Absolute brain size", ylab = "Success time learning test", ylim=c(0,75), las = 1)
 fit<-marginal_effects(brm.persugarbrain.40s)
 fits<-as.data.frame(fit$Brain.weight)
 lines(fits$Brain.weight, fits$estimate__, lwd=2)
@@ -2793,7 +2803,7 @@ points(PER.sugar.test ~ Brain.weight,
 brm.persugartest.40rs
 Success8trials.ITf$Genus<-droplevels(Success8trials.ITf$Genus)
 
-plot(PER.sugar.test ~ residuals, data = dataformcmc.success40s, 
+plot(PER.sugar.test ~ residuals, data = dataformcmc.success40s,cex.lab= 1.3,
      main="Success time related to \nbrain-body size residuals (d)", xlab="Brain-body size residuals", ylab = "Success time learning test",
      col = c("red", "blue", "darkgreen", "black","darkblue","gold","khaki","pink")[Genus],ylim=c(0,75), las = 1)
 fit<-marginal_effects(brm.persugartest.40rs)
